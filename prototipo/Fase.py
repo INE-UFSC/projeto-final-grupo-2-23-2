@@ -8,3 +8,24 @@ class Fase:
         
     def mapear_fase():
         pass
+    
+    @property
+    def nome(self):
+        return self.__nome
+    
+    @property
+    def musica(self):
+        return self.__musica
+    
+    @property
+    def conteinerInimigos(self):
+        return self.__conteinerInimigos
+    
+    @property
+    def inimigos_vivos(self):
+        return self.__inimigos_vivos
+    
+    @property
+    def itens_jogados(self):
+        return self.__itens_jogados
+    

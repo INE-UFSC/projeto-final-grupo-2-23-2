@@ -7,3 +7,11 @@ class ItemOfensivo(Item):
     
     def atacar():
         pass
+    
+    @property
+    def dano(self):
+        return self.__dano
+    
+    @property
+    def range_ataque(self):
+        return self.__range_ataque

@@ -7,3 +7,7 @@ class ItemDefensivo(Item):
         
     def defender():
         pass
+    
+    @property
+    def protecao(self):
+        return self.__protecao
