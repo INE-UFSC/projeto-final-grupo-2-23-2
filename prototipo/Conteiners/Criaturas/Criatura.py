@@ -1,4 +1,4 @@
-from Inventario import Inventario
+# from Inventario.Inventario import Inventario
 from abc import abstractclassmethod,ABC
 class Criatura(ABC):
     def __init__(self, nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte,x,y):
