@@ -13,7 +13,7 @@ class Jogador(pygame.sprite.Sprite):
 
     def __init__(self, pos, grupos):
         super().__init__(grupos)
-        self.image = pygame.image.load('prototipo\Graficos\jogador.png')
+        self.image = pygame.image.load('prototipo/Graficos/jogador.png')
         self.rect = self.image.get_rect(topleft = pos)
         self.direcao = pygame.math.Vector2()
         self.velocidade = 5

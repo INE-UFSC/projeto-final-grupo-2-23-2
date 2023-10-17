@@ -16,6 +16,7 @@ class Fase:
         self.display_superficie = pygame.display.get_surface()
 
         self.sprites_visiveis = pygame.sprite.Group()
+        self.inimigos_visiveis = pygame.sprite.Group()
         self.sprites_obstaculos = pygame.sprite.Group()
 
         self.mapear_fase()
@@ -26,13 +27,17 @@ class Fase:
                 x = col_index * TILESIZE
                 y = lin_index * TILESIZE
                 if col == 'x':
-                    Tile((x,y),[self.sprites_visiveis, self.sprites_obstaculos])
-                if col == 'p':
+                    Tile((x,y),[self.sprites_visiveis, self.sprites_obstaculos],'a')
+                elif col == 'e':
+                    Tile((x,y),[self.sprites_visiveis, self.inimigos_visiveis],'e')
+                elif col == 'p':
                     self.jogador = Jogador((x,y),[self.sprites_visiveis])
     
     def run(self):
         self.sprites_visiveis.draw(self.display_superficie)
         self.sprites_visiveis.update()
+        self.inimigos_visiveis.update()
+        
 
     
     # @property
