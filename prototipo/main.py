@@ -9,7 +9,7 @@ sys.path.append(caminho_atual+"/data/components")
 sys.path.append(caminho_atual+"/resources")
 
 from map_data.mvp_map import *
-from data.components.Fase import Fase
+from Fase import Fase
 
 class Jogo:
 
