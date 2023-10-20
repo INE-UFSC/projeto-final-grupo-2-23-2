@@ -1,6 +1,5 @@
-from Criatura import Criatura
+from data.components.Criatura import Criatura
 import pygame
-from map_data.mvp_map import *
 
 # class Jogador(Criatura):
     # def __init__(self, nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y):
