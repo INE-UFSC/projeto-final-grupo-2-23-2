@@ -1,7 +1,9 @@
 import pygame
-from configuracoes import *
-from tile import Tile
-from .Criaturas.Jogador import Jogador
+from map_data.mvp_map import *
+from components.tile import *
+from components.Jogador import Jogador
+
+
 class Fase:
     # def __init__(self, nome, volume_musica, ConteinerInimigos, mapa, inimigos_vivos, itens_jogados):
     #     self.__nome = nome
