@@ -13,7 +13,7 @@ class Jogo:
         self.__fps = 60
         # gambiarra
         self.__largura = 1280
-        self.__altura = 720
+        self.__altura = 768
 
         # atributos
         self.__jogador = None

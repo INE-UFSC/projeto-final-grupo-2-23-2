@@ -13,7 +13,7 @@ class Jogador(pygame.sprite.Sprite):
 
     def __init__(self, pos, grupos):
         super().__init__(grupos)
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/graphics/player/player.png')
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/graphics/player/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.direcao = pygame.math.Vector2()
         self.velocidade = 5

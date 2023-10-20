@@ -107,5 +107,5 @@ class Tile(pygame.sprite.Sprite):
     def __init__(self, nome, pos, grupos):
         super().__init__(grupos)
         self.nome = nome
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/graphics/objects/' + nome + '.png')
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/graphics/objects/' + nome + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
