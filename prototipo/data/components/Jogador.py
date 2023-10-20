@@ -1,5 +1,6 @@
 from data.components.Criatura import Criatura
 import pygame
+import os
 
 # class Jogador(Criatura):
     # def __init__(self, nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y):
@@ -12,7 +13,7 @@ class Jogador(pygame.sprite.Sprite):
 
     def __init__(self, pos, grupos):
         super().__init__(grupos)
-        self.image = pygame.image.load('resources/graphics/player/player.png')
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/graphics/player/player.png')
         self.rect = self.image.get_rect(topleft = pos)
         self.direcao = pygame.math.Vector2()
         self.velocidade = 5

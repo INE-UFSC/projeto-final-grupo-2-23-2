@@ -1,5 +1,6 @@
 import pygame
 import json
+import os
 from data.components.Jogador import *
 from data.components.ContainerInimigos import ContainerInimigos
 
@@ -68,18 +69,13 @@ class Fase:
     def sprites_obstaculos(self, sprites_visiveis):
         self.__sprites_obstaculos = sprites_obstaculos
 
-    # todo: tratamento de excessoes
+    # todo: tratamento de excessoes try
     def __extrair_mapa(self, nome_mapa):
-        try:
-            nome_arquivo = "resources/map_data/" + nome_mapa + ".json"
-            print(nome_arquivo)
-
-            # Carregando o mapa a partir do arquivo JSON
-            with open(nome_arquivo, 'r') as arquivo:
-                return json.load(arquivo)
-        except:
-            print("erro")
-            pass
+        nome_arquivo = os.path.dirname(os.path.abspath(__file__)) + "/../../resources/map_data/" + nome_mapa + ".json"
+        print(nome_arquivo)
+        # Carregando o mapa a partir do arquivo JSON
+        with open(nome_arquivo, 'r') as arquivo:
+            return json.load(arquivo)
 
     def mapear(self):
         self.__superficie = pygame.display.get_surface()
@@ -104,5 +100,5 @@ class Fase:
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, grupos):
         super().__init__(grupos)
-        self.image = pygame.image.load('resources/graphics/objects/tree.png')
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/graphics/objects/tree.png')
         self.rect = self.image.get_rect(topleft=pos)
