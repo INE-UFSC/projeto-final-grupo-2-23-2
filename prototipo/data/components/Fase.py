@@ -96,7 +96,7 @@ class Fase:
                     Tile("tree", (x, y), [self.sprites_visiveis,
                          self.sprites_obstaculos])
                 if col == 'p':
-                    self.jogador = Jogador((x, y), [self.sprites_visiveis])
+                    self.jogador = Jogador("nuvem", (x, y), [self.sprites_visiveis])
 
     def run(self):
         self.sprites_visiveis.draw(self.superficie)

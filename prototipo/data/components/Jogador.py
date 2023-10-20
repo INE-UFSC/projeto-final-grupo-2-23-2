@@ -3,7 +3,7 @@ import pygame
 import os
 
 # class Jogador(Criatura):
-#     def __init__(self, nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y):
+#     def __init__(self, item_defensivo, item_ofensivo, morte, x, y):
 #         super().__init__(nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y)
         
 #     def pegar_item(self,item):
@@ -11,9 +11,10 @@ import os
 
 class Jogador(pygame.sprite.Sprite):
 
-    def __init__(self, pos, grupos):
+    def __init__(self, nome, pos, grupos):
         super().__init__(grupos)
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/graphics/player/player.png').convert_alpha()
+        print(os.path.abspath(__file__)+ '/../../resources/graphics/player/' + nome + '.png')
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/graphics/player/' + nome + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.direcao = pygame.math.Vector2()
         self.velocidade = 5
