@@ -1,22 +1,10 @@
-from Criatura import Criatura
+from data.components.Criatura import Criatura
 import pygame
-from map_data.mvp_map import *
+import os
 
-# class Jogador(Criatura):
-    # def __init__(self, nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y):
-    #     super().__init__(nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y)
-        
-    # def pegar_item(self,item):
-    #     self.__inventario.adicionar_item(item)
-
-class Jogador(pygame.sprite.Sprite):
-
-    def __init__(self, pos, grupos):
-        super().__init__(grupos)
-        self.image = pygame.image.load('resources/graphics/player/player.png')
-        self.rect = self.image.get_rect(topleft = pos)
-        self.direcao = pygame.math.Vector2()
-        self.velocidade = 5
+class Jogador(Criatura):
+    def __init__(self, nome, posicao, grupos):
+        super().__init__(nome, posicao, grupos)
 
     def input(self):
         keys = pygame.key.get_pressed()
