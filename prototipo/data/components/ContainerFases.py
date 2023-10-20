@@ -13,10 +13,14 @@ class ContainerFases:
     @property
     def indice_fase_atual(self):
         return self.__indice_fase_atual
+    
+    # todo: remover fase?
 
-    # todo: adicionar_fase()
+    # todo: tratamento de excessa o caso nao exista
+    def adicionar_fase(self, nome_mapa):
+        self.fases.append(Fase(nome_mapa))
 
-    # todo: tratar, os dois podem ser um so?
+    # todo: tratar, logica pra alternar entre as duas automaticamente
     def obter_fase(self):
         try:
             return self.fases[self.__indice_fase_atual]

@@ -15,10 +15,10 @@ class Fase:
         self.__itens_jogados = None #itens_jogados
 
         # pygame interface
+        self.__tilesize = 64
         self.__superficie = None
         self.__sprites_visiveis = None
         self.__sprites_obstaculos = None
-        self.__tilesize = 64
 
     # getters e setters
     @property
@@ -44,6 +44,10 @@ class Fase:
     @property
     def itens_jogados(self):
         return self.__itens_jogados
+
+    @property
+    def tilesize(self):
+        return self.__tilesize
 
     @property
     def superficie(self):
@@ -84,8 +88,8 @@ class Fase:
 
         for lin_index, lin in enumerate(self.mapa):
             for col_index, col in enumerate(lin):
-                x = col_index * self.__tilesize
-                y = lin_index * self.__tilesize
+                x = col_index * self.tilesize
+                y = lin_index * self. tilesize
                 if col == 'x':
                     Tile((x, y), [self.sprites_visiveis,
                          self.sprites_obstaculos])

@@ -8,16 +8,18 @@ from data.components.Fase import Fase
 
 class Jogo:
     def __init__(self):
+        # inciando pygame
+        pygame.init()
+        self.__fps = 60
+
+        # atributos
         self.__jogador = None
         self.__dificuldade = None
+        # self.__telas = ContainerTelas()
         self.tela = None
         self.__fases = ContainerFases()
-        # self.__telas = ContainerTelas()
+        self.__fase_atual = self.fases.obter_fase()
 
-        # pygame todo: nsei mvc
-        self.__largura = 1280
-        self.__altura = 720
-        self.__fps = 60
 
 
     # getters e setters
@@ -62,14 +64,15 @@ class Jogo:
         self.jogar()
 
     def jogar(self):
-        pygame.init()
+        # todo: nao vimos mvc t
         self.tela = pygame.display.set_mode((self.__largura, self.__altura))
         pygame.display.set_caption('PartsFinder')
-        self.clock = pygame.time.Clock()
-        self.fase = self.fases.obter_fase()
+
+        # mapeando fase
         self.fase.mapear()
+        self.clock = pygame.time.Clock()
 
-
+        # loop jogo
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
