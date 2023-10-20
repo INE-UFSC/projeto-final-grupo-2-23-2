@@ -1,8 +1,13 @@
-from Criatura import Criatura
+from data.components.Criatura import Criatura
+import pygame
+import os
 
 class Inimigo(Criatura):
-    def __init__(self, nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y):
-        super().__init__(nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y)
-    
-    def perseguir():
+    def __init__(self, nome, posicao, grupos):
+        super().__init__(nome, posicao, grupos)
+
+    def mover(self, velocidade):
         pass
+    
+    def update(self):
+        self.mover(self.velocidade)

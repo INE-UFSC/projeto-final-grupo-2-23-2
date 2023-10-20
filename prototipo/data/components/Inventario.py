@@ -1,15 +1,17 @@
-from Item import Item
+from data.components.Item import Item
+
+
 class Inventario:
-    def __init__(self, tamanho, itens):
-        self.__tamanho = tamanho
-        self.__itens = itens
-        
-    def adicionar_item(self,item):
+    def __init__(self):
+        self.__tamanho = None
+        self.__itens = None
+
+    def adicionar_item(self, item):
         if isinstance(item, Item):
             self.__itens.append(item)
         else:
             pass
-    
-    def remover_item(self,item):
+
+    def remover_item(self, item):
         if isinstance(item, Item):
             self.__itens.remove(item)

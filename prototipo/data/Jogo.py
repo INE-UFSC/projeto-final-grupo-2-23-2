@@ -71,7 +71,7 @@ class Jogo:
         self.jogar()
 
     def jogar(self):
-        # todo: nao vimos mvc t
+        # todo: nao vimos mvc
         self.tela = pygame.display.set_mode((self.__largura, self.__altura))
         pygame.display.set_caption('PartsFinder')
 

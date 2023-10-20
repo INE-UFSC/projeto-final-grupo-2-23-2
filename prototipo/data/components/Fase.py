@@ -1,7 +1,8 @@
 import pygame
 import json
 import os
-from data.components.Jogador import *
+from data.components.Jogador import Jogador
+from data.components.Inimigo import Inimigo
 from data.components.ContainerInimigos import ContainerInimigos
 
 
@@ -10,9 +11,9 @@ class Fase:
     def __init__(self, nome_mapa):
         self.__nome = nome_mapa
         self.__mapa = self.__extrair_mapa(nome_mapa)
-        self.__musica = None # nome_musica
+        self.__musica = None  # nome_musica
         self.__inimigos = ContainerInimigos()
-        self.__itens_jogados = None #itens_jogados
+        self.__itens_jogados = None  # itens_jogados
 
         # pygame interface
         self.__superficie = None
@@ -75,7 +76,8 @@ class Fase:
 
     # todo: tratamento de excessoes try
     def __extrair_mapa(self, nome_mapa):
-        nome_arquivo = os.path.dirname(os.path.abspath(__file__)) + "/../../resources/map_data/" + nome_mapa + ".json"
+        nome_arquivo = os.path.dirname(os.path.abspath(
+            __file__)) + "/../../resources/map_data/" + nome_mapa + ".json"
         print(nome_arquivo)
         # Carregando o mapa a partir do arquivo JSON
         with open(nome_arquivo, 'r') as arquivo:
@@ -93,19 +95,26 @@ class Fase:
                 x = col_index * self.tilesize
                 y = lin_index * self. tilesize
                 if col == 'x':
-                    Tile("tree", (x, y), [self.sprites_visiveis,
-                         self.sprites_obstaculos])
-                if col == 'p':
-                    self.jogador = Jogador("nuvem", (x, y), [self.sprites_visiveis])
+                    Tile("tree", (x, y), [
+                         self.sprites_visiveis, self.sprites_obstaculos])
+                elif col == 'p':
+                    self.jogador = Jogador(
+                        "nuvem", (x, y), [self.sprites_visiveis])
+                elif col == 'i':
+                    self.inimigo = Inimigo(
+                        "nuvem", (x, y), [self.sprites_visiveis])
 
     def run(self):
         self.sprites_visiveis.draw(self.superficie)
         self.sprites_visiveis.update()
 
 # todo : tratamento
+
+
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, nome, pos, grupos):
+    def __init__(self, nome, posicao, grupos):
         super().__init__(grupos)
         self.nome = nome
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/graphics/objects/' + nome + '.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft=pos)
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(
+            __file__)) + '/../../resources/graphics/objects/' + nome + '.png').convert_alpha()
+        self.rect = self.image.get_rect(topleft=posicao)
