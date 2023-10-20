@@ -1,6 +1,6 @@
-from ..Criaturas.Criatura import Criatura
+from Criatura import Criatura
 import pygame
-from configuracoes import *
+from map_data.mvp_map import *
 
 # class Jogador(Criatura):
     # def __init__(self, nome, classe, vida, velocidade, imagem, inventario, item_defensivo, item_ofensivo, morte, x, y):
@@ -13,7 +13,7 @@ class Jogador(pygame.sprite.Sprite):
 
     def __init__(self, pos, grupos):
         super().__init__(grupos)
-        self.image = pygame.image.load('prototipo\Graficos\jogador.png')
+        self.image = pygame.image.load('resources/graphics/player/player.png')
         self.rect = self.image.get_rect(topleft = pos)
         self.direcao = pygame.math.Vector2()
         self.velocidade = 5
@@ -22,7 +22,7 @@ class Jogador(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
-            self.direcao.y = -1
+            self.direcao.y = - 1
         elif keys[pygame.K_DOWN]:
             self.direcao.y = 1
         else:

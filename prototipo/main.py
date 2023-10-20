@@ -1,6 +1,15 @@
-import pygame, sys
-from configuracoes import *
-from Conteiners.Fase import Fase
+import pygame
+import sys
+import os
+
+# adição de caminhos para facilitar a navegação nos diretórios
+caminho_atual = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(caminho_atual+"/data")
+sys.path.append(caminho_atual+"/data/components")
+sys.path.append(caminho_atual+"/resources")
+
+from map_data.mvp_map import *
+from Fase import Fase
 
 class Jogo:
 
