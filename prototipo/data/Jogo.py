@@ -11,6 +11,9 @@ class Jogo:
         # inciando pygame
         pygame.init()
         self.__fps = 60
+        # gambiarra
+        self.__largura = 1280
+        self.__altura = 720
 
         # atributos
         self.__jogador = None
@@ -44,6 +47,10 @@ class Jogo:
         return self.__fases
 
     @property
+    def fase_atual(self):
+        return self.__fase_atual
+
+    @property
     def telas(self):
         return self.__telas
 
@@ -69,7 +76,7 @@ class Jogo:
         pygame.display.set_caption('PartsFinder')
 
         # mapeando fase
-        self.fase.mapear()
+        self.fase_atual.mapear()
         self.clock = pygame.time.Clock()
 
         # loop jogo
@@ -80,7 +87,7 @@ class Jogo:
                     sys.exit()
 
             self.tela.fill('black')
-            self.fase.run()
+            self.fase_atual.run()
             pygame.display.update()
             self.clock.tick(self.__fps)
 

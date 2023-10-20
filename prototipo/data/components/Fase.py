@@ -15,10 +15,10 @@ class Fase:
         self.__itens_jogados = None #itens_jogados
 
         # pygame interface
-        self.__tilesize = 64
         self.__superficie = None
         self.__sprites_visiveis = None
         self.__sprites_obstaculos = None
+        self.__tilesize = 64
 
     # getters e setters
     @property
@@ -55,7 +55,7 @@ class Fase:
 
     @superficie.setter
     def superficie(self, superficie):
-        self.superficie = superficie
+        self.__superficie = superficie
 
     @property
     def sprites_visiveis(self):
@@ -70,7 +70,7 @@ class Fase:
         return self.__sprites_obstaculos
 
     @sprites_obstaculos.setter
-    def sprites_obstaculos(self, sprites_visiveis):
+    def sprites_obstaculos(self, sprites_obstaculos):
         self.__sprites_obstaculos = sprites_obstaculos
 
     # todo: tratamento de excessoes try
@@ -82,16 +82,18 @@ class Fase:
             return json.load(arquivo)
 
     def mapear(self):
-        self.__superficie = pygame.display.get_surface()
-        self.__sprites_visiveis = pygame.sprite.Group()
-        self.__sprites_obstaculos = pygame.sprite.Group()
+        # gera superficie
+        self.superficie = pygame.display.get_surface()
+        self.sprites_visiveis = pygame.sprite.Group()
+        # grupos dos sprites que colidem
+        self.sprites_obstaculos = pygame.sprite.Group()
 
         for lin_index, lin in enumerate(self.mapa):
             for col_index, col in enumerate(lin):
                 x = col_index * self.tilesize
                 y = lin_index * self. tilesize
                 if col == 'x':
-                    Tile((x, y), [self.sprites_visiveis,
+                    Tile("tree", (x, y), [self.sprites_visiveis,
                          self.sprites_obstaculos])
                 if col == 'p':
                     self.jogador = Jogador((x, y), [self.sprites_visiveis])
@@ -100,9 +102,10 @@ class Fase:
         self.sprites_visiveis.draw(self.superficie)
         self.sprites_visiveis.update()
 
-# todo: nao sei mvc
+# todo : tratamento
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, grupos):
+    def __init__(self, nome, pos, grupos):
         super().__init__(grupos)
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/graphics/objects/tree.png')
+        self.nome = nome
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/graphics/objects/' + nome + '.png')
         self.rect = self.image.get_rect(topleft=pos)
