@@ -1,12 +1,35 @@
 import pygame
+
+
 class ControleJogo:
-    def __init__(self,jogador, dificuldade, partida, tela, container_fases,container_telas):
+    def __init__(self, jogador, dificuldade, partida, tela, container_fases,container_telas):
         self.__jogador = jogador
         self.__dificuldade = dificuldade
         self.__tela = tela
         self.__container_fases = container_fases
         self.__container_telas = container_telas
-        
+
+    # getters e setters
+    @property
+    def jogador(self):
+        return self.__jogador
+    
+    @property
+    def dificuldade(self):
+        return self.__dificuldade
+
+    @property
+    def tela(self):
+        return self.__tela
+    
+    @property
+    def container_fases(self):
+        return self.__container_fases
+    
+    @property
+    def container_fases(self):
+        return self.__container_telas
+
     def controlador(self):
         keys = pygame.key.get_pressed()
         

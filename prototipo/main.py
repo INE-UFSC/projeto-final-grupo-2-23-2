@@ -34,6 +34,7 @@ class Jogo:
             pygame.display.update()
             self.clock.tick(FPS)
 
+
 if __name__ == '__main__':
     jogo = Jogo()
     jogo.run()  
