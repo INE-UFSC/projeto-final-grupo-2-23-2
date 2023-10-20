@@ -1,4 +1,3 @@
-
 #### branch semantica:
 - main (ou master): O branch principal onde o código estável é mantido.
 - develop: O branch de desenvolvimento para novas funcionalidades em teste.
