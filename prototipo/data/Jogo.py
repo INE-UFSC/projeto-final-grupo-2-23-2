@@ -1,8 +1,10 @@
 import pygame
 import sys
+from data.components.Criatura import Criatura
 from data.components.Jogador import Jogador
 from data.components.ContainerFases import ContainerFases
 from data.components.Fase import Fase
+from .config import *
 # from data.components.ContainerTelas import ContainerTelas
 
 
@@ -12,8 +14,8 @@ class Jogo:
         pygame.init()
         self.__fps = 60
         # gambiarra
-        self.__largura = 1280
-        self.__altura = 768
+        # self.__largura = 1280
+        # self.__altura = 768
 
         # atributos
         self.__jogador = None
@@ -54,25 +56,25 @@ class Jogo:
     def telas(self):
         return self.__telas
 
-    def controlador(self):
-        keys = pygame.key.get_pressed()
+    # def controlador(self):
+    #     keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_UP]:
-            self.__jogador.mover('up')
-        elif keys[pygame.K_DOWN]:
-            self.__jogador.mover('down')
+    #     if keys[pygame.K_UP]:
+    #         self.__jogador.mover('up')
+    #     elif keys[pygame.K_DOWN]:
+    #         self.__jogador.mover('down')
 
-        if keys[pygame.K_RIGHT]:
-            self.__jogador.mover('right')
-        elif keys[pygame.K_LEFT]:
-            self.__jogador.mover('left')
+    #     if keys[pygame.K_RIGHT]:
+    #         self.__jogador.mover('right')
+    #     elif keys[pygame.K_LEFT]:
+    #         self.__jogador.mover('left')
 
     def iniciar(self):
         self.jogar()
 
     def jogar(self):
         # todo: nao vimos mvc
-        self.tela = pygame.display.set_mode((self.__largura, self.__altura))
+        self.tela = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('PartsFinder')
 
         # mapeando fase
@@ -90,6 +92,8 @@ class Jogo:
             self.fase_atual.run()
             pygame.display.update()
             self.clock.tick(self.__fps)
+
+            
 
     def mudar_menu(self):
         pass

@@ -99,10 +99,10 @@ class Fase:
                          self.sprites_visiveis, self.sprites_obstaculos])
                 elif col == 'p':
                     self.jogador = Jogador(
-                        "nuvem", (x, y), [self.sprites_visiveis])
+                        "nuvem", (x, y), [self.sprites_visiveis], self.sprites_obstaculos)
                 elif col == 'i':
                     self.inimigo = Inimigo(
-                        "nuvem", (x, y), [self.sprites_visiveis])
+                        "nuvem", (x, y), [self.sprites_visiveis], self.sprites_obstaculos)
 
     def run(self):
         self.sprites_visiveis.draw(self.superficie)
