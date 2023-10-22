@@ -5,19 +5,25 @@ from data.components.Inventario import Inventario
 
 
 class Criatura(pygame.sprite.Sprite, ABC):
-    def __init__(self, nome, pos, groups, sprites_obstaculos):
+    def __init__(self, nome, vida, posicao, groups, sprites_visiveis, sprites_obstaculos):
         # insanciacao do Sprite
         super().__init__(groups)
 
         # atributos concretos
         self.__nome = nome
+        self.__vida_maxima = 100
         self.__vida = 100
         self.__velocidade = 5
         self.__inventario = Inventario()
+
+        # atributos mais subjetivos
+        self.__posicao = posicao
         # vetor direcao
         self.__direcao = pygame.math.Vector2()
+        self.__sprites_visiveis = sprites_visiveis
         self.__sprites_obstaculos = sprites_obstaculos
 
+    # getters e setters
     @property
     def nome(self):
         return self.__nome
@@ -29,6 +35,10 @@ class Criatura(pygame.sprite.Sprite, ABC):
     @vida.setter
     def vida(self, vida):
         self.__vida = vida
+    
+    @property
+    def vida_maxima(self):
+        return self.__vida_maxima
     
     @property
     def velocidade(self):
@@ -46,6 +56,10 @@ class Criatura(pygame.sprite.Sprite, ABC):
     def direcao(self):
         return self.__direcao
 
+    @property
+    def posicao(self):
+        return self.__posicao
+
     @direcao.setter
     def direcao(self, direcao):
         self.__direcao = direcao
@@ -54,16 +68,20 @@ class Criatura(pygame.sprite.Sprite, ABC):
     def sprites_obstaculos(self):
         return self.__sprites_obstaculos
     
-    def mover(self, velocidade):
+    @property
+    def sprites_visiveis(self):
+        return self.__sprites_visiveis
+    
+    def mover(self):
         # normalizando a velocidade na diagonal
         if self.direcao.magnitude() != 0:
             self.direcao = self.direcao.normalize()
         
         # horizontal
-        self.hitbox.x += self.direcao.x * velocidade
+        self.hitbox.x += self.direcao.x * self.velocidade
         self.colisao('horizontal')
         # vertical
-        self.hitbox.y += self.direcao.y * velocidade
+        self.hitbox.y += self.direcao.y * self.velocidade
         self.colisao('vertical')
         self.rect.center = self.hitbox.center
 
@@ -85,13 +103,25 @@ class Criatura(pygame.sprite.Sprite, ABC):
                     if self.direcao.y < 0 :
                         self.hitbox.top = sprite.hitbox.bottom
 
+    def tomar_dano(self, quantia):   
+        if self.vida > 0:
+            self.vida -= quantia
+        if self.vida < 0:
+            self.vida = 0
+    
+    def tomar_cura(self, quantia):
+        if self.vida < self.vida_maxima:
+            self.vida += quantia
+        if self.vida > self.vida_maxima:
+            self.vida = vida_maxima 
+
     # todo
     def atacar(self):
         self.__item_ofensivo.atacar()
     # todo?
     def defender(self):
         self.__item_defensivo.defender()
-
+    
     @abstractmethod
     def update(self):
         pass
