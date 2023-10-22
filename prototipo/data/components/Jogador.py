@@ -1,26 +1,16 @@
 from data.components.Criatura import Criatura
-from ..config import *
 import pygame
 import os
 
 class Jogador(Criatura):
-    def __init__(self, nome, pos, groups, sprites_obstaculos):
-        super().__init__(nome, pos, groups, sprites_obstaculos)
-
-        self.__velocidade = 5 #Pode ser alterada quando o jogador pegar um power up (ainda nao ta implementado)
-        self.__direcao = pygame.math.Vector2()
-
-    @property 
-    def velocidade(self):
-        return self.__velocidade
-    
-    @property
-    def direcao(self):
-        return self.__direcao
-    
-    @direcao.setter
-    def direcao(self, direcao):
-        self.__direcao = direcao
+    def __init__(self, nome, posicao, groups, sprites_obstaculos):
+        super().__init__(nome, posicao, groups, sprites_obstaculos)
+        
+        # todo: analisar heranca inimigo jogador
+        self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
+            __file__))+'/../../resources/graphics/player/' + nome + '.png').convert_alpha()
+        self.__rect = self.image.get_rect(topleft=posicao)
+        self.__hitbox = self.__rect.inflate(0, -26)
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -40,17 +30,31 @@ class Jogador(Criatura):
             self.direcao.x = 1
         else:
             self.direcao.x = 0
-                
-
-
-    def mover(self, velocidade):
-        if self.direcao.magnitude() != 0:
-            self.direcao = self.direcao.normalize()
-        self.rect.x += self.direcao.x * velocidade
-        self.colisao('horizontal')
-        self.rect.y += self.direcao.y * velocidade
-        self.colisao('vertical')
 
     def update(self):
         self.input()
         self.mover(self.velocidade)
+    
+    @property
+    def image(self):
+        return self.__image
+    
+    @image.setter
+    def image(self, image):
+        self.__image = image
+    
+    @property
+    def rect(self):
+        return self.__rect
+    
+    @rect.setter
+    def rect(self, rect):
+        self.__rect = rect
+    
+    @property
+    def hitbox(self):
+        return self.__hitbox
+    
+    @rect.setter
+    def hitbox(self, hitbox):
+        self.__hitbox = hitbox
