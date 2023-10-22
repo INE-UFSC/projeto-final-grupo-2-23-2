@@ -44,8 +44,6 @@ class Inimigo(Criatura):
     def dano(self):
         return self.__dano
         
-    
-
     def get_jogador_distancia_direcao(self,jogador):
         inimigo_vec = pygame.math.Vector2(self.rect.center)
         jogador_vec = pygame.math.Vector2(jogador.rect.center)
@@ -98,16 +96,7 @@ class Inimigo(Criatura):
                 return False
         else:
             return True    
-    
-    # todo: gambiarra
-    def barra_vida(self):
-        sv = self.sprites_visiveis
-        a0 = -sv.desvio.x + self.posicao[0]
-        a1 = -sv.desvio.y + self.posicao[1] - 25
-        desconto = (self.tamanho_barra_vida - self.__rect.width)/2
-        pygame.draw.rect(sv.superficie, (255, 0, 0), (a0-desconto, a1, self.vida/self.razao_barra_vida, 10))
-        pygame.draw.rect(sv.superficie, (255, 255, 255), (a0-desconto, a1, self.tamanho_barra_vida, 10),2)
-
+   
     def update(self):
         self.barra_vida()
         self.mover()
@@ -116,6 +105,7 @@ class Inimigo(Criatura):
 #---------------------
 # -Getters e Setters-
 #---------------------
+
     @property
     def image(self):
         return self.__image
@@ -152,6 +142,18 @@ class Inimigo(Criatura):
     def hitbox(self):
         return self.__hitbox
     
-    @rect.setter
+    @hitbox.setter
     def hitbox(self, hitbox):
-        self.__hitbox = hitbox
+        self.__hitbox = hitbox 
+
+    
+    # todo: gambiarra
+    def barra_vida(self):
+        sv = self.sprites_visiveis
+        a0 = self.rect.topleft[0] - sv.jogador.rect.centerx + sv.metade_largura - (self.tamanho_barra_vida-self.rect.width)/2
+        a1 = self.rect.topleft[1] - sv.jogador.rect.centery + sv.metade_altura - 20
+        self.desvio_y = self.rect.centery - sv.metade_altura
+        print(self.rect.x, self.rect.y)
+
+        pygame.draw.rect(sv.superficie, (255, 0, 0), (a0, a1, self.vida/self.razao_barra_vida, 10))
+        pygame.draw.rect(sv.superficie, (255, 255, 255), (a0, a1, self.vida/self.razao_barra_vida, 10),1)

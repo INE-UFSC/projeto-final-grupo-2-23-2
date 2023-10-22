@@ -161,6 +161,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         # inicializacao
         super().__init__()
         self.superficie = pygame.display.get_surface()
+
         self.metade_largura = self.superficie.get_size()[0] // 2
         self.metade_altura = self.superficie.get_size()[1] // 2
         # desvia o mapa em referencia a tela
@@ -168,6 +169,8 @@ class YSortCameraGroup(pygame.sprite.Group):
 
     # praticamente um draw()
     def custom_draw(self, jogador):
+        self.jogador = jogador
+
         # calculando desvio
         self.desvio.x = jogador.rect.centerx - self.metade_largura
         self.desvio.y = jogador.rect.centery - self.metade_altura
@@ -178,6 +181,10 @@ class YSortCameraGroup(pygame.sprite.Group):
             self.superficie.blit(sprite.image, desvio_posicao)
             
     def inimigo_update(self,player):
+
+#         sprites_inimigos = [sprite for sprite in self.sprites() if hasattr(sprite, 'nome') and sprite.nome == 'inimigo']
+
         sprites_inimigos = [sprite for sprite in self.sprites() if hasattr(sprite, 'nome') and sprite.sprite_tipo == 'inimigo']
+
         for inimigo in sprites_inimigos:
             inimigo.inimigo_update(player)
