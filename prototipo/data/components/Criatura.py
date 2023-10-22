@@ -103,6 +103,8 @@ class Criatura(pygame.sprite.Sprite, ABC):
                     if self.direcao.y < 0 :
                         self.hitbox.top = sprite.hitbox.bottom
 
+    
+        
     def tomar_dano(self, quantia):   
         if self.vida > 0:
             self.vida -= quantia
@@ -113,7 +115,7 @@ class Criatura(pygame.sprite.Sprite, ABC):
         if self.vida < self.vida_maxima:
             self.vida += quantia
         if self.vida > self.vida_maxima:
-            self.vida = vida_maxima 
+            self.vida = self.vida_maxima 
 
     # todo
     def atacar(self):
