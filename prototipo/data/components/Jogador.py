@@ -26,21 +26,21 @@ class Jogador(Criatura):
     def input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_UP] and self.atacando == False:
             self.direcao.y = -1   
             self.status = 'cima'
 
-        elif keys[pygame.K_DOWN]:
+        elif keys[pygame.K_DOWN] and self.atacando == False:
             self.direcao.y = 1  
             self.status = 'baixo'
         else:
             self.direcao.y = 0
 
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] and self.atacando == False:
             self.direcao.x = -1
             self.status = 'esquerda'
 
-        elif keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT] and self.atacando == False:
             self.direcao.x = 1
             self.status = 'direita'
         else:
