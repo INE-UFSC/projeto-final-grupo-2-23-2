@@ -1,4 +1,5 @@
 from data.components.Criatura import Criatura
+from .Jogador import Jogador
 import pygame
 import os
 
@@ -12,10 +13,31 @@ class Inimigo(Criatura):
         self.__hitbox = self.__rect.inflate(0, -10)
         self.__status = 'idle'
         self.__visao = 200
+        self.__sprite_tipo = 'inimigo'
+        self.__velocidade = 2
+        self.__ataqueAlcance = 50
+        self.__dano = 10
+
         
         #barra de vida
         self.tamanho_barra_vida = self.__rect.width*1.5
         self.razao_barra_vida = vida / self.tamanho_barra_vida # tamanho da barra
+
+    @property
+    def sprite_tipo(self):
+        return self.__sprite_tipo
+    
+    @property
+    def velocidade(self):
+        return self.__velocidade
+    
+    @property
+    def ataqueAlcance(self):
+        return self.__ataqueAlcance
+    
+    @property
+    def dano(self):
+        return self.__dano
         
     
 
@@ -35,17 +57,25 @@ class Inimigo(Criatura):
     def get_status(self, jogador):
         distancia = self.get_jogador_distancia_direcao(jogador)[0]
 
-        if distancia <= self.visao:
+        if distancia <= self.ataqueAlcance:
+            self.status = 'atacar'
+
+        elif distancia <= self.visao:
             self.status = 'move'
         else:
             self.status = 'idle'
 
     def acao(self,jogador):
+        if self.status == 'atacar':
+            self.atacar(jogador)
+        
         if self.status == 'move':
             self.direcao = self.get_jogador_distancia_direcao(jogador)[1]
-            
         else:
             self.direcao = pygame.math.Vector2()
+
+    def atacar(self, jogador: Jogador):
+        jogador.vida -= self.dano
 
     def inimigo_update(self,jogador):
         self.get_status(jogador)

@@ -19,7 +19,7 @@ class Fase:
         # todos os sprites e sprites que colidem
         self.__sprites_visiveis = YSortCameraGroup()
         self.__sprites_obstaculos = pygame.sprite.Group()
-
+        
         # todo: melhor localizacao
         self.__tilesize = 64
 
@@ -153,6 +153,6 @@ class YSortCameraGroup(pygame.sprite.Group):
             self.superficie.blit(sprite.image, desvio_posicao)
             
     def inimigo_update(self,player):
-        sprites_inimigos = [sprite for sprite in self.sprites() if hasattr(sprite, 'nome') and sprite.nome == 'nuvem']
+        sprites_inimigos = [sprite for sprite in self.sprites() if hasattr(sprite, 'nome') and sprite.sprite_tipo == 'inimigo']
         for inimigo in sprites_inimigos:
             inimigo.inimigo_update(player)

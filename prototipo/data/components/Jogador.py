@@ -11,6 +11,7 @@ class Jogador(Criatura):
             __file__))+'/../../resources/graphics/player/' + nome + '.png').convert_alpha()
         self.__rect = self.image.get_rect(topleft=posicao)
         self.__hitbox = self.__rect.inflate(0, -26)
+        self.__sprite_tipo = 'jogador'
 
         # barra vida
         self.razao_barra_vida = vida / 200 # tamanho da barra
@@ -40,6 +41,10 @@ class Jogador(Criatura):
     def hitbox(self, hitbox):
         self.__hitbox = hitbox
 
+    @property
+    def sprite_tipo(self):
+        return self.__sprite_tipo
+
     # gambiarra
     def barra_vida(self):
         sv = self.sprites_visiveis
@@ -66,6 +71,8 @@ class Jogador(Criatura):
             self.direcao.x = 1
         else:
             self.direcao.x = 0
+
+    
 
     def update(self):
         self.input()
