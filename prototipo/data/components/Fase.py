@@ -113,7 +113,7 @@ class Fase:
                         "jogador", (x, y), [self.sprites_visiveis], self.sprites_obstaculos)
                 elif col == 'i':
                     self.inimigo = Inimigo(
-                        "nuvem", (x, y), [self.sprites_visiveis], self.sprites_obstaculos)
+                        "inimigo", (x, y), [self.sprites_visiveis], self.sprites_obstaculos)
 
     def rodar(self):
         # desenha e atualiza o jogo
