@@ -3,19 +3,18 @@ import pygame
 import os
 
 class Inimigo(Criatura):
-    def __init__(self, nome, vida, posicao, grupos, sprites_obstaculo):
-        super().__init__(nome, vida, posicao, grupos, sprites_obstaculo)
+    def __init__(self, nome, vida, posicao, groups, sprites_visiveis, sprites_obstaculos):
+        super().__init__(nome, vida, posicao, groups, sprites_visiveis, sprites_obstaculos)
 
         self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../resources/graphics/enemies/' + nome + '.png').convert_alpha()
         self.__rect = self.image.get_rect(topleft=posicao)
         self.__hitbox = self.__rect.inflate(0, -10)
 
-    def mover(self, velocidade):
-        pass
-    
-    def update(self):
-        self.mover(self.velocidade)
+        #barra de vida
+        self.tamanho_barra_vida = self.__rect.width*1.5
+        self.razao_barra_vida = vida / self.tamanho_barra_vida # tamanho da barra
+
     
     @property
     def image(self):
@@ -40,3 +39,16 @@ class Inimigo(Criatura):
     @rect.setter
     def hitbox(self, hitbox):
         self.__hitbox = hitbox
+    
+    # todo: gambiarra
+    def barra_vida(self):
+        sv = self.sprites_visiveis
+        a0 = -sv.desvio.x + self.posicao[0]
+        a1 = -sv.desvio.y + self.posicao[1] - 25
+        desconto = (self.tamanho_barra_vida - self.__rect.width)/2
+        pygame.draw.rect(sv.superficie, (255, 0, 0), (a0-desconto, a1, self.vida/self.razao_barra_vida, 10))
+        pygame.draw.rect(sv.superficie, (255, 255, 255), (a0-desconto, a1, self.tamanho_barra_vida, 10),2)
+
+    def update(self):
+        self.barra_vida()
+        self.mover()
