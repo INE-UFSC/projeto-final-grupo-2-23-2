@@ -5,12 +5,13 @@ from data.components.Inventario import Inventario
 
 
 class Criatura(pygame.sprite.Sprite, ABC):
-    def __init__(self, nome, pos, groups, sprites_obstaculos):
+    def __init__(self, nome, vida, pos, groups, sprites_obstaculos):
         # insanciacao do Sprite
         super().__init__(groups)
 
         # atributos concretos
         self.__nome = nome
+        self.__vida_maxima = 100
         self.__vida = 100
         self.__velocidade = 5
         self.__inventario = Inventario()

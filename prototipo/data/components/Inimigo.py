@@ -3,8 +3,8 @@ import pygame
 import os
 
 class Inimigo(Criatura):
-    def __init__(self, nome, posicao, grupos, sprites_obstaculo):
-        super().__init__(nome, posicao, grupos, sprites_obstaculo)
+    def __init__(self, nome, vida, posicao, grupos, sprites_obstaculo):
+        super().__init__(nome, vida, posicao, grupos, sprites_obstaculo)
 
         self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../resources/graphics/enemies/' + nome + '.png').convert_alpha()

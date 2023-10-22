@@ -3,8 +3,8 @@ import pygame
 import os
 
 class Jogador(Criatura):
-    def __init__(self, nome, posicao, groups, sprites_obstaculos):
-        super().__init__(nome, posicao, groups, sprites_obstaculos)
+    def __init__(self, nome, vida, posicao, groups, sprites_obstaculos):
+        super().__init__(nome, vida, posicao, groups, sprites_obstaculos)
         
         # todo: analisar heranca inimigo jogador
         self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
