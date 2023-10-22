@@ -73,6 +73,9 @@ class Jogo:
                     pygame.quit()
                     sys.exit()
             
+            if self.fase_atual.jogador.vida == 0:
+                pygame.quit()
+            
             # prenchendo display com preto, reseta a malha
             self.fase_atual.superficie.fill('darkgreen')
 

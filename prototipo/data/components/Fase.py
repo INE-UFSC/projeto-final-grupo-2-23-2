@@ -4,7 +4,7 @@ import os
 from data.components.Jogador import Jogador
 from data.components.Inimigo import Inimigo
 from data.components.ContainerInimigos import ContainerInimigos
-
+from data.components.Arma import Arma
 
 class Fase:
     # todo: nome_fase != nome_mapa?
@@ -19,6 +19,8 @@ class Fase:
         # todos os sprites e sprites que colidem
         self.__sprites_visiveis = YSortCameraGroup()
         self.__sprites_obstaculos = pygame.sprite.Group()
+        self.sprites_atacaveis = pygame.sprite.Group()
+        self.sprites_ataques = pygame.sprite.Group()
         
         # todo: melhor localizacao
         self.__tilesize = 64
@@ -26,6 +28,8 @@ class Fase:
         self.__musica = None  # nome_musica
         self.__inimigos = ContainerInimigos()
         self.__itens_jogados = None  # itens_jogados
+
+        self.ataque_atual = None
 
         self.criar_mapa()
 
@@ -110,16 +114,34 @@ class Fase:
                          self.sprites_visiveis, self.sprites_obstaculos])
                 elif col == 'p':
                     self.jogador = Jogador(
-                        "jogador", 100, (x, y), [self.sprites_visiveis], self.sprites_visiveis, self.sprites_obstaculos)
+                        "jogador", 100, (x, y), [self.sprites_visiveis], self.sprites_visiveis, self.sprites_obstaculos,self.criar_ataque,self.destruir_ataque)
                 elif col == 'i':
                     self.inimigo = Inimigo(
-                        "inimigo", 100, (x, y), [self.sprites_visiveis], self.sprites_visiveis, self.sprites_obstaculos)
+                        "inimigo", 100, (x, y), [self.sprites_visiveis,self.sprites_atacaveis], self.sprites_visiveis, self.sprites_obstaculos)
 
+    def criar_ataque(self):
+        self.ataque_atual = Arma(self.jogador,[self.sprites_visiveis,self.sprites_ataques])
+        
+    def destruir_ataque(self):
+        if self.ataque_atual != None:
+            self.ataque_atual.kill()
+            self.ataque_atual = None
+
+    def logica_ataque_player(self):
+        if self.sprites_ataques:
+            for sprites_ataque in self.sprites_ataques:
+                collision_sprites = pygame.sprite.spritecollide(sprites_ataque,self.sprites_atacaveis,False)
+                if collision_sprites:
+                    for target_sprite in collision_sprites:
+                            target_sprite.kill()
+
+        
     def rodar(self):
         # desenha e atualiza o jogo
         self.sprites_visiveis.custom_draw(self.jogador)
         self.sprites_visiveis.update()
         self.sprites_visiveis.inimigo_update(self.jogador)
+        self.logica_ataque_player()
 
 # todo : tratamento
 class Bloco(pygame.sprite.Sprite):

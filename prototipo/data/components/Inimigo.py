@@ -18,6 +18,11 @@ class Inimigo(Criatura):
         self.__ataqueAlcance = 50
         self.__dano = 10
 
+        self.atacando = False
+        self.tempo_ataque = None
+        self.cooldown_ataque = 300
+
+
         
         #barra de vida
         self.tamanho_barra_vida = self.__rect.width*1.5
@@ -66,7 +71,7 @@ class Inimigo(Criatura):
             self.status = 'idle'
 
     def acao(self,jogador):
-        if self.status == 'atacar':
+        if self.status == 'atacar' and self.cooldowns():
             self.atacar(jogador)
         
         if self.status == 'move':
@@ -76,14 +81,37 @@ class Inimigo(Criatura):
 
     def atacar(self, jogador: Jogador):
         jogador.vida -= self.dano
+        self.atacando = True
+        self.tempo_ataque = pygame.time.get_ticks()
 
     def inimigo_update(self,jogador):
         self.get_status(jogador)
         self.acao(jogador)
 
-  
+    def cooldowns(self):
+        tempo_atual = pygame.time.get_ticks()
+        if self.atacando:
+            if tempo_atual - self.tempo_ataque >= self.cooldown_ataque:
+                self.atacando = False
+                return True
+            else:
+                return False
+        else:
+            return True    
+    
+    # todo: gambiarra
+    def barra_vida(self):
+        sv = self.sprites_visiveis
+        a0 = -sv.desvio.x + self.posicao[0]
+        a1 = -sv.desvio.y + self.posicao[1] - 25
+        desconto = (self.tamanho_barra_vida - self.__rect.width)/2
+        pygame.draw.rect(sv.superficie, (255, 0, 0), (a0-desconto, a1, self.vida/self.razao_barra_vida, 10))
+        pygame.draw.rect(sv.superficie, (255, 255, 255), (a0-desconto, a1, self.tamanho_barra_vida, 10),2)
+
     def update(self):
-        self.mover(self.velocidade)
+        self.barra_vida()
+        self.mover()
+        self.cooldowns()
 
 #---------------------
 # -Getters e Setters-
@@ -127,16 +155,3 @@ class Inimigo(Criatura):
     @rect.setter
     def hitbox(self, hitbox):
         self.__hitbox = hitbox
-    
-    # todo: gambiarra
-    def barra_vida(self):
-        sv = self.sprites_visiveis
-        a0 = -sv.desvio.x + self.posicao[0]
-        a1 = -sv.desvio.y + self.posicao[1] - 25
-        desconto = (self.tamanho_barra_vida - self.__rect.width)/2
-        pygame.draw.rect(sv.superficie, (255, 0, 0), (a0-desconto, a1, self.vida/self.razao_barra_vida, 10))
-        pygame.draw.rect(sv.superficie, (255, 255, 255), (a0-desconto, a1, self.tamanho_barra_vida, 10),2)
-
-    def update(self):
-        self.barra_vida()
-        self.mover()
