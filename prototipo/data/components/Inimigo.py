@@ -156,4 +156,4 @@ class Inimigo(Criatura):
         print(self.rect.x, self.rect.y)
 
         pygame.draw.rect(sv.superficie, (255, 0, 0), (a0, a1, self.vida/self.razao_barra_vida, 10))
-        pygame.draw.rect(sv.superficie, (255, 255, 255), (a0, a1, self.vida/self.razao_barra_vida, 10),1)
+        pygame.draw.rect(sv.superficie, (255, 255, 255), (a0, a1, self.tamanho_barra_vida, 10),1)
