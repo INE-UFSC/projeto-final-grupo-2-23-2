@@ -153,7 +153,6 @@ class Inimigo(Criatura):
         a0 = self.rect.topleft[0] - sv.jogador.rect.centerx + sv.metade_largura - (self.tamanho_barra_vida-self.rect.width)/2
         a1 = self.rect.topleft[1] - sv.jogador.rect.centery + sv.metade_altura - 20
         self.desvio_y = self.rect.centery - sv.metade_altura
-        print(self.rect.x, self.rect.y)
 
         pygame.draw.rect(sv.superficie, (255, 0, 0), (a0, a1, self.vida/self.razao_barra_vida, 10))
         pygame.draw.rect(sv.superficie, (255, 255, 255), (a0, a1, self.tamanho_barra_vida, 10),1)
