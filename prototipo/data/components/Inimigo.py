@@ -22,8 +22,6 @@ class Inimigo(Criatura):
         self.tempo_ataque = None
         self.cooldown_ataque = 300
 
-
-        
         #barra de vida
         self.tamanho_barra_vida = self.__rect.width*1.5
         self.razao_barra_vida = vida / self.tamanho_barra_vida # tamanho da barra
