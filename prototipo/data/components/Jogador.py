@@ -18,6 +18,7 @@ class Jogador(Criatura):
         self.tempo_ataque = None
         self.cooldown_ataque = 250
         self.razao_barra_vida = vida / 200 # tamanho da barra
+        self.dano = 5
         
         #metodos vindos de fase
         self.criar_ataque = criar_ataque

@@ -133,7 +133,10 @@ class Fase:
                 collision_sprites = pygame.sprite.spritecollide(sprites_ataque,self.sprites_atacaveis,False)
                 if collision_sprites:
                     for target_sprite in collision_sprites:
-                            target_sprite.kill()
+                            if target_sprite.vida == 0:
+                                target_sprite.kill()
+                            else:
+                                target_sprite.tomar_dano(self.jogador.dano)
 
         
     def rodar(self):

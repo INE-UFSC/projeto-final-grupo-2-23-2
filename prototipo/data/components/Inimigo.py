@@ -80,7 +80,7 @@ class Inimigo(Criatura):
             self.direcao = pygame.math.Vector2()
 
     def atacar(self, jogador: Jogador):
-        jogador.vida -= self.dano
+        jogador.tomar_dano(self.dano)
         self.atacando = True
         self.tempo_ataque = pygame.time.get_ticks()
 
