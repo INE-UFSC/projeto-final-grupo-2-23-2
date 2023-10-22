@@ -3,7 +3,7 @@ import pygame
 import os
 
 class Jogador(Criatura):
-    def __init__(self, nome, posicao, groups, sprites_obstaculos):
+    def __init__(self, nome, posicao, groups, sprites_obstaculos,criar_ataque,destruir_ataque):
         super().__init__(nome, posicao, groups, sprites_obstaculos)
         
         # todo: analisar heranca inimigo jogador
@@ -12,29 +12,58 @@ class Jogador(Criatura):
         self.__rect = self.image.get_rect(topleft=posicao)
         self.__hitbox = self.__rect.inflate(0, -26)
 
+        #caracteristicas do player
+        self.status = 'baixo'
+        self.atacando = False
+        self.tempo_ataque = None
+        self.cooldown_ataque = 250
+        
+        #metodos vindos de fase
+        self.criar_ataque = criar_ataque
+        self.destruir_ataque = destruir_ataque
+        
+        
     def input(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
             self.direcao.y = -1   
+            self.status = 'cima'
 
         elif keys[pygame.K_DOWN]:
             self.direcao.y = 1  
+            self.status = 'baixo'
         else:
             self.direcao.y = 0
 
         if keys[pygame.K_LEFT]:
             self.direcao.x = -1
+            self.status = 'esquerda'
 
         elif keys[pygame.K_RIGHT]:
             self.direcao.x = 1
+            self.status = 'direita'
         else:
             self.direcao.x = 0
+            
+        if keys[pygame.K_SPACE]:
+            if not self.atacando:
+                self.atacando = True
+                self.tempo_ataque = pygame.time.get_ticks()
+                self.criar_ataque()
 
     def update(self):
         self.input()
         self.mover(self.velocidade)
+        self.cooldowns()
     
+    def cooldowns(self):
+        tempo_atual = pygame.time.get_ticks()
+        
+        if self.atacando:
+            if tempo_atual - self.tempo_ataque >= self.cooldown_ataque:
+                self.destruir_ataque()
+                self.atacando = False
     @property
     def image(self):
         return self.__image

@@ -4,7 +4,7 @@ import os
 from data.components.Jogador import Jogador
 from data.components.Inimigo import Inimigo
 from data.components.ContainerInimigos import ContainerInimigos
-
+from data.components.Arma import Arma
 
 class Fase:
     # todo: nome_fase != nome_mapa?
@@ -12,6 +12,9 @@ class Fase:
         self.__nome = nome_mapa
         self.__mapa = self.__extrair_mapa(nome_mapa)
         self.__jogador = None
+        
+        #ataques
+        self.ataque_atual = None
 
         # pega a superficie(tela) que ja existe
         self.superficie = pygame.display.get_surface()
@@ -28,8 +31,8 @@ class Fase:
         self.__itens_jogados = None  # itens_jogados
 
         self.criar_mapa()
-
-    # getters e setters
+        
+        # getters e setters
     @property
     def nome(self):
         return self.__nome
@@ -90,6 +93,8 @@ class Fase:
     def sprites_obstaculos(self, sprites_obstaculos):
         self.__sprites_obstaculos = sprites_obstaculos
 
+
+
     # todo: tratamento de excessoes try
     def __extrair_mapa(self, nome_mapa):
         nome_arquivo = os.path.dirname(os.path.abspath(
@@ -110,11 +115,19 @@ class Fase:
                          self.sprites_visiveis, self.sprites_obstaculos])
                 elif col == 'p':
                     self.jogador = Jogador(
-                        "jogador", (x, y), [self.sprites_visiveis], self.sprites_obstaculos)
+                        "jogador", (x, y), [self.sprites_visiveis], self.sprites_obstaculos,self.criar_ataque,self.destruir_ataque)
                 elif col == 'i':
                     self.inimigo = Inimigo(
                         "nuvem", (x, y), [self.sprites_visiveis], self.sprites_obstaculos)
 
+    def criar_ataque(self):
+        self.ataque_atual = Arma(self.jogador,[self.sprites_visiveis])
+        
+    def destruir_ataque(self):
+        if self.ataque_atual:
+            self.ataque_atual.kill()
+        self.ataque_atual = None
+    
     def rodar(self):
         # desenha e atualiza o jogo
         self.sprites_visiveis.custom_draw(self.jogador)
