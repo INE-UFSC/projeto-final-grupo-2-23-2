@@ -119,6 +119,7 @@ class Fase:
         # desenha e atualiza o jogo
         self.sprites_visiveis.custom_draw(self.jogador)
         self.sprites_visiveis.update()
+        self.sprites_visiveis.inimigo_update(self.jogador)
 
 # todo : tratamento
 class Bloco(pygame.sprite.Sprite):
@@ -150,3 +151,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
             desvio_posicao = sprite.rect.topleft - self.desvio
             self.superficie.blit(sprite.image, desvio_posicao)
+            
+    def inimigo_update(self,player):
+        sprites_inimigos = [sprite for sprite in self.sprites() if hasattr(sprite, 'nome') and sprite.nome == 'nuvem']
+        for inimigo in sprites_inimigos:
+            inimigo.inimigo_update(player)
