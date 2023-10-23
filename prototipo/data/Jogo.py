@@ -1,37 +1,33 @@
 import pygame
 import sys
-from data.components.Criatura import Criatura
 from data.components.Jogador import Jogador
 from data.components.ContainerFases import ContainerFases
 from data.components.Fase import Fase
-# from data.components.ContainerTelas import ContainerTelas
+from data.components.ContainerTelas import ContainerTelas
 
 
 class Jogo:
     def __init__(self):
         # inciando pygame
         pygame.init()
-        self.__fps = 60
-
-        # vai pra na tela depois
-        self.__largura = 1280
-        self.__altura = 768
-        self.__clock = pygame.time.Clock()
 
         # atributos
-        self.__jogador = None
+        self.__jogador = None #todo: tem que ficar aqui?
         self.__dificuldade = None
+        self.__telas = ContainerTelas()
 
-        # self.__telas = ContainerTelas()
-        # todo: nao vimos mvc
-        # gera tela vazia com tamanho
+        # vai pra na tela depois, todo: nao vimos mvcnho
+        self.__largura = 1280
+        self.__altura = 768
+        self.__fps = 60
+        self.__clock = pygame.time.Clock()
         self.tela = pygame.display.set_mode((self.__largura, self.__altura))
         pygame.display.set_caption('PartsFinder')
-        
+        #
+
+        # demais atributos
         self.__fases = ContainerFases()
         self.__fase_atual = self.fases.obter_fase()
-
-
 
     # getters e setters
     @property
@@ -51,6 +47,10 @@ class Jogo:
         self.__dificuldade = dificuldade
 
     @property
+    def telas(self):
+        return self.__telas
+
+    @property
     def fases(self):
         return self.__fases
 
@@ -58,28 +58,30 @@ class Jogo:
     def fase_atual(self):
         return self.__fase_atual
 
-    @property
-    def telas(self):
-        return self.__telas
+    @fase_atual.setter
+    def fase_atual(self, fase_atual):
+        self.__fase_atual = fase_atual
 
+    # comeca
     def iniciar(self):
         self.jogar()
 
+    # loop do jogo
     def jogar(self):
-        # loop jogo
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            
+
+            # morte
             if self.fase_atual.jogador.vida == 0:
                 pygame.quit()
-            
-            # prenchendo display com preto, reseta a malha
+
+            # prenchendo display com verde, reseta a malha
             self.fase_atual.superficie.fill('darkgreen')
 
-            #roda fase
+            # roda fase
             self.fase_atual.rodar()
 
             # atualiza display
@@ -87,12 +89,6 @@ class Jogo:
 
             # define fps do jogo
             self.__clock.tick(self.__fps)
-            
-    def mudar_menu(self):
-        pass
 
-    def checar_vitoria(self):
-        pass
-
-    def checar_ataque(self):
+    def menu_principal(self):
         pass
