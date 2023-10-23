@@ -12,6 +12,7 @@ class Fase:
         self.__nome = nome_mapa
         self.__mapa = self.__extrair_mapa(nome_mapa)
         self.__jogador = None
+        self.__inimigos = ContainerInimigos()
 
         # pega a superficie(tela) que ja existe
         self.superficie = pygame.display.get_surface()
@@ -26,7 +27,6 @@ class Fase:
         self.__tilesize = 64
 
         self.__musica = None  # nome_musica
-        self.__inimigos = ContainerInimigos()
         self.__itens_jogados = None  # itens_jogados
 
         self.ataque_atual = None
@@ -155,7 +155,7 @@ class Bloco(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=posicao)
         self.hitbox = self.rect.inflate(0, -20)
 
-
+# agrupa todos os sprites visiveis alem de custom_draw pelo y
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
         # inicializacao
