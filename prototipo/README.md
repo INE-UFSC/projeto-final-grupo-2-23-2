@@ -1,6 +1,6 @@
-### requirements
+# requirements
 - pygame==2.5.1
 
-### execução
+# execução
 - basta executar o main.py
 `python3 main.py`
