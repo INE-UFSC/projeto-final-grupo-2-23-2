@@ -1,2 +1,0 @@
-class ContainerTelas:
-    pass
