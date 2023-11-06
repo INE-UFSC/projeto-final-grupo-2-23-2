@@ -1,5 +1,5 @@
-from data.components.creature import Creature
-from data.components.player import Player
+from data.components.creatures.creature import Creature
+from data.components.creatures.player import Player
 import pygame
 import os
 
@@ -8,7 +8,7 @@ class Enemy(Creature):
         super().__init__(name, hp, position, groups, visible_sprites, obstacle_sprites)
 
         self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../resources/graphics/enemies/' + name + '.png').convert_alpha()
+            __file__))+'/../../../resources/graphics/enemies/' + name + '.png').convert_alpha()
         self.__rect = self.image.get_rect(topleft=position)
         self.__hitbox = self.__rect.inflate(0, -10)
         self.__status = 'idle'

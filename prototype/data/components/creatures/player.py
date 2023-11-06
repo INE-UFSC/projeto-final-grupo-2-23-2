@@ -1,4 +1,4 @@
-from data.components.creature import Creature
+from data.components.creatures.creature import Creature
 import pygame
 import os
 
@@ -8,7 +8,7 @@ class Player(Creature):
         
         # todo: analisar heranca inimigo jogador
         self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../resources/graphics/player/' + name + '.png').convert_alpha()
+            __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
         self.__rect = self.image.get_rect(topleft=position)
         self.__hitbox = self.__rect.inflate(0, -26)
 

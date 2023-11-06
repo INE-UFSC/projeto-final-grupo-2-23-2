@@ -1,4 +1,4 @@
-from data.components.item import Item
+from data.components.items.item import Item
 
 
 class Inventory:

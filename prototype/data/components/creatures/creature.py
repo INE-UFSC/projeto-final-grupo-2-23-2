@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import pygame
 import os
-from data.components.inventory import Inventory
+from data.components.creatures.inventory import Inventory
 
 
 class Creature(pygame.sprite.Sprite, ABC):

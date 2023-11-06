@@ -1,8 +1,8 @@
 import pygame
 import sys
-from data.components.player import Player
-from data.components.level_container import LevelContainer
-from data.components.level import Level
+from data.components.creatures.player import Player
+from data.components.containers.level_container import LevelContainer
+from data.components.containers.level import Level
 from data.views.view_container import ViewContainer
 
 

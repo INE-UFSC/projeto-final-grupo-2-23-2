@@ -1,10 +1,10 @@
 import pygame
 import json
 import os
-from data.components.player import Player
-from data.components.enemy import Enemy
-from data.components.enemy_container import EnemyContainer
-from data.components.weapon import Weapon
+from data.components.creatures.player import Player
+from data.components.creatures.enemy import Enemy
+from data.components.containers.enemy_container import EnemyContainer
+from data.components.items.weapon import Weapon
 
 class Level:
     # todo: name_fase != map_name?
@@ -97,7 +97,7 @@ class Level:
     # todo: tratamento de excessoes try
     def __extract_map(self, map_name):
         file_name = os.path.dirname(os.path.abspath(
-            __file__)) + "/../../resources/map_data/" + map_name + ".json"
+            __file__)) + "/../../../resources/map_data/" + map_name + ".json"
         # Carregando o map a partir do file JSON
         with open(file_name, 'r') as file:
             return json.load(file)
@@ -150,7 +150,7 @@ class Tile(pygame.sprite.Sprite):
     def __init__(self, name, position, groups):
         super().__init__(groups)
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__)) + '/../../resources/graphics/objects/' + name + '.png').convert_alpha()
+            __file__)) + '/../../../resources/graphics/objects/' + name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
         self.hitbox = self.rect.inflate(0, -20)
 

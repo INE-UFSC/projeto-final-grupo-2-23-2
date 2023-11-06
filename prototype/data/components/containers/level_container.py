@@ -1,4 +1,4 @@
-from data.components.level import Level
+from data.components.containers.level import Level
 
 
 class LevelContainer:
