@@ -1,4 +1,4 @@
-class Tela:
+class View:
     def __init__(self):
         self.__largura = 1280
         self.__altura = 720
