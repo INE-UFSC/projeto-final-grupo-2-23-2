@@ -4,7 +4,6 @@ import os
 from data.components.creatures.player import Player
 from data.components.creatures.enemy import Enemy
 from data.components.containers.enemy_container import EnemyContainer
-from data.components.items.weapon import Weapon
 from data.components.containers.tile import Tile
 from data.components.containers.controller import Controller
 
@@ -26,7 +25,6 @@ class Level:
         self.__song = None  # name_song
         self.__dropped_items = None  # dropped_items
 
-        self.current_attack = None
 
         self.generate_map()
 
@@ -47,41 +45,22 @@ class Level:
                 if col == 'x':
                     Tile("tree", (x, y), [
                          self.controller.visible_sprites, self.controller.obstacles_sprites])
+                
                 elif col == 'p':
-                    self.player = Player(
-                        "player", 100, (x, y), [self.controller.visible_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites,self.create_attack,self.destroy_attack)
+                    self.controller.player = Player(
+                        "player", 100, (x, y), [self.controller.visible_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites,self.controller.create_attack,self.controller.destroy_attack)
+                    self.player = self.controller.player
+                    
                 elif col == 'i':
-                    self.enemy = Enemy(
+                    self.controller.enemies = Enemy(
                         "enemy", 100, (x, y), [self.controller.visible_sprites,self.controller.attackable_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites)
-
-    def create_attack(self):
-        self.current_attack = Weapon(self.player,[self.controller.visible_sprites,self.controller.attacks_sprites])
-        
-    def destroy_attack(self):
-        if self.current_attack != None:
-            self.current_attack.kill()
-            self.current_attack = None
-
-    def player_attack_logic(self):
-        if self.controller.attacks_sprites:
-            for sprites_ataque in self.controller.attacks_sprites:
-                collision_sprites = pygame.sprite.spritecollide(sprites_ataque,self.controller.attackable_sprites,False)
-                if collision_sprites:
-                    for target_sprite in collision_sprites:
-                            if target_sprite.hp == 0:
-                                target_sprite.kill()
-                            else:
-                                target_sprite.take_damage(self.player.damage)
-
-        
+    
     def run(self):
         # desenha e atualiza o jogo
         self.controller.visible_sprites.custom_draw(self.player)
         self.controller.visible_sprites.update()
         self.controller.visible_sprites.enemy_update(self.player)
-        self.player_attack_logic()
-    
-    
+        self.controller.player_attack_logic()
     
         
     # getters e setters
@@ -96,7 +75,7 @@ class Level:
     @map.setter
     def map(self, map):
         self.__map = map
-    
+        
     @property
     def player(self):
         return self.__player
@@ -105,6 +84,7 @@ class Level:
     def player(self, player):
         self.__player = player
 
+    
     @property
     def song(self):
         return self.__song
