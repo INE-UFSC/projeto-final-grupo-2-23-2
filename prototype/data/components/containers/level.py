@@ -1,9 +1,9 @@
 import pygame
 import json
 import os
+
 from data.components.creatures.player import Player
 from data.components.creatures.enemy import Enemy
-from data.components.containers.enemy_container import EnemyContainer
 from data.components.containers.tile import Tile
 from data.components.containers.controller import Controller
 
@@ -13,9 +13,7 @@ class Level:
         self.__name = map_name
         self.__map = self.__extract_map(map_name)
         self.controller = Controller()
-        
         self.__player = None
-        self.__enemies = EnemyContainer()
         
 
         # pega a surface(tela) que ja existe
@@ -46,7 +44,6 @@ class Level:
                 if col == 'x':
                     Tile("tree", (x, y), [
                          self.controller.visible_sprites, self.controller.obstacles_sprites])
-                
                 elif col == 'p':
                     self.controller.player = Player(
                         "player", 100, (x, y), [self.controller.visible_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites,self.controller.create_attack,self.controller.destroy_attack)
@@ -85,7 +82,6 @@ class Level:
     def player(self, player):
         self.__player = player
 
-    
     @property
     def song(self):
         return self.__song
@@ -109,4 +105,3 @@ class Level:
     @surface.setter
     def surface(self, surface):
         self.__surface = surface
-
