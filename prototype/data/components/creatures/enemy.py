@@ -25,22 +25,6 @@ class Enemy(Creature):
         #barra de hp
         self.health_bar_size = self.__rect.width*1.5
         self.ratio_health_bar = hp / self.health_bar_size # tamanho da barra
-
-    @property
-    def sprite_type(self):
-        return self.__sprite_type
-    
-    @property
-    def speed(self):
-        return self.__speed
-    
-    @property
-    def attack_range(self):
-        return self.__attack_range
-    
-    @property
-    def damage(self):
-        return self.__damage
         
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -104,6 +88,21 @@ class Enemy(Creature):
 # -Getters e Setters-
 #---------------------
 
+    @property
+    def sprite_type(self):
+        return self.__sprite_type
+    
+    @property
+    def speed(self):
+        return self.__speed
+    
+    @property
+    def attack_range(self):
+        return self.__attack_range
+    
+    @property
+    def damage(self):
+        return self.__damage
     @property
     def image(self):
         return self.__image

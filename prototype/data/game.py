@@ -29,6 +29,39 @@ class Game:
         self.__levels = LevelContainer()
         self.__current_level = self.levels.get_level()
 
+    # comeca
+    def start(self):
+        self.play()
+
+    # loop do jogo
+    def play(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+            # morte
+            if self.current_level.player.hp == 0:
+                pygame.quit()
+
+            # prenchendo display com verde, reseta a malha
+            self.current_level.surface.fill('darkgreen')
+
+            # roda fase
+            self.current_level.run()
+
+            # atualiza display
+            pygame.display.update()
+
+            # define fps do jogo
+            self.__clock.tick(self.__fps)
+
+    def menu_principal(self):
+        pass
+
+    
+        
     # getters e setters
     @property
     def player(self):
@@ -61,34 +94,3 @@ class Game:
     @current_level.setter
     def current_level(self, current_level):
         self.__current_level = current_level
-
-    # comeca
-    def start(self):
-        self.play()
-
-    # loop do jogo
-    def play(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-
-            # morte
-            if self.current_level.player.hp == 0:
-                pygame.quit()
-
-            # prenchendo display com verde, reseta a malha
-            self.current_level.surface.fill('darkgreen')
-
-            # roda fase
-            self.current_level.run()
-
-            # atualiza display
-            pygame.display.update()
-
-            # define fps do jogo
-            self.__clock.tick(self.__fps)
-
-    def menu_principal(self):
-        pass
