@@ -13,7 +13,6 @@ class Level:
         self.__name = map_name
         self.__map = self.__extract_map(map_name)
         self.controller = Controller()
-        self.__player = None
         
 
         # pega a surface(tela) que ja existe
@@ -47,7 +46,6 @@ class Level:
                 elif col == 'p':
                     self.controller.player = Player(
                         "player", 100, (x, y), [self.controller.visible_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites,self.controller.create_attack,self.controller.destroy_attack)
-                    self.player = self.controller.player
                     
                 elif col == 'i':
                     self.controller.enemies = Enemy(
@@ -55,9 +53,9 @@ class Level:
     
     def run(self):
         # desenha e atualiza o jogo
-        self.controller.visible_sprites.custom_draw(self.player)
+        self.controller.visible_sprites.custom_draw(self.controller.player)
         self.controller.visible_sprites.update()
-        self.controller.visible_sprites.enemy_update(self.player)
+        self.controller.visible_sprites.enemy_update(self.controller.player)
         self.controller.player_attack_logic()
     
         
@@ -74,21 +72,11 @@ class Level:
     def map(self, map):
         self.__map = map
         
-    @property
-    def player(self):
-        return self.__player
-
-    @player.setter
-    def player(self, player):
-        self.__player = player
 
     @property
     def song(self):
         return self.__song
 
-    @property
-    def enemies(self):
-        return self.__enemies
 
     @property
     def dropped_items(self):

@@ -42,7 +42,7 @@ class Game:
                     sys.exit()
 
             # morte
-            if self.current_level.player.hp == 0:
+            if self.current_level.controller.player.hp == 0:
                 pygame.quit()
 
             # prenchendo display com verde, reseta a malha
