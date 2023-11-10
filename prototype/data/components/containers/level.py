@@ -13,6 +13,7 @@ class Level:
         self.__name = map_name
         self.__map = self.__extract_map(map_name)
         self.controller = Controller()
+        
         self.__player = None
         self.__enemies = EnemyContainer()
         

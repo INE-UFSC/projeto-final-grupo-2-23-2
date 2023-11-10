@@ -1,7 +1,7 @@
 import pygame
 import os
 from data.components.containers.y_camera_group import YSortCameraGroup
-from data.components.items.weapon import Weapon
+from data.components.items.offensive_item import OffensiveItem
 
 class Controller:
     def __init__(self):
@@ -17,7 +17,7 @@ class Controller:
         
         
     def create_attack(self):
-        self.current_attack = Weapon(self.player,[self.visible_sprites,self.attacks_sprites])
+        self.current_attack = OffensiveItem(self.player,[self.visible_sprites,self.attacks_sprites])
         
     def destroy_attack(self):
         if self.current_attack != None:
