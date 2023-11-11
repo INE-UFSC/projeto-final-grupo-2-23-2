@@ -98,6 +98,7 @@ class Player(Creature):
         if self.invincible:
             if tempo_atual - self.invincible_time >= self.invincible_cooldown:
                 self.invincible = False
+                self.moving = True
 
     # gambiarra
     def health_bar(self):
