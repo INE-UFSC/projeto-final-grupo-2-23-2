@@ -25,6 +25,7 @@ class Enemy(Creature):
         self.invincible_time = None
         self.invincible_cooldown = 320
 
+        self.origin = position
         
         #barra de hp
         self.health_bar_size = self.__rect.width*1.5
@@ -41,18 +42,33 @@ class Enemy(Creature):
             direction = pygame.math.Vector2()
 
         return (distance, direction)
+    
+    def return_to_origin(self):
+        enemy_vec = pygame.math.Vector2(self.rect.center)
+        origin_vec = pygame.math.Vector2(self.origin)
+        distance = (origin_vec - enemy_vec).magnitude()
+        if distance > 0:
+            direction = (origin_vec - enemy_vec).normalize()
+        else:
+            direction = pygame.math.Vector2()
+
+        return (distance, direction)
         
 
     def get_status(self, player):
-        distance = self.get_player_distance_direction(player)[0]
-
-        if distance <= self.attack_range:
+        distance_to_player = self.get_player_distance_direction(player)[0]
+        distance_to_origin = self.return_to_origin()[0]
+        
+        if distance_to_player <= self.attack_range:
             self.status = 'attack'
 
-        elif distance <= self.range:
+        elif distance_to_player <= self.range:
             self.status = 'move'
         else:
-            self.status = 'idle'
+            if distance_to_origin != 0:
+                self.status = 'return'
+            else:
+                self.status = 'idle'
 
     def action(self,player):
         if self.invincible:
@@ -61,8 +77,12 @@ class Enemy(Creature):
             if self.status == 'attack' and self.cooldowns():
                 self.atacar(player)
             
-            if self.status == 'move':
+            elif self.status == 'move':
                     self.direction = self.get_player_distance_direction(player)[1]
+            
+            elif self.status == 'return':
+                    self.direction = self.return_to_origin()[1]
+            
             else:
                 self.direction = pygame.math.Vector2()
 
