@@ -49,8 +49,8 @@ class Level:
                 elif col == 'e':
                     self.controller.enemies = Enemy(
                         "enemy", 100, (x, y), [self.controller.visible_sprites,self.controller.attackable_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites)
-                elif col == 'i':
-                    Tile("item", (x, y), [
+                elif col == 'w':
+                    Tile("weapon_item", (x, y), [
                          self.controller.visible_sprites, self.controller.item_sprites])
     def run(self):
         # desenha e atualiza o jogo

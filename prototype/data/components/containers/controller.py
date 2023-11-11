@@ -42,7 +42,10 @@ class Controller:
         for item_sprite in self.item_sprites:
             collision_sprites = pygame.sprite.spritecollide(item_sprite,self.player_sprite, False)
             if collision_sprites and self.player.picking:
-                self.player.item_inventory.add_item(item_sprite)
+                self.player.item_inventory.add_item(item_sprite.name)
+                if 'weapon' in item_sprite.name:
+                    self.player.weapon = item_sprite.name
+                    
                 item_sprite.kill()
     
     @property

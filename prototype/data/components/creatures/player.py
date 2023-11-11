@@ -16,6 +16,8 @@ class Player(Creature):
         #caracteristicas do player
         self.status = 'down'
         
+        self.weapon = None
+        
         self.attack_time = None
         self.attack_cooldown = 250
         
@@ -58,7 +60,7 @@ class Player(Creature):
             self.direction.x = 0
             
         if keys[pygame.K_SPACE]:
-            if self.item_inventory.size > 0:
+            if self.weapon is not None:
                 if not self.attacking:
                     self.attacking = True
                     self.attack_time = pygame.time.get_ticks()

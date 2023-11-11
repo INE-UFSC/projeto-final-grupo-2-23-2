@@ -30,7 +30,7 @@ class YSortCameraGroup(pygame.sprite.Group):
 
 #         enemies_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'name') and sprite.name == 'enemy']
 
-        enemies_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'name') and sprite.sprite_type == 'enemy']
+        enemies_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
 
         for enemy in enemies_sprites:
             enemy.enemy_update(player)

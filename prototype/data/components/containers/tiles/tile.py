@@ -11,3 +11,5 @@ class Tile(pygame.sprite.Sprite):
             __file__)) + '/../../../../resources/graphics/objects/' + name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
         self.hitbox = self.rect.inflate(0, -20)
+        self. name = name
+        self.position = position
