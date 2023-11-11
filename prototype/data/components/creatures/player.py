@@ -1,4 +1,5 @@
 from data.components.creatures.creature import Creature
+from data.components.creatures.inventory import Inventory
 import pygame
 import os
 
@@ -22,6 +23,8 @@ class Player(Creature):
         self.invincible_cooldown = 500
         
         self.picking = False
+        
+        self.item_inventory = Inventory()
         
         self.ratio_health_bar = hp / 200 # tamanho da barra
         self.damage = 40
@@ -55,10 +58,11 @@ class Player(Creature):
             self.direction.x = 0
             
         if keys[pygame.K_SPACE]:
-            if not self.attacking:
-                self.attacking = True
-                self.attack_time = pygame.time.get_ticks()
-                self.generate_attack()
+            if self.item_inventory.size > 0:
+                if not self.attacking:
+                    self.attacking = True
+                    self.attack_time = pygame.time.get_ticks()
+                    self.generate_attack()
         if keys[pygame.K_c]:
             self.picking = True
 
