@@ -65,8 +65,11 @@ class Player(Creature):
                     self.attacking = True
                     self.attack_time = pygame.time.get_ticks()
                     self.generate_attack()
+        
         if keys[pygame.K_c]:
             self.picking = True
+        else:
+            self.picking = False
 
     def update(self):
         self.input()
