@@ -14,11 +14,17 @@ class Player(Creature):
 
         #caracteristicas do player
         self.status = 'down'
-        self.attacking = False
+        
         self.attack_time = None
         self.attack_cooldown = 250
+        
+        self.invincible_time = None
+        self.invincible_cooldown = 500
+        
+        self.picking = False
+        
         self.ratio_health_bar = hp / 200 # tamanho da barra
-        self.damage = 5
+        self.damage = 40
         
         #metodos vindos de fase
         self.generate_attack = generate_attack
@@ -53,6 +59,8 @@ class Player(Creature):
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
                 self.generate_attack()
+        if keys[pygame.K_c]:
+            self.picking = True
 
     def update(self):
         self.input()
@@ -66,6 +74,10 @@ class Player(Creature):
             if tempo_atual - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
                 self.destroy_attack()
+                
+        if self.invincible:
+            if tempo_atual - self.invincible_time >= self.invincible_cooldown:
+                self.invincible = False
 
     # gambiarra
     def health_bar(self):

@@ -20,8 +20,12 @@ class Enemy(Creature):
 
         self.attacking = False
         self.attack_time = None
-        self.attack_cooldown = 300
+        self.attack_cooldown = 100
+        
+        self.invincible_time = None
+        self.invincible_cooldown = 500
 
+        
         #barra de hp
         self.health_bar_size = self.__rect.width*1.5
         self.ratio_health_bar = hp / self.health_bar_size # tamanho da barra
@@ -73,12 +77,12 @@ class Enemy(Creature):
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
-                return True
-            else:
-                return False
+        if self.invincible:
+            if current_time - self.invincible_time >= self.invincible_cooldown:
+                self.invincible = False
         else:
-            return True    
-   
+            return True
+        
     def update(self):
         self.health_bar()
         self.move()

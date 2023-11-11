@@ -1,6 +1,6 @@
 import pygame
 import os
-from data.components.containers.y_camera_group import YSortCameraGroup
+from data.components.containers.tiles.y_camera_group import YSortCameraGroup
 from data.components.items.offensive_item import OffensiveItem
 
 class Controller:
@@ -12,6 +12,8 @@ class Controller:
         self.__obstacles_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
         self.attacks_sprites = pygame.sprite.Group()
+        self.item_sprites = pygame.sprite.Group()
+        self.player_sprite = pygame.sprite.Group()
         
         self.current_attack = None
         
@@ -33,7 +35,15 @@ class Controller:
                             if target_sprite.hp == 0:
                                 target_sprite.kill()
                             else:
-                                target_sprite.take_damage(self.player.damage)
+                                if target_sprite.invincible == False:
+                                    target_sprite.take_damage(self.player.damage)
+                                
+    def player_collect_item(self):
+        for item_sprite in self.item_sprites:
+            collision_sprites = pygame.sprite.spritecollide(item_sprite,self.player_sprite, False)
+            if collision_sprites and self.player.picking:
+                item_sprite.kill()
+    
     @property
     def visible_sprites(self):
         return self.__visible_sprites

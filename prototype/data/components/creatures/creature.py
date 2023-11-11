@@ -22,7 +22,74 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.__direction = pygame.math.Vector2()
         self.__visible_sprites = visible_sprites
         self.__obstacle_sprites = obstacle_sprites
+        
+        
+        self.attacking = False
+        self.invincible = False
+        
+        self.invincible_time = None
+        self.invincible_cooldown = None
 
+    
+    def move(self):
+        # normalizando a velocidade na diagonal
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
+        
+        # horizontal
+        self.hitbox.x += self.direction.x * self.speed
+        self.colision('horizontal')
+        # vertical
+        self.hitbox.y += self.direction.y * self.speed
+        self.colision('vertical')
+        self.rect.center = self.hitbox.center
+
+    def colision(self, direction):
+        # colision horizontal
+        if direction == 'horizontal':
+            for sprite in self.obstacle_sprites:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    if self.direction.x > 0 :
+                        self.hitbox.right = sprite.hitbox.left
+                    if self.direction.x < 0 :
+                        self.hitbox.left = sprite.hitbox.right
+        # colision vertical
+        if direction == 'vertical':
+            for sprite in self.obstacle_sprites:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    if self.direction.y > 0 :
+                        self.hitbox.bottom = sprite.hitbox.top
+                    if self.direction.y < 0 :
+                        self.hitbox.top = sprite.hitbox.bottom
+        
+    def take_damage(self, amount):
+        if self.invincible == False:
+            self.invincible = True
+            self.invincible_time = pygame.time.get_ticks()
+            
+            if self.hp > 0:
+                self.hp -= amount
+            if self.hp < 0:
+                self.hp = 0
+        
+    def heal(self, amount):
+        if self.hp < self.max_hp:
+            self.hp += amount
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp 
+
+    # todo
+    def attack(self):
+        self.__offensive_item.attack()
+    # todo?
+    def deffend(self):
+        self.__defensive_item.deffend()
+    
+    @abstractmethod
+    def update(self):
+        pass
+    
+    
     # getters e setters
     @property
     def name(self):
@@ -71,57 +138,3 @@ class Creature(pygame.sprite.Sprite, ABC):
     @property
     def visible_sprites(self):
         return self.__visible_sprites
-    
-    def move(self):
-        # normalizando a velocidade na diagonal
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
-        
-        # horizontal
-        self.hitbox.x += self.direction.x * self.speed
-        self.colision('horizontal')
-        # vertical
-        self.hitbox.y += self.direction.y * self.speed
-        self.colision('vertical')
-        self.rect.center = self.hitbox.center
-
-    def colision(self, direction):
-        # colision horizontal
-        if direction == 'horizontal':
-            for sprite in self.obstacle_sprites:
-                if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.x > 0 :
-                        self.hitbox.right = sprite.hitbox.left
-                    if self.direction.x < 0 :
-                        self.hitbox.left = sprite.hitbox.right
-        # colision vertical
-        if direction == 'vertical':
-            for sprite in self.obstacle_sprites:
-                if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.y > 0 :
-                        self.hitbox.bottom = sprite.hitbox.top
-                    if self.direction.y < 0 :
-                        self.hitbox.top = sprite.hitbox.bottom
-        
-    def take_damage(self, amount):   
-        if self.hp > 0:
-            self.hp -= amount
-        if self.hp < 0:
-            self.hp = 0
-    
-    def heal(self, amount):
-        if self.hp < self.max_hp:
-            self.hp += amount
-        if self.hp > self.max_hp:
-            self.hp = self.max_hp 
-
-    # todo
-    def attack(self):
-        self.__offensive_item.attack()
-    # todo?
-    def deffend(self):
-        self.__defensive_item.deffend()
-    
-    @abstractmethod
-    def update(self):
-        pass

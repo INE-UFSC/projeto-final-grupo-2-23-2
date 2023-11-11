@@ -1,13 +1,8 @@
 from item import Item
+import os
 
 class DefensiveItem(Item):
-    def __init__(self, name, category, description, rarity, usage_interval, image, dropped, x, y, protection):
-        super().__init__(name, category, description, rarity, usage_interval, image, dropped, x, y)
-        self.__protection = protection
+    def __init__(self, player, groups):
+        super().__init__(player, groups)
         
-    def deffend():
-        pass
     
-    @property
-    def protection(self):
-        return self.__protection
