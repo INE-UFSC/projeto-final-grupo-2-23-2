@@ -15,11 +15,13 @@ class Player(Creature):
 
         #caracteristicas do player
         self.status = 'down'
+        self.moving = True
         
         self.weapon = None
+        self.defense = None
         
         self.attack_time = None
-        self.attack_cooldown = 250
+        self.attack_cooldown = 200
         
         self.invincible_time = None
         self.invincible_cooldown = 500
@@ -38,22 +40,22 @@ class Player(Creature):
         
     def input(self):
         keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_UP] and self.attacking == False:
+        
+        if keys[pygame.K_UP] and self.moving:
             self.direction.y = -1   
             self.status = 'up'
 
-        elif keys[pygame.K_DOWN] and self.attacking == False:
+        elif keys[pygame.K_DOWN] and self.moving:
             self.direction.y = 1  
             self.status = 'down'
         else:
             self.direction.y = 0
 
-        if keys[pygame.K_LEFT] and self.attacking == False:
+        if keys[pygame.K_LEFT] and self.moving:
             self.direction.x = -1
             self.status = 'left'
 
-        elif keys[pygame.K_RIGHT] and self.attacking == False:
+        elif keys[pygame.K_RIGHT] and self.moving:
             self.direction.x = 1
             self.status = 'rigth'
         else:
@@ -70,6 +72,13 @@ class Player(Creature):
             self.picking = True
         else:
             self.picking = False
+            
+        if keys[pygame.K_LSHIFT]:
+            if self.defense is not None:
+                self.moving = False
+                self.invincible = True
+                self.invincible_time = pygame.time.get_ticks()
+                
 
     def update(self):
         self.input()
@@ -80,8 +89,10 @@ class Player(Creature):
     def cooldowns(self):
         tempo_atual = pygame.time.get_ticks()
         if self.attacking:
+            self.moving = False
             if tempo_atual - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+                self.moving = True
                 self.destroy_attack()
                 
         if self.invincible:

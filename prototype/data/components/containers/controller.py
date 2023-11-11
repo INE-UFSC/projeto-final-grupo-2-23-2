@@ -12,6 +12,7 @@ class Controller:
         self.__obstacles_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
         self.attacks_sprites = pygame.sprite.Group()
+        self.deffense_sprites = pygame.sprite.Group()
         self.item_sprites = pygame.sprite.Group()
         self.player_sprite = pygame.sprite.Group()
         
@@ -28,8 +29,8 @@ class Controller:
 
     def player_attack_logic(self):
         if self.attacks_sprites:
-            for sprites_ataque in self.attacks_sprites:
-                collision_sprites = pygame.sprite.spritecollide(sprites_ataque,self.attackable_sprites,False)
+            for attack_sprite in self.attacks_sprites:
+                collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
                 if collision_sprites:
                     for target_sprite in collision_sprites:
                             if target_sprite.hp == 0:
@@ -37,7 +38,8 @@ class Controller:
                             else:
                                 if target_sprite.invincible == False:
                                     target_sprite.take_damage(self.player.damage)
-                                
+                                    
+
     def player_collect_item(self):
         for item_sprite in self.item_sprites:
             collision_sprites = pygame.sprite.spritecollide(item_sprite,self.player_sprite, False)
@@ -45,6 +47,8 @@ class Controller:
                 self.player.item_inventory.add_item(item_sprite.name)
                 if 'weapon' in item_sprite.name:
                     self.player.weapon = item_sprite.name
+                if 'defensive' in item_sprite.name:
+                    self.player.defense = item_sprite.name
                     
                 item_sprite.kill()
     

@@ -12,7 +12,7 @@ class Enemy(Creature):
         self.__rect = self.image.get_rect(topleft=position)
         self.__hitbox = self.__rect.inflate(0, -10)
         self.__status = 'idle'
-        self.__range = 200
+        self.__range = 300
         self.__sprite_type = 'enemy'
         self.__speed = 2
         self.__attack_range = 50
@@ -23,7 +23,7 @@ class Enemy(Creature):
         self.attack_cooldown = 100
         
         self.invincible_time = None
-        self.invincible_cooldown = 500
+        self.invincible_cooldown = 320
 
         
         #barra de hp
@@ -55,13 +55,16 @@ class Enemy(Creature):
             self.status = 'idle'
 
     def action(self,player):
-        if self.status == 'attack' and self.cooldowns():
-            self.atacar(player)
-        
-        if self.status == 'move':
-            self.direction = self.get_player_distance_direction(player)[1]
+        if self.invincible:
+                self.direction = self.get_player_distance_direction(player)[1]*(-1)
         else:
-            self.direction = pygame.math.Vector2()
+            if self.status == 'attack' and self.cooldowns():
+                self.atacar(player)
+            
+            if self.status == 'move':
+                    self.direction = self.get_player_distance_direction(player)[1]
+            else:
+                self.direction = pygame.math.Vector2()
 
     def atacar(self, player: Player):
         player.take_damage(self.damage)
