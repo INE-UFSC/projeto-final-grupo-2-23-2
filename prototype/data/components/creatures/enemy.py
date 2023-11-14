@@ -70,7 +70,7 @@ class Enemy(Creature):
             else:
                 self.status = 'idle'
 
-    def action(self,player):
+    def action(self, player):
         if self.invincible:
                 self.direction = self.get_player_distance_direction(player)[1]*(-1)
         else:

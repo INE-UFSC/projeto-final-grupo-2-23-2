@@ -5,7 +5,7 @@ class Item(pygame.sprite.Sprite):
     def __init__(self, player, groups):
         super().__init__(groups)
         direction = player.status
-        if "rigth" in direction:
+        if "right" in direction:
             self.image = pygame.Surface((40,20))
             self.rect = self.image.get_rect(midleft = player.rect.midright)
             

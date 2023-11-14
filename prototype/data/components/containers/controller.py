@@ -26,6 +26,7 @@ class Controller:
         if self.current_attack != None:
             self.current_attack.kill()
             self.current_attack = None
+            # self.player.attacking = False
 
     def player_attack_logic(self):
         if self.attacks_sprites:

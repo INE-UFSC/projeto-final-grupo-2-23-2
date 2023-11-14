@@ -36,9 +36,12 @@ class Player(Creature):
         self.dashing_speed = 2 * self.speed
         self.dashing_direction = None
         
+        self.invencible = False
         self.invincible_time = None
         self.invincible_cooldown = 500
         
+        self.deffending = False
+
         self.picking = False
         
         self.item_inventory = Inventory()
@@ -58,7 +61,8 @@ class Player(Creature):
             'up': [], 'down': [], 'left': [], 'right': [],
             'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
             'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': [],
-            'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': []
+            'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': [],
+            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': [],
         }
         for animation in self.animations.keys():
             full_path = path + animation
@@ -66,17 +70,37 @@ class Player(Creature):
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
-            if not "idle" in self.status and not "attack" in self.status:
+            if not "_" in self.status:
                 self.status = self.status + "_idle"
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
             if not "attack" in self.status:
-                if "idle" in self.status:
-                    self.status = self.status.replace("_idle","_attack")
-                else:
+                splited_status = self.status.split("_")
+                if len(splited_status) == 1:
                     self.status = self.status + "_attack"
-            
+                else:
+                    splited_status[1] = "attack"
+                    self.status = "_".join(splited_status)
+
+        if self.deffending:
+            if not "deffend" in self.status:
+                splited_status = self.status.split("_")
+                if len(splited_status) == 1:
+                    self.status = self.status + "_deffend"
+                else:
+                    splited_status[1] = "deffend"
+                    self.status = "_".join(splited_status)
+
+        if self.dashing:
+            if not "dash" in self.status:
+                splited_status = self.status.split("_")
+                if len(splited_status) == 1:
+                    self.status = self.status + "_dash"
+                else:
+                    splited_status[1] = "dash"
+                    self.status = "_".join(splited_status)
+
         print(self.status)
 
     def input(self):
@@ -101,7 +125,7 @@ class Player(Creature):
 
             elif keys[pygame.K_RIGHT] and self.moving:
                 self.direction.x = 1
-                self.status = 'rigth'
+                self.status = 'right'
             else:
                 self.direction.x = 0
         
@@ -123,7 +147,9 @@ class Player(Creature):
             if self.defense is not None:
                 self.moving = False
                 self.invincible = True
+                self.deffending = True
                 self.invincible_time = pygame.time.get_ticks()
+
 
         # dash input 
         if keys[pygame.K_LSHIFT]:
@@ -132,11 +158,12 @@ class Player(Creature):
                     self.dash()
             except:
                 self.dash()
+            
 
     def update(self):
         self.input()
-        self.cooldowns()
         self.get_status()
+        self.cooldowns()
         self.move()
         self.health_bar()
 
@@ -149,12 +176,15 @@ class Player(Creature):
                 self.attacking = False
                 self.moving = True
                 self.destroy_attack()
+                self.status = self.status.split("_")[0]
                 
         if self.invincible:
             if current_time - self.invincible_time >= self.invincible_cooldown:
                 self.invincible = False
-                self.moving = True
-                
+                self.deffending = False
+                self.moving = True 
+                self.status = self.status.split("_")[0]
+
         if self.dashing:
             self.speed = self.dashing_speed
             self.direction = self.dashing_direction
@@ -163,6 +193,9 @@ class Player(Creature):
                 self.dashing = False
                 self.invincible = False
                 self.speed = self.dashing_speed / 2
+            
+                self.status = self.status.split("_")[0]
+
     
     def dash(self):
         if self.direction.magnitude() != 0:
@@ -177,7 +210,7 @@ class Player(Creature):
             elif "left" in self.status:
                 self.direction.x = -1
                 self.direction.y = 0
-            elif 'rigth' in self.status:
+            elif 'right' in self.status:
                 self.direction.x = 1
                 self.direction.y = 0
             
