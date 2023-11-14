@@ -101,8 +101,6 @@ class Player(Creature):
                     splited_status[1] = "dash"
                     self.status = "_".join(splited_status)
 
-        print(self.status)
-
     def input(self):
         keys = pygame.key.get_pressed()
         current_time = pygame.time.get_ticks()
