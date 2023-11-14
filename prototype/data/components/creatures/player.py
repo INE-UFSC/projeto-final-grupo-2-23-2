@@ -21,7 +21,14 @@ class Player(Creature):
         self.defense = None
         
         self.attack_time = None
-        self.attack_cooldown = 200
+        self.attack_cooldown = 150
+        
+        self.dashing = False
+        self.dashing_time = None
+        self.dashing_duration = 250
+        self.dashing_cooldown = 500
+        self.dashing_speed = 2 * self.speed
+        self.dashing_direction = None
         
         self.invincible_time = None
         self.invincible_cooldown = 500
@@ -40,26 +47,28 @@ class Player(Creature):
         
     def input(self):
         keys = pygame.key.get_pressed()
+        current_time = pygame.time.get_ticks()
         
-        if keys[pygame.K_UP] and self.moving:
-            self.direction.y = -1   
-            self.status = 'up'
+        if not self.dashing:
+            if keys[pygame.K_UP] and self.moving:
+                self.direction.y = -1   
+                self.status = 'up'
 
-        elif keys[pygame.K_DOWN] and self.moving:
-            self.direction.y = 1  
-            self.status = 'down'
-        else:
-            self.direction.y = 0
+            elif keys[pygame.K_DOWN] and self.moving:
+                self.direction.y = 1  
+                self.status = 'down'
+            else:
+                self.direction.y = 0
 
-        if keys[pygame.K_LEFT] and self.moving:
-            self.direction.x = -1
-            self.status = 'left'
+            if keys[pygame.K_LEFT] and self.moving:
+                self.direction.x = -1
+                self.status = 'left'
 
-        elif keys[pygame.K_RIGHT] and self.moving:
-            self.direction.x = 1
-            self.status = 'rigth'
-        else:
-            self.direction.x = 0
+            elif keys[pygame.K_RIGHT] and self.moving:
+                self.direction.x = 1
+                self.status = 'rigth'
+            else:
+                self.direction.x = 0
             
         if keys[pygame.K_SPACE]:
             if self.weapon is not None:
@@ -73,12 +82,18 @@ class Player(Creature):
         else:
             self.picking = False
             
-        if keys[pygame.K_LSHIFT]:
+        if keys[pygame.K_LCTRL]:
             if self.defense is not None:
                 self.moving = False
                 self.invincible = True
                 self.invincible_time = pygame.time.get_ticks()
                 
+        if keys[pygame.K_LSHIFT]:
+            try:
+                if current_time - self.dashing_time >= self.dashing_cooldown:
+                    self.dash()
+            except:
+                self.dash()
 
     def update(self):
         self.input()
@@ -87,18 +102,34 @@ class Player(Creature):
         self.health_bar()
     
     def cooldowns(self):
-        tempo_atual = pygame.time.get_ticks()
+        current_time = pygame.time.get_ticks()
         if self.attacking:
             self.moving = False
-            if tempo_atual - self.attack_time >= self.attack_cooldown:
+            if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
                 self.moving = True
                 self.destroy_attack()
                 
         if self.invincible:
-            if tempo_atual - self.invincible_time >= self.invincible_cooldown:
+            if current_time - self.invincible_time >= self.invincible_cooldown:
                 self.invincible = False
                 self.moving = True
+                
+        if self.dashing:
+            self.speed = self.dashing_speed
+            self.direction = self.dashing_direction
+            
+            if current_time - self.dashing_time >= self.dashing_duration:
+                self.dashing = False
+                self.invincible = False
+                self.speed = self.dashing_speed / 2
+    
+    def dash(self):
+        self.dashing_direction = self.direction
+        self.dashing_time = pygame.time.get_ticks()
+        self.dashing = True
+        self.invincible = True
+        self.invincible_time = pygame.time.get_ticks()
 
     # gambiarra
     def health_bar(self):
