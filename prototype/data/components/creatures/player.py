@@ -12,12 +12,15 @@ class Player(Creature):
         self.__name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
-        self.__rect = self.image.get_rect(topleft=position)
-        self.__hitbox = self.__rect.inflate(0, -26)
+        self.rect = self.image.get_rect(topleft=position)
+        self.__hitbox = self.rect.inflate(0, -26)
 
         # movement 
         self.import_assets()
         self.status = 'down'
+        self.frame_index = 0
+        self.animation_speed = 0.15
+
         self.direction = pygame.math.Vector2()
         self.moving = True
         
@@ -57,7 +60,6 @@ class Player(Creature):
     
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 
-        print("cd",path)
         self.animations = {
             'up': [], 'down': [], 'left': [], 'right': [],
             'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
@@ -66,9 +68,22 @@ class Player(Creature):
             'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': []
         }
         for animation in self.animations.keys():
-            full_path = path + animation
+            full_path = path + "/" + animation
             self.animations[animation] = import_folder(full_path)
-        print(self.animations)
+
+    def animate(self):
+        print(self.status)
+        animation = self.animations[self.status]
+
+        # loop over the frame index
+        self.frame_index += self.animation_speed
+        if self.frame_index >= (len(animation)):
+            self.frame_index = 0
+
+        # set the image
+        self.image = animation[int(self.frame_index)]
+        self.rect = self.image.get_rect(center = self.hitbox.center)
+
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -159,15 +174,14 @@ class Player(Creature):
             except:
                 self.dash()
             
-
     def update(self):
         self.input()
-        self.get_status()
         self.cooldowns()
+        self.get_status()
+        self.animate()
         self.move()
         self.health_bar()
-
-    
+ 
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
         if self.attacking:
@@ -196,7 +210,6 @@ class Player(Creature):
             
                 self.status = self.status.split("_")[0]
 
-    
     def dash(self):
         if self.direction.magnitude() != 0:
             self.dashing_direction = self.direction
