@@ -125,12 +125,27 @@ class Player(Creature):
                 self.speed = self.dashing_speed / 2
     
     def dash(self):
-        self.dashing_direction = self.direction
+        if self.direction.magnitude() != 0:
+            self.dashing_direction = self.direction
+        else:
+            if self.status == 'down':
+                self.direction.x = 0
+                self.direction.y = 1
+            elif self.status == 'up':
+                self.direction.x = 0
+                self.direction.y = -1
+            elif self.status == 'left':
+                self.direction.x = -1
+                self.direction.y = 0
+            elif self.status == 'rigth':
+                self.direction.x = 1
+                self.direction.y = 0
+            
+            self.dashing_direction = self.direction
         self.dashing_time = pygame.time.get_ticks()
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()
-
     # gambiarra
     def health_bar(self):
         sv = self.visible_sprites
