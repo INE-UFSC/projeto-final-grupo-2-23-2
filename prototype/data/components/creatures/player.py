@@ -2,7 +2,7 @@ from data.components.creatures.creature import Creature
 from data.components.creatures.inventory import Inventory
 import pygame
 import os
-# from support import import_folder
+from data.components.creatures.support import import_folder
 
 class Player(Creature):
     def __init__(self, name, hp, position, groups, visible_sprites, obstacle_sprites, generate_attack, destroy_attack):
@@ -56,17 +56,19 @@ class Player(Creature):
 
     
     def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/player/' + self.name + '.png'
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 
+        print("cd",path)
         self.animations = {
             'up': [], 'down': [], 'left': [], 'right': [],
             'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
             'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': [],
             'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': [],
-            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': [],
+            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': []
         }
         for animation in self.animations.keys():
             full_path = path + animation
-            # self.animation[animation] = import_folder(full_path)
+            self.animations[animation] = import_folder(full_path)
+        print(self.animations)
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
