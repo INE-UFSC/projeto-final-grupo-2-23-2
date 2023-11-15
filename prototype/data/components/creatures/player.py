@@ -72,7 +72,6 @@ class Player(Creature):
             self.animations[animation] = import_folder(full_path)
 
     def animate(self):
-        print(self.status)
         animation = self.animations[self.status]
 
         # loop over the frame index
