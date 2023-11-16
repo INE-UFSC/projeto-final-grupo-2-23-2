@@ -19,6 +19,7 @@ class Controller:
         self.player_sprite = pygame.sprite.Group()
         
         self.current_attack = None
+        self.current_defense = None
         
         
     def create_attack(self):
@@ -29,6 +30,15 @@ class Controller:
             self.current_attack.kill()
             self.current_attack = None
             # self.player.attacking = False
+
+    def create_defense(self):
+        self.current_defense = DefensiveItem(self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
+        
+    def destroy_defense(self):
+        if self.current_defense != None:
+            self.current_defense.kill()
+            self.current_defense = None
+
 
     def player_attack_logic(self):
         if self.attacks_sprites:

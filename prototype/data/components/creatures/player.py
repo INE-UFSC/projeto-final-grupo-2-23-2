@@ -6,7 +6,7 @@ import os
 from data.components.creatures.support import import_folder
 
 class Player(Creature):
-    def __init__(self, name, hp, position, groups, obstacle_sprites, generate_attack, destroy_attack):
+    def __init__(self, name, hp, position, groups, obstacle_sprites, generate_attack, destroy_attack, generate_defense, destroy_defense):
         super().__init__(name, hp, position, groups, obstacle_sprites)
         
         # todo: analisar heranca inimigo jogador
@@ -43,11 +43,12 @@ class Player(Creature):
         
         
         self.item_inventory = Inventory()
-    
         
         #metodos vindos de fase
         self.generate_attack = generate_attack
         self.destroy_attack = destroy_attack
+        self.generate_defense = generate_defense
+        self.destroy_defense = destroy_defense
         self.sprite_type = 'player'
 
         self.import_assets()
@@ -157,10 +158,9 @@ class Player(Creature):
         # deffend input
         if keys[pygame.K_LCTRL]:
             if self.defense is not None:
-                self.moving = False
-                self.invincible = True
                 self.deffending = True
-                self.invincible_time = pygame.time.get_ticks()
+                self.defense.time = pygame.time.get_ticks()
+                self.generate_defense()
 
 
         # dash input 
@@ -189,12 +189,17 @@ class Player(Creature):
                 self.moving = True
                 self.destroy_attack()
                 self.status = self.status.split("_")[0]
-                
+        
         if self.invincible:
             if current_time - self.invincible_time >= self.invincible_cooldown:
                 self.invincible = False
+
+        if self.deffending:
+            self.moving = False
+            if current_time - self.defense.time >= self.defense.cooldown:
                 self.deffending = False
-                self.moving = True 
+                self.moving = True
+                self.destroy_defense()
                 self.status = self.status.split("_")[0]
 
         if self.dashing:

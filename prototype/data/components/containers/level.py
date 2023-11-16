@@ -47,7 +47,7 @@ class Level:
                          self.controller.visible_sprites, self.controller.obstacles_sprites])
                 elif col == 'p':
                     self.controller.player = Player(
-                        "player", 100, (x, y), [self.controller.visible_sprites, self.controller.player_sprite], self.controller.obstacles_sprites,self.controller.create_attack,self.controller.destroy_attack)
+                        "player", 100, (x, y), [self.controller.visible_sprites, self.controller.player_sprite], self.controller.obstacles_sprites,self.controller.create_attack,self.controller.destroy_attack, self.controller.create_defense, self.controller.destroy_defense)
                 elif col == 'e':
                     self.controller.enemies = Enemy(
                         "enemy", 100, (x, y), [self.controller.visible_sprites,self.controller.attackable_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites)
