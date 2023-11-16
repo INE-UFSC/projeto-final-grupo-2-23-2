@@ -10,7 +10,13 @@ class Inventory:
     
     def contains(self, name):
         for item in self.items:
-            if item == name:
+            if item.name == name:
                 return True
         else:
             return False
+    
+    def get(self, name):
+        for item in self.items:
+            if item.name == name:
+                return item
+        return None

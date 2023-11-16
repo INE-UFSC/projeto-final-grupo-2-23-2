@@ -6,6 +6,3 @@ class Powerup(pygame.sprite.Sprite):
         self.name = name
         self.player = player
         self.direction = player.direction
-    
-    def __str__(self):
-        return self.name

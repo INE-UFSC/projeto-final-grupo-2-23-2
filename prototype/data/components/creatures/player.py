@@ -27,9 +27,6 @@ class Player(Creature):
 
         # items
         self.inventory = Inventory()
-        self.weapon = None
-        self.defense = None
-        self.dash = None
 
         # player actions
         self.deffending = False
@@ -130,11 +127,11 @@ class Player(Creature):
             else:
                 self.direction.x = 0
         
-        # attack input
+        # raid input
         if keys[pygame.K_SPACE]:
-            if (self.weapon is not None) and (not self.attacking):
+            if self.inventory.contains("raid") and (not self.attacking):
                 self.attacking = True
-                self.weapon.time = pygame.time.get_ticks()
+                self.inventory.get("raid").time = pygame.time.get_ticks()
                 self.generate_attack()
         
         # pick input
@@ -143,19 +140,19 @@ class Player(Creature):
         else:
             self.picking = False
         
-        # deffend input
+        # guard input
         if keys[pygame.K_LCTRL]:
-            if self.defense is not None:
+            if self.inventory.contains("guard"):
                 self.deffending = True
-                self.defense.time = pygame.time.get_ticks()
+                self.inventory.get("guard").time = pygame.time.get_ticks()
                 self.generate_defense()
 
 
         # dash input 
         if keys[pygame.K_LSHIFT]:
-            if self.dash is not None:
+            if self.inventory.contains("dash"):
                 try:
-                    if current_time - self.dash.time >= self.dash.cooldown:
+                    if current_time - self.inventory.get("dash").time >= self.inventory.get("dash").cooldown:
                         self.use_dash()
                 except:
                     self.use_dash()
@@ -171,7 +168,7 @@ class Player(Creature):
         current_time = pygame.time.get_ticks()
         if self.attacking:
             self.moving = False
-            if current_time - self.weapon.time >= self.weapon.cooldown:
+            if current_time - self.inventory.get("raid").time >= self.inventory.get("raid").cooldown:
                 self.attacking = False
                 self.moving = True
                 self.destroy_attack()
@@ -183,17 +180,18 @@ class Player(Creature):
 
         if self.deffending:
             self.moving = False
-            if current_time - self.defense.time >= self.defense.cooldown:
+            if current_time - self.inventory.get("guard").time >= self.inventory.get("guard").cooldown:
                 self.deffending = False
                 self.moving = True
                 self.destroy_defense()
                 self.status = self.status.split("_")[0]
 
         if self.dashing:
-            self.speed = self.dash.speed
-            self.direction = self.dash.direction
+            dash = self.inventory.get("dash")
+            self.speed = dash.speed
+            self.direction = dash.direction
             
-            if current_time - self.dash.time >= self.dash.duration:
+            if current_time - dash.time >= dash.duration:
                 self.dashing = False
                 self.invincible = False
                 self.speed = self.normal_speed
@@ -201,8 +199,8 @@ class Player(Creature):
                 self.status = self.status.split("_")[0]
 
     def use_dash(self):
-        self.dash.get_player_direction()
-        self.dash.time = pygame.time.get_ticks()
+        self.inventory.get("dash").get_player_direction()
+        self.inventory.get("dash").time = pygame.time.get_ticks()
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()

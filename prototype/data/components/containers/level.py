@@ -47,13 +47,13 @@ class Level:
                     self.controller.enemies = Enemy(
                         "enemy", 100, (x, y), [self.controller.visible_sprites,self.controller.attackable_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites)
                 elif col == 'w':
-                    Tile("weapon_item", (x, y), [
+                    Tile("raid", (x, y), [
                          self.controller.visible_sprites, self.controller.item_sprites])
                 elif col == 'd':
-                    Tile("defensive_item", (x, y), [
+                    Tile("guard", (x, y), [
                          self.controller.visible_sprites, self.controller.item_sprites])
                 elif col == 's':
-                    Tile("dash_item", (x, y), [
+                    Tile("dash", (x, y), [
                          self.controller.visible_sprites, self.controller.item_sprites])
                     
     def run(self):
