@@ -57,6 +57,9 @@ class Level:
                 elif col == 'd':
                     Tile("defensive_item", (x, y), [
                          self.controller.visible_sprites, self.controller.item_sprites])
+                elif col == 's':
+                    Tile("dash_item", (x, y), [
+                         self.controller.visible_sprites, self.controller.item_sprites])
     def run(self):
         # desenha e atualiza o jogo
         self.controller.visible_sprites.custom_draw(self.controller.player)

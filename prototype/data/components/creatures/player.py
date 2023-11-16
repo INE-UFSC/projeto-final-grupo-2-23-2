@@ -1,5 +1,6 @@
 from data.components.creatures.creature import Creature
 from data.components.creatures.inventory import Inventory
+from data.components.items.dash_item import DashItem
 import pygame
 import os
 from data.components.creatures.support import import_folder
@@ -23,32 +24,26 @@ class Player(Creature):
         self.direction = pygame.math.Vector2()
         self.moving = True
         
+        # items
         self.weapon = None
         self.defense = None
+        self.dash = None
+
+        self.normal_speed = 5
         
-        # attack
+        # actions
         self.attacking = False
-        self.attack_time = None
-        self.attack_cooldown = 150
-        
+        self.deffending = False
         self.dashing = False
-        self.dashing_time = None
-        self.dashing_duration = 250
-        self.dashing_cooldown = 500
-        self.dashing_speed = 2 * self.speed
-        self.dashing_direction = None
+        self.picking = False
         
         self.invencible = False
         self.invincible_time = None
         self.invincible_cooldown = 500
         
-        self.deffending = False
-
-        self.picking = False
         
         self.item_inventory = Inventory()
     
-        self.damage = 40
         
         #metodos vindos de fase
         self.generate_attack = generate_attack
@@ -90,6 +85,7 @@ class Player(Creature):
         if self.direction.x == 0 and self.direction.y == 0:
             if not "_" in self.status:
                 self.status = self.status + "_idle"
+
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
@@ -149,7 +145,7 @@ class Player(Creature):
         if keys[pygame.K_SPACE]:
             if (self.weapon is not None) and (not self.attacking):
                 self.attacking = True
-                self.attack_time = pygame.time.get_ticks()
+                self.weapon.time = pygame.time.get_ticks()
                 self.generate_attack()
         
         # pick input
@@ -169,11 +165,12 @@ class Player(Creature):
 
         # dash input 
         if keys[pygame.K_LSHIFT]:
-            try:
-                if current_time - self.dashing_time >= self.dashing_cooldown:
-                    self.dash()
-            except:
-                self.dash()
+            if self.dash is not None:
+                try:
+                    if current_time - self.dash.time >= self.dash.cooldown:
+                        self.use_dash()
+                except:
+                    self.use_dash()
             
     def update(self):
         self.input()
@@ -187,7 +184,7 @@ class Player(Creature):
         current_time = pygame.time.get_ticks()
         if self.attacking:
             self.moving = False
-            if current_time - self.attack_time >= self.attack_cooldown:
+            if current_time - self.weapon.time >= self.weapon.cooldown:
                 self.attacking = False
                 self.moving = True
                 self.destroy_attack()
@@ -201,38 +198,24 @@ class Player(Creature):
                 self.status = self.status.split("_")[0]
 
         if self.dashing:
-            self.speed = self.dashing_speed
-            self.direction = self.dashing_direction
+            self.speed = self.dash.speed
+            self.direction = self.dash.direction
             
-            if current_time - self.dashing_time >= self.dashing_duration:
+            if current_time - self.dash.time >= self.dash.duration:
                 self.dashing = False
                 self.invincible = False
-                self.speed = self.dashing_speed / 2
+                self.speed = self.normal_speed
             
                 self.status = self.status.split("_")[0]
 
-    def dash(self):
-        if self.direction.magnitude() != 0:
-            self.dashing_direction = self.direction
-        else:
-            if "down" in self.status:
-                self.direction.x = 0
-                self.direction.y = 1
-            elif "up" in self.status:
-                self.direction.x = 0
-                self.direction.y = -1
-            elif "left" in self.status:
-                self.direction.x = -1
-                self.direction.y = 0
-            elif 'right' in self.status:
-                self.direction.x = 1
-                self.direction.y = 0
-            
-            self.dashing_direction = self.direction
-        self.dashing_time = pygame.time.get_ticks()
+    def use_dash(self):
+        self.dash.get_player_direction()
+        self.dash.time = pygame.time.get_ticks()
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()
+
+
     # getters e setters
     @property
     def name(self):

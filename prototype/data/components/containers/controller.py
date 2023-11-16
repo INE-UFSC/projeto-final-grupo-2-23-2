@@ -2,6 +2,8 @@ import pygame
 import os
 from data.components.containers.tiles.y_camera_group import YSortCameraGroup
 from data.components.items.offensive_item import OffensiveItem
+from data.components.items.defensive_item import DefensiveItem
+from data.components.items.dash_item import DashItem
 
 class Controller:
     def __init__(self):
@@ -38,7 +40,7 @@ class Controller:
                                 target_sprite.kill()
                             else:
                                 if target_sprite.invincible == False:
-                                    target_sprite.take_damage(self.player.damage)
+                                    target_sprite.take_damage(self.player.weapon.damage)
                                     
 
     def player_collect_item(self):
@@ -47,9 +49,11 @@ class Controller:
             if collision_sprites and self.player.picking:
                 self.player.item_inventory.add_item(item_sprite.name)
                 if 'weapon' in item_sprite.name:
-                    self.player.weapon = item_sprite.name
+                    self.player.weapon = OffensiveItem(self.player,[])
                 if 'defensive' in item_sprite.name:
-                    self.player.defense = item_sprite.name
+                    self.player.defense = DefensiveItem(self.player,[])
+                if 'dash' in item_sprite.name:
+                    self.player.dash = DashItem(self.player,[])
                     
                 item_sprite.kill()
     
