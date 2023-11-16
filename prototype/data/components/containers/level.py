@@ -9,15 +9,12 @@ from data.components.containers.controller import Controller
 from data.components.creatures.ui import Ui
 
 class Level:
-    # todo: name_fase != map_name?
     def __init__(self, map_name):
         self.name = map_name
         self.map = self.__extract_map(map_name)
         self.controller = Controller()
         
-        # pega a surface(tela) que ja existe
         self.surface = pygame.display.get_surface()        
-        # todo: melhor localizacao
         self.tilesize = 64
 
         self.song = None  # name_song

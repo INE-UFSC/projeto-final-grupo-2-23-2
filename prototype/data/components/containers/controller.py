@@ -1,9 +1,9 @@
 import pygame
 import os
 from data.components.containers.tiles.y_camera_group import YSortCameraGroup
-from data.components.items.offensive_item import OffensiveItem
-from data.components.items.defensive_item import DefensiveItem
-from data.components.items.dash_item import DashItem
+from data.components.powerups.raid import Raid
+from data.components.powerups.guard import Guard
+from data.components.powerups.dash import Dash
 
 class Controller:
     def __init__(self):
@@ -23,7 +23,7 @@ class Controller:
         
         
     def create_attack(self):
-        self.current_attack = OffensiveItem(self.player,[self.visible_sprites,self.attacks_sprites])
+        self.current_attack = Raid(self.player,[self.visible_sprites,self.attacks_sprites])
         
     def destroy_attack(self):
         if self.current_attack != None:
@@ -32,7 +32,7 @@ class Controller:
             # self.player.attacking = False
 
     def create_defense(self):
-        self.current_defense = DefensiveItem(self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
+        self.current_defense = Guard(self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
         
     def destroy_defense(self):
         if self.current_defense != None:
@@ -55,13 +55,17 @@ class Controller:
         for item_sprite in self.item_sprites:
             collision_sprites = pygame.sprite.spritecollide(item_sprite,self.player_sprite, False)
             if collision_sprites and self.player.picking:
-                self.player.item_inventory.add_item(item_sprite.name)
                 if 'weapon' in item_sprite.name:
-                    self.player.weapon = OffensiveItem(self.player,[])
+                    object = Raid(item_sprite.name, self.player,[])
+                    self.player.inventory.add_item(object)
+                    self.player.weapon = object####
                 if 'defensive' in item_sprite.name:
-                    self.player.defense = DefensiveItem(self.player,[])
+                    object = Guard(item_sprite.name, self.player,[])
+                    self.player.inventory.add_item(object)
+                    self.player.defense = object#####
                 if 'dash' in item_sprite.name:
-                    self.player.dash = DashItem(self.player,[])
+                    object = Dash(item_sprite.name, self.player,[])
+                    self.player.dash = object
                     
                 item_sprite.kill()
 

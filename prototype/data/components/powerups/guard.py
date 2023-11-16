@@ -1,9 +1,9 @@
-from data.components.items.item import Item
+from data.components.powerups.powerup import Powerup
 import pygame
 
 import os
 
-class DefensiveItem(Item):
+class Guard(Powerup):
     def __init__(self, player, groups):
         super().__init__(player, groups)
         direction = player.status

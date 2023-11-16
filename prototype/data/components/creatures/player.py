@@ -8,7 +8,6 @@ class Player(Creature):
     def __init__(self, name, hp, position, groups, obstacle_sprites, generate_attack, destroy_attack, generate_defense, destroy_defense):
         super().__init__(name, hp, position, groups, obstacle_sprites)
         
-
         self.name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
@@ -27,7 +26,7 @@ class Player(Creature):
         self.normal_speed = 5
 
         # items
-        self.item_inventory = Inventory()
+        self.inventory = Inventory()
         self.weapon = None
         self.defense = None
         self.dash = None
@@ -167,7 +166,6 @@ class Player(Creature):
         self.get_status()
         self.animate()
         self.move()
-        print(self.item_inventory.items)
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()

@@ -1,6 +1,3 @@
-from data.components.items.item import Item
-
-
 class Inventory:
     def __init__(self):
         self.size = 0
