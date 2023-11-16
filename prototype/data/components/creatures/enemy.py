@@ -22,7 +22,6 @@ class Enemy(Creature):
         self.attack_time = None
         self.attack_cooldown = 100
     
-
         self.origin = position
         
         #barra de hp
@@ -103,7 +102,6 @@ class Enemy(Creature):
         else:
             return True
 
-    # todo: gambiarra
     def health_bar(self):
         sv = self.visible_sprites
         a0 = self.rect.topleft[0] - sv.player.rect.centerx + sv.half_width - (self.health_bar_size-self.rect.width)/2
@@ -113,13 +111,8 @@ class Enemy(Creature):
         pygame.draw.rect(sv.surface, (255, 0, 0), (a0, a1, self.hp/self.ratio_health_bar, 10))
         pygame.draw.rect(sv.surface, (255, 255, 255), (a0, a1, self.health_bar_size, 10),1)
 
-
     def update(self):
         self.health_bar()
         self.move()
         self.cooldowns()
-
-#---------------------
-# -Getters e Setters-
-#---------------------
 

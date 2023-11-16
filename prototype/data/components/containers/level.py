@@ -67,11 +67,3 @@ class Level:
         self.controller.player_attack_logic()
         self.controller.player_collect_item()
         self.ui.display()
-    
-    @property
-    def surface(self):
-        return self.__surface
-
-    @surface.setter
-    def surface(self, surface):
-        self.__surface = surface

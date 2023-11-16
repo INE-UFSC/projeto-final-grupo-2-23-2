@@ -4,12 +4,11 @@ import os
 # agrupa todos os sprites visiveis alem de custom_draw pelo y
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
-        # inicializacao
         super().__init__()
         self.surface = pygame.display.get_surface()
-
         self.half_width = self.surface.get_size()[0] // 2
         self.half_heigth = self.surface.get_size()[1] // 2
+        
         # desvia o map em referencia a tela
         self.offset = pygame.math.Vector2( )
 

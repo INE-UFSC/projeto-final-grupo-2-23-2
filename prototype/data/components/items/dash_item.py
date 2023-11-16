@@ -4,7 +4,6 @@ import pygame
 class DashItem(Item):
     def __init__(self, player, groups):
         super().__init__(player, groups)
-
         self.time = None
         self.duration = 250
         self.cooldown = 500
