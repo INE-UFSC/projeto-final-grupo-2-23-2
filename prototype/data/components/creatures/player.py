@@ -5,18 +5,17 @@ import os
 from data.components.creatures.support import import_folder
 
 class Player(Creature):
-    def __init__(self, name, hp, position, groups, visible_sprites, obstacle_sprites, generate_attack, destroy_attack):
-        super().__init__(name, hp, position, groups, visible_sprites, obstacle_sprites)
+    def __init__(self, name, hp, position, groups, obstacle_sprites, generate_attack, destroy_attack):
+        super().__init__(name, hp, position, groups, obstacle_sprites)
         
         # todo: analisar heranca inimigo jogador
         self.__name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
-        self.__hitbox = self.rect.inflate(0, -26)
+        self.hitbox = self.rect.inflate(0, -26)
 
         # movement 
-        self.import_assets()
         self.status = 'down'
         self.frame_index = 0
         self.animation_speed = 0.15
@@ -48,14 +47,15 @@ class Player(Creature):
         self.picking = False
         
         self.item_inventory = Inventory()
-        
-        self.ratio_health_bar = hp / 200 # tamanho da barra
+    
         self.damage = 40
         
         #metodos vindos de fase
         self.generate_attack = generate_attack
         self.destroy_attack = destroy_attack
         self.sprite_type = 'player'
+
+        self.import_assets()
 
     
     def import_assets(self):
@@ -81,6 +81,8 @@ class Player(Creature):
 
         # set the image
         self.image = animation[int(self.frame_index)]
+        self.__hitbox = self.rect.inflate(0, -26)
+
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
 
@@ -179,7 +181,7 @@ class Player(Creature):
         self.get_status()
         self.animate()
         self.move()
-        self.health_bar()
+        # self.health_bar()
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
@@ -231,12 +233,6 @@ class Player(Creature):
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()
-    # gambiarra
-    def health_bar(self):
-        sv = self.visible_sprites
-        pygame.draw.rect(sv.surface, (255, 0, 0), (10, 10, self.hp/self.ratio_health_bar, 20))
-        pygame.draw.rect(sv.surface, (255, 255, 255), (10, 10, 200, 20),4)
-
     # getters e setters
     @property
     def name(self):
@@ -246,20 +242,20 @@ class Player(Creature):
     def name(self, name):
         self.__naem = name
     
-    @property
-    def rect(self):
-        return self.__rect
+    # @property
+    # def rect(self):
+    #     return self.__rect
     
-    @rect.setter
-    def rect(self, rect):
-        self.__rect = rect
+    # @rect.setter
+    # def rect(self, rect):
+    #     self.__rect = rect
     
-    @property
-    def hitbox(self):
-        return self.__hitbox
+    # @property
+    # def hitbox(self):
+    #     return self.__hitbox
     
-    @rect.setter
-    def hitbox(self, hitbox):
-        self.__hitbox = hitbox
+    # @rect.setter
+    # def hitbox(self, hitbox):
+    #     self.__hitbox = hitbox
 
 

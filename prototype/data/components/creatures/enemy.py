@@ -5,7 +5,7 @@ import os
 
 class Enemy(Creature):
     def __init__(self, name, hp, position, groups, visible_sprites, obstacle_sprites):
-        super().__init__(name, hp, position, groups, visible_sprites, obstacle_sprites)
+        super().__init__(name, hp, position, groups, obstacle_sprites)
 
         self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/enemies/' + name + '.png').convert_alpha()
@@ -17,6 +17,7 @@ class Enemy(Creature):
         self.__speed = 2
         self.__attack_range = 50
         self.__damage = 10
+        self.visible_sprites = visible_sprites
 
         self.attacking = False
         self.attack_time = None

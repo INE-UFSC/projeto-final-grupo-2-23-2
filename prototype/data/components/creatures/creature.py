@@ -5,7 +5,7 @@ from data.components.creatures.inventory import Inventory
 
 
 class Creature(pygame.sprite.Sprite, ABC):
-    def __init__(self, name, hp, position, groups, visible_sprites, obstacle_sprites):
+    def __init__(self, name, hp, position, groups, obstacle_sprites):
         # insanciacao do Sprite
         super().__init__(groups)
 
@@ -20,7 +20,6 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.__position = position
         # vetor direcao
         self.__direction = pygame.math.Vector2()
-        self.__visible_sprites = visible_sprites
         self.__obstacle_sprites = obstacle_sprites
         
         
@@ -134,7 +133,3 @@ class Creature(pygame.sprite.Sprite, ABC):
     @property
     def obstacle_sprites(self):
         return self.__obstacle_sprites
-    
-    @property
-    def visible_sprites(self):
-        return self.__visible_sprites

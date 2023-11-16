@@ -6,6 +6,7 @@ from data.components.creatures.player import Player
 from data.components.creatures.enemy import Enemy
 from data.components.containers.tiles.tile import Tile
 from data.components.containers.controller import Controller
+from data.components.creatures.ui import Ui
 
 class Level:
     # todo: name_fase != map_name?
@@ -25,6 +26,7 @@ class Level:
 
 
         self.generate_map()
+        self.ui = Ui(self.controller)
 
     # todo: tratamento de excessoes try
     def __extract_map(self, map_name):
@@ -45,7 +47,7 @@ class Level:
                          self.controller.visible_sprites, self.controller.obstacles_sprites])
                 elif col == 'p':
                     self.controller.player = Player(
-                        "player", 100, (x, y), [self.controller.visible_sprites, self.controller.player_sprite], self.controller.visible_sprites, self.controller.obstacles_sprites,self.controller.create_attack,self.controller.destroy_attack)
+                        "player", 100, (x, y), [self.controller.visible_sprites, self.controller.player_sprite], self.controller.obstacles_sprites,self.controller.create_attack,self.controller.destroy_attack)
                 elif col == 'e':
                     self.controller.enemies = Enemy(
                         "enemy", 100, (x, y), [self.controller.visible_sprites,self.controller.attackable_sprites], self.controller.visible_sprites, self.controller.obstacles_sprites)
@@ -62,6 +64,7 @@ class Level:
         self.controller.visible_sprites.enemy_update(self.controller.player)
         self.controller.player_attack_logic()
         self.controller.player_collect_item()
+        self.ui.display()
     
         
     # getters e setters
