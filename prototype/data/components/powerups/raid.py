@@ -2,8 +2,8 @@ from data.components.powerups.powerup import Powerup
 import pygame
 
 class Raid(Powerup):
-    def __init__(self, player, groups):
-        super().__init__(player, groups)
+    def __init__(self, name, player, groups):
+        super().__init__(name, player, groups)
         direction = player.status
 
         self.damage = 40

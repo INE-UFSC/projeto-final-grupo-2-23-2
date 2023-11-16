@@ -4,8 +4,8 @@ import pygame
 import os
 
 class Guard(Powerup):
-    def __init__(self, player, groups):
-        super().__init__(player, groups)
+    def __init__(self, name, player, groups):
+        super().__init__(name, player, groups)
         direction = player.status
         self.speed = 2
         self.cooldown = 500

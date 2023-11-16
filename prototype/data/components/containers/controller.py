@@ -23,7 +23,7 @@ class Controller:
         
         
     def create_attack(self):
-        self.current_attack = Raid(self.player,[self.visible_sprites,self.attacks_sprites])
+        self.current_attack = Raid("raid", self.player,[self.visible_sprites,self.attacks_sprites])
         
     def destroy_attack(self):
         if self.current_attack != None:
@@ -32,7 +32,7 @@ class Controller:
             # self.player.attacking = False
 
     def create_defense(self):
-        self.current_defense = Guard(self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
+        self.current_defense = Guard("guard",self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
         
     def destroy_defense(self):
         if self.current_defense != None:
