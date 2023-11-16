@@ -7,7 +7,8 @@ class OffensiveItem(Item):
         direction = player.status
 
         self.damage = 40
-        self.cooldown = 150
+        self.duration = 150
+        self.cooldown = 400
         self.time = None
         
         if "right" in direction:

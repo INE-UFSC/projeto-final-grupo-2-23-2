@@ -2,10 +2,9 @@ from data.components.creatures.creature import Creature
 from data.components.creatures.inventory import Inventory
 import pygame
 import os
-from data.components.creatures.support import import_folder
 
 class Player(Creature):
-    def __init__(self, name, hp, position, groups, obstacle_sprites, generate_attack, destroy_attack, generate_defense, destroy_defense):
+    def __init__(self, name, hp, position, groups, obstacle_sprites):
         super().__init__(name, hp, position, groups, obstacle_sprites)
         
         # todo: analisar heranca inimigo jogador
@@ -27,48 +26,12 @@ class Player(Creature):
 
         # items
         self.item_inventory = Inventory()
-        self.weapon = None
-        self.defense = None
-        self.dash = None
 
         # player actions
         self.deffending = False
         self.dashing = False
         self.picking = False
-        
-        # metodos vindos de fase
-        self.generate_attack = generate_attack
-        self.destroy_attack = destroy_attack
-        self.generate_defense = generate_defense
-        self.destroy_defense = destroy_defense
 
-    
-    def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 
-        self.animations = {
-            'up': [], 'down': [], 'left': [], 'right': [],
-            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
-            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': [],
-            'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': [],
-            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': []
-        }
-        for animation in self.animations.keys():
-            full_path = path + "/" + animation
-            self.animations[animation] = import_folder(full_path)
-
-    def animate(self):
-        animation = self.animations[self.status]
-
-        # loop over the frame index
-        self.frame_index += self.animation_speed
-        if self.frame_index >= (len(animation)):
-            self.frame_index = 0
-
-        # set the image
-        self.image = animation[int(self.frame_index)]
-        self.__hitbox = self.rect.inflate(0, -26)
-
-        self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -103,66 +66,8 @@ class Player(Creature):
                 else:
                     splited_status[1] = "dash"
                     self.status = "_".join(splited_status)
-
-    def input(self):
-        keys = pygame.key.get_pressed()
-        current_time = pygame.time.get_ticks()
-        
-        # movement input
-        if not self.dashing:
-            if keys[pygame.K_UP] and self.moving:
-                self.direction.y = -1   
-                self.status = 'up'
-
-            elif keys[pygame.K_DOWN] and self.moving:
-                self.direction.y = 1  
-                self.status = 'down'
-            else:
-                self.direction.y = 0
-
-            if keys[pygame.K_LEFT] and self.moving:
-                self.direction.x = -1
-                self.status = 'left'
-
-            elif keys[pygame.K_RIGHT] and self.moving:
-                self.direction.x = 1
-                self.status = 'right'
-            else:
-                self.direction.x = 0
-        
-        # attack input
-        if keys[pygame.K_SPACE]:
-            if (self.weapon is not None) and (not self.attacking):
-                self.attacking = True
-                self.weapon.time = pygame.time.get_ticks()
-                self.generate_attack()
-        
-        # pick input
-        if keys[pygame.K_c]:
-            self.picking = True
-        else:
-            self.picking = False
-        
-        # deffend input
-        if keys[pygame.K_LCTRL]:
-            if self.defense is not None:
-                self.deffending = True
-                self.defense.time = pygame.time.get_ticks()
-                self.generate_defense()
-
-
-        # dash input 
-        if keys[pygame.K_LSHIFT]:
-            if self.dash is not None:
-                try:
-                    if current_time - self.dash.time >= self.dash.cooldown:
-                        self.use_dash()
-                except:
-                    self.use_dash()
             
     def update(self):
-        self.input()
-        self.cooldowns()
         self.get_status()
         self.animate()
         self.move()
@@ -170,12 +75,17 @@ class Player(Creature):
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
+        destroy_defense = False
+        destroy_attack = False
+
         if self.attacking:
             self.moving = False
-            if current_time - self.weapon.time >= self.weapon.cooldown:
+            weapon = self.inventory.weapon
+            
+            if current_time - weapon.time >= weapon.duration:
                 self.attacking = False
                 self.moving = True
-                self.destroy_attack()
+                destroy_attack = True
                 self.status = self.status.split("_")[0]
         
         if self.invincible:
@@ -183,27 +93,34 @@ class Player(Creature):
                 self.invincible = False
 
         if self.deffending:
+            defense = self.inventory.defense
             self.moving = False
-            if current_time - self.defense.time >= self.defense.cooldown:
+            
+            if current_time - defense.time >= defense.cooldown:
                 self.deffending = False
                 self.moving = True
-                self.destroy_defense()
+                destroy_defense = True
                 self.status = self.status.split("_")[0]
 
         if self.dashing:
-            self.speed = self.dash.speed
-            self.direction = self.dash.direction
+            dash = self.inventory.dash
+            self.speed = dash.speed
+            self.direction = dash.direction
             
-            if current_time - self.dash.time >= self.dash.duration:
+            if current_time - dash.time >= dash.duration:
                 self.dashing = False
                 self.invincible = False
                 self.speed = self.normal_speed
             
                 self.status = self.status.split("_")[0]
 
+        return destroy_attack, destroy_defense
+
     def use_dash(self):
-        self.dash.get_player_direction()
-        self.dash.time = pygame.time.get_ticks()
+        dash = self.inventory.dash
+
+        dash.get_player_direction()
+        dash.time = pygame.time.get_ticks()
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()

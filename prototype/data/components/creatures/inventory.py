@@ -5,6 +5,10 @@ class Inventory:
     def __init__(self):
         self.size = 0
         self.items = []
+        
+        self.weapon = None
+        self.defense = None
+        self.dash = None
 
     def add_item(self, item):
         self.items.append(item)

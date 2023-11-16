@@ -32,7 +32,7 @@ class Controller:
             # self.player.attacking = False
 
     def create_defense(self):
-        self.current_defense = DefensiveItem(self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
+        self.current_defense = DefensiveItem(self.player,[self.visible_sprites,self.deffense_sprites])
         
     def destroy_defense(self):
         if self.current_defense != None:
@@ -49,7 +49,7 @@ class Controller:
                                 target_sprite.kill()
                             else:
                                 if target_sprite.invincible == False:
-                                    target_sprite.take_damage(self.player.weapon.damage)
+                                    target_sprite.take_damage(self.player.inventory.weapon.damage)
                                     
     def player_collect_item(self):
         for item_sprite in self.item_sprites:
@@ -57,11 +57,17 @@ class Controller:
             if collision_sprites and self.player.picking:
                 self.player.item_inventory.add_item(item_sprite.name)
                 if 'weapon' in item_sprite.name:
-                    self.player.weapon = OffensiveItem(self.player,[])
+                    self.player.inventory.weapon = OffensiveItem(self.player,[])
                 if 'defensive' in item_sprite.name:
-                    self.player.defense = DefensiveItem(self.player,[])
+                    self.player.inventory.defense = DefensiveItem(self.player,[])
                 if 'dash' in item_sprite.name:
-                    self.player.dash = DashItem(self.player,[])
+                    self.player.inventory.dash = DashItem(self.player,[])
                     
                 item_sprite.kill()
 
+    def player_cooldowns(self):
+        cd = self.player.cooldowns()
+        if cd[0] == True:
+            self.destroy_attack()
+        if cd[1] == True:
+            self.destroy_defense()

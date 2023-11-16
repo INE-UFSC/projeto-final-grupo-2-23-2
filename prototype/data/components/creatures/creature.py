@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import pygame
 import os
 from data.components.creatures.inventory import Inventory
+from data.components.creatures.support import import_folder
 
 
 class Creature(pygame.sprite.Sprite, ABC):
@@ -28,6 +29,32 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.invincible_time = None
         self.invincible_cooldown = 300
     
+    def import_assets(self):
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 
+        self.animations = {
+            'up': [], 'down': [], 'left': [], 'right': [],
+            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
+            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': [],
+            'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': [],
+            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': []
+        }
+        for animation in self.animations.keys():
+            full_path = path + "/" + animation
+            self.animations[animation] = import_folder(full_path)
+
+    def animate(self):
+        animation = self.animations[self.status]
+
+        # loop over the frame index
+        self.frame_index += self.animation_speed
+        if self.frame_index >= (len(animation)):
+            self.frame_index = 0
+
+        # set the image
+        self.image = animation[int(self.frame_index)]
+        self.hitbox = self.rect.inflate(0, -26)
+
+        self.rect = self.image.get_rect(center = self.hitbox.center)
     def move(self):
         # normalizando a velocidade na diagonal
         if self.direction.magnitude() != 0:
