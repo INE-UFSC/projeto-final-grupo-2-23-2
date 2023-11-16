@@ -1,6 +1,5 @@
 from data.components.creatures.creature import Creature
 from data.components.creatures.inventory import Inventory
-from data.components.items.dash_item import DashItem
 import pygame
 import os
 from data.components.creatures.support import import_folder
@@ -10,48 +9,38 @@ class Player(Creature):
         super().__init__(name, hp, position, groups, obstacle_sprites)
         
         # todo: analisar heranca inimigo jogador
-        self.__name = name
+        self.name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
         self.hitbox = self.rect.inflate(0, -26)
-
+        self.sprite_type = 'player'
+        self.import_assets()
+        
         # movement 
         self.status = 'down'
         self.frame_index = 0
         self.animation_speed = 0.15
-
         self.direction = pygame.math.Vector2()
         self.moving = True
-        
+        self.normal_speed = 5
+
         # items
+        self.item_inventory = Inventory()
         self.weapon = None
         self.defense = None
         self.dash = None
 
-        self.normal_speed = 5
-        
-        # actions
-        self.attacking = False
+        # player actions
         self.deffending = False
         self.dashing = False
         self.picking = False
         
-        self.invencible = False
-        self.invincible_time = None
-        self.invincible_cooldown = 500
-        
-        
-        self.item_inventory = Inventory()
-        
-        #metodos vindos de fase
+        # metodos vindos de fase
         self.generate_attack = generate_attack
         self.destroy_attack = destroy_attack
         self.generate_defense = generate_defense
         self.destroy_defense = destroy_defense
-        self.sprite_type = 'player'
-
-        self.import_assets()
 
     
     def import_assets(self):
@@ -80,7 +69,6 @@ class Player(Creature):
         self.__hitbox = self.rect.inflate(0, -26)
 
         self.rect = self.image.get_rect(center = self.hitbox.center)
-
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -219,31 +207,4 @@ class Player(Creature):
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()
-
-
-    # getters e setters
-    @property
-    def name(self):
-        return self.__name
-    
-    @name.setter
-    def name(self, name):
-        self.__naem = name
-    
-    # @property
-    # def rect(self):
-    #     return self.__rect
-    
-    # @rect.setter
-    # def rect(self, rect):
-    #     self.__rect = rect
-    
-    # @property
-    # def hitbox(self):
-    #     return self.__hitbox
-    
-    # @rect.setter
-    # def hitbox(self, hitbox):
-    #     self.__hitbox = hitbox
-
 

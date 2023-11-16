@@ -7,29 +7,26 @@ class Enemy(Creature):
     def __init__(self, name, hp, position, groups, visible_sprites, obstacle_sprites):
         super().__init__(name, hp, position, groups, obstacle_sprites)
 
-        self.__image = pygame.image.load(os.path.dirname(os.path.abspath(
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/enemies/' + name + '.png').convert_alpha()
-        self.__rect = self.image.get_rect(topleft=position)
-        self.__hitbox = self.__rect.inflate(0, -10)
-        self.__status = 'idle'
-        self.__range = 300
-        self.__sprite_type = 'enemy'
-        self.__speed = 2
-        self.__attack_range = 50
-        self.__damage = 10
+        self.rect = self.image.get_rect(topleft=position)
+        self.hitbox = self.rect.inflate(0, -10)
+        self.status = 'idle'
+        self.range = 300
+        self.sprite_type = 'enemy'
+        self.speed = 2
+        self.attack_range = 50
+        self.damage = 10
         self.visible_sprites = visible_sprites
 
-        self.attacking = False
         self.attack_time = None
         self.attack_cooldown = 100
-        
-        self.invincible_time = None
-        self.invincible_cooldown = 320
+    
 
         self.origin = position
         
         #barra de hp
-        self.health_bar_size = self.__rect.width*1.5
+        self.health_bar_size = self.rect.width*1.5
         self.ratio_health_bar = hp / self.health_bar_size # tamanho da barra
         
     def get_player_distance_direction(self, player):
@@ -55,7 +52,6 @@ class Enemy(Creature):
 
         return (distance, direction)
         
-
     def get_status(self, player):
         distance_to_player = self.get_player_distance_direction(player)[0]
         distance_to_origin = self.return_to_origin()[0]
@@ -106,70 +102,6 @@ class Enemy(Creature):
                 self.invincible = False
         else:
             return True
-        
-    def update(self):
-        self.health_bar()
-        self.move()
-        self.cooldowns()
-
-#---------------------
-# -Getters e Setters-
-#---------------------
-
-    @property
-    def sprite_type(self):
-        return self.__sprite_type
-    
-    @property
-    def speed(self):
-        return self.__speed
-    
-    @property
-    def attack_range(self):
-        return self.__attack_range
-    
-    @property
-    def damage(self):
-        return self.__damage
-    @property
-    def image(self):
-        return self.__image
-    
-    @image.setter
-    def image(self, image):
-        self.__image = image
-    
-    @property
-    def status(self):
-        return self.__status
-    
-    @status.setter
-    def status(self, status):
-        self.__status = status
-
-    @property
-    def range(self):
-        return self.__range
-    
-    @range.setter
-    def range(self, range):
-        self.__range = range
-        
-    @property
-    def rect(self):
-        return self.__rect
-    
-    @rect.setter
-    def rect(self, rect):
-        self.__rect = rect
-
-    @property
-    def hitbox(self):
-        return self.__hitbox
-    
-    @hitbox.setter
-    def hitbox(self, hitbox):
-        self.__hitbox = hitbox 
 
     # todo: gambiarra
     def health_bar(self):
@@ -180,3 +112,14 @@ class Enemy(Creature):
 
         pygame.draw.rect(sv.surface, (255, 0, 0), (a0, a1, self.hp/self.ratio_health_bar, 10))
         pygame.draw.rect(sv.surface, (255, 255, 255), (a0, a1, self.health_bar_size, 10),1)
+
+
+    def update(self):
+        self.health_bar()
+        self.move()
+        self.cooldowns()
+
+#---------------------
+# -Getters e Setters-
+#---------------------
+

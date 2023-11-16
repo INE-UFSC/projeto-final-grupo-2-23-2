@@ -7,11 +7,11 @@ from data.components.items.dash_item import DashItem
 
 class Controller:
     def __init__(self):
-        self.__player = None
-        self.__enemies = None
+        self.player = None
+        self.enemies = None
         
-        self.__visible_sprites = YSortCameraGroup()
-        self.__obstacles_sprites = pygame.sprite.Group()
+        self.visible_sprites = YSortCameraGroup()
+        self.obstacles_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
         self.attacks_sprites = pygame.sprite.Group()
         self.deffense_sprites = pygame.sprite.Group()
@@ -39,7 +39,6 @@ class Controller:
             self.current_defense.kill()
             self.current_defense = None
 
-
     def player_attack_logic(self):
         if self.attacks_sprites:
             for attack_sprite in self.attacks_sprites:
@@ -52,7 +51,6 @@ class Controller:
                                 if target_sprite.invincible == False:
                                     target_sprite.take_damage(self.player.weapon.damage)
                                     
-
     def player_collect_item(self):
         for item_sprite in self.item_sprites:
             collision_sprites = pygame.sprite.spritecollide(item_sprite,self.player_sprite, False)
@@ -66,35 +64,4 @@ class Controller:
                     self.player.dash = DashItem(self.player,[])
                     
                 item_sprite.kill()
-    
-    @property
-    def visible_sprites(self):
-        return self.__visible_sprites
 
-    @visible_sprites.setter
-    def visible_sprites(self, visible_sprites):
-        self.__visible_sprites = visible_sprites
-
-    @property
-    def obstacles_sprites(self):
-        return self.__obstacles_sprites
-
-    @obstacles_sprites.setter
-    def obstacles_sprites(self, obstacles_sprites):
-        self.__obstacles_sprites = obstacles_sprites
-        
-    @property
-    def player(self):
-        return self.__player
-
-    @player.setter
-    def player(self, player):
-        self.__player = player
-
-    @property
-    def enemies(self):
-        return self.__enemies
-
-    @enemies.setter
-    def enemies(self, enemies):
-        self.__enemies = enemies
