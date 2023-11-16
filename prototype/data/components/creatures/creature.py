@@ -10,25 +10,23 @@ class Creature(pygame.sprite.Sprite, ABC):
         super().__init__(groups)
 
         # atributos concretos
-        self.__name = name
-        self.__max_hp = hp
-        self.__hp = hp
-        self.__speed = 5
-        self.__inventory = Inventory()
+        self.name = name
+        self.max_hp = hp
+        self.hp = hp
+        self.speed = 5
+        self.inventory = Inventory()
 
         # atributos mais subjetivos
-        self.__position = position
+        self.position = position
         # vetor direcao
-        self.__direction = pygame.math.Vector2()
-        self.__obstacle_sprites = obstacle_sprites
-        
+        self.direction = pygame.math.Vector2()
+        self.obstacle_sprites = obstacle_sprites
         
         self.attacking = False
-        self.invincible = False
-        
-        self.invincible_time = None
-        self.invincible_cooldown = None
 
+        self.invincible = False
+        self.invincible_time = None
+        self.invincible_cooldown = 300
     
     def move(self):
         # normalizando a velocidade na diagonal
@@ -77,59 +75,6 @@ class Creature(pygame.sprite.Sprite, ABC):
         if self.hp > self.max_hp:
             self.hp = self.max_hp 
 
-    # todo
-    def attack(self):
-        self.__offensive_item.attack()
-    # todo?
-    def deffend(self):
-        self.__defensive_item.deffend()
-    
     @abstractmethod
     def update(self):
         pass
-    
-    
-    # getters e setters
-    @property
-    def name(self):
-        return self.__name
-
-    @property
-    def hp(self):
-        return self.__hp
-
-    @hp.setter
-    def hp(self, hp):
-        self.__hp = hp
-    
-    @property
-    def max_hp(self):
-        return self.__max_hp
-    
-    @property
-    def speed(self):
-        return self.__speed
-    
-    @speed.setter
-    def speed(self, speed):
-        self.__speed = speed
-    
-    @property
-    def inventory(self):
-        return self.__inventory
-    
-    @property
-    def direction(self):
-        return self.__direction
-
-    @direction.setter
-    def direction(self, direction):
-        self.__direction = direction
-
-    @property
-    def position(self):
-        return self.__position
-    
-    @property
-    def obstacle_sprites(self):
-        return self.__obstacle_sprites
