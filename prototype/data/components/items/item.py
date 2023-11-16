@@ -1,5 +1,4 @@
 import pygame
-import os
 
 class Item(pygame.sprite.Sprite):
     def __init__(self, player, groups):

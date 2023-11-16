@@ -8,7 +8,7 @@ class Player(Creature):
     def __init__(self, name, hp, position, groups, obstacle_sprites, generate_attack, destroy_attack, generate_defense, destroy_defense):
         super().__init__(name, hp, position, groups, obstacle_sprites)
         
-        # todo: analisar heranca inimigo jogador
+
         self.name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
@@ -23,6 +23,7 @@ class Player(Creature):
         self.animation_speed = 0.15
         self.direction = pygame.math.Vector2()
         self.moving = True
+
         self.normal_speed = 5
 
         # items
@@ -166,7 +167,7 @@ class Player(Creature):
         self.get_status()
         self.animate()
         self.move()
-        # self.health_bar()
+        print(self.item_inventory.items)
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()

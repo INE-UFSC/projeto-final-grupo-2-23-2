@@ -10,6 +10,7 @@ class Enemy(Creature):
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/enemies/' + name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
+
         self.hitbox = self.rect.inflate(0, -10)
         self.status = 'idle'
         self.range = 300
@@ -101,18 +102,28 @@ class Enemy(Creature):
                 self.invincible = False
         else:
             return True
+    
+    def show_health_bar(self):
+        # coordinarion calculation
+        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (self.health_bar_size-self.rect.width)/2
+        y = self.rect.topleft[1] - self.visible_sprites.player.rect.centery + self.visible_sprites.half_heigth - 20
+        self.desvio_y = self.rect.centery - self.visible_sprites.half_heigth
 
-    def health_bar(self):
-        sv = self.visible_sprites
-        a0 = self.rect.topleft[0] - sv.player.rect.centerx + sv.half_width - (self.health_bar_size-self.rect.width)/2
-        a1 = self.rect.topleft[1] - sv.player.rect.centery + sv.half_heigth - 20
-        self.desvio_y = self.rect.centery - sv.half_heigth
+        # bg rect
+        bg_rect = pygame.Rect(x, y, self.rect.width*1.5, 12) 
+        pygame.draw.rect(self.visible_sprites.surface, "#222222", bg_rect) 
 
-        pygame.draw.rect(sv.surface, (255, 0, 0), (a0, a1, self.hp/self.ratio_health_bar, 10))
-        pygame.draw.rect(sv.surface, (255, 255, 255), (a0, a1, self.health_bar_size, 10),1)
+        # insider rect
+        ratio = self.hp / self.max_hp
+        current_width = bg_rect.width * ratio
+        current_rect = bg_rect.copy()
+        current_rect.width = current_width
+
+        pygame.draw.rect(self.visible_sprites.surface, "red", current_rect)
+        pygame.draw.rect(self.visible_sprites.surface, "#111111", bg_rect, 3)
 
     def update(self):
-        self.health_bar()
+        self.show_health_bar()
         self.move()
         self.cooldowns()
 
