@@ -1,4 +1,5 @@
 import pygame
+import os
 
 class Ui():
     def __init__(self, controller):
@@ -6,7 +7,7 @@ class Ui():
         self.controller = controller
         self.display_surface = pygame.display.get_surface()
         # path and font size
-        self.font = pygame.font.Font('../../../resources/graphics/font/asman.ttf', 18)
+        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/font/asman.ttf', 18)
 
         # bar setup
         self.ratio_health_bar = self.controller.player.hp / 200 # tamanho da barra
