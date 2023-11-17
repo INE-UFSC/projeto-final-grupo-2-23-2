@@ -33,10 +33,10 @@ class Ui():
 
         # item rect
         for i in range(inventory.size()):
-            item_width, item_height = inventory.items[i].image.get_size()
+            item_width, item_height = inventory.items[i].icon.get_size()
             x_position = bg_rect.left + (size * i) + (size - item_width) // 2
             y_position = bg_rect.top + (size - item_height) // 2
-            self.display_surface.blit(inventory.items[i].image, (x_position, y_position))
+            self.display_surface.blit(inventory.items[i].icon, (x_position, y_position))
             pygame.draw.rect(self.display_surface, "#111111", bg_rect, 5)
 
     def display(self):
