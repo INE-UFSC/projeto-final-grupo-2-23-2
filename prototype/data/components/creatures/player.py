@@ -204,4 +204,3 @@ class Player(Creature):
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()
-
