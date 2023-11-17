@@ -14,7 +14,7 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.name = name
         self.max_hp = hp
         self.hp = hp
-        self.speed = 5
+        self.speed = 3
         self.inventory = Inventory()
 
         # atributos mais subjetivos
@@ -27,7 +27,7 @@ class Creature(pygame.sprite.Sprite, ABC):
 
         self.invincible = False
         self.invincible_time = None
-        self.invincible_cooldown = 300
+        self.invincible_cooldown = 400
     
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 

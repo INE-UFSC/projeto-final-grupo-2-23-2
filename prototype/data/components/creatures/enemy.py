@@ -15,13 +15,13 @@ class Enemy(Creature):
         self.status = 'idle'
         self.range = 300
         self.sprite_type = 'enemy'
-        self.speed = 4
+        self.speed = 3
         self.attack_range = 50
         self.damage = 25
         self.visible_sprites = visible_sprites
 
         self.attack_time = None
-        self.attack_cooldown = 100
+        self.attack_cooldown = 1000
     
         self.origin = position
         
