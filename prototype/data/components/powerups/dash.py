@@ -1,9 +1,9 @@
-from data.components.items.item import Item
+from data.components.powerups.powerup import Powerup
 import pygame
 
-class DashItem(Item):
-    def __init__(self, player, groups):
-        super().__init__(player, groups)
+class Dash(Powerup):
+    def __init__(self, name, player, groups):
+        super().__init__(name, player, groups)
         self.time = None
         self.duration = 250
         self.cooldown = 500
