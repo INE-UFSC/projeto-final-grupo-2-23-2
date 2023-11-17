@@ -1,7 +1,9 @@
 import pygame
 import sys
 from data.components.containers.level_container import LevelContainer
+from data.components.containers.controller import Controller
 from data.views.view_container import ViewContainer
+
 
 
 class Game:
@@ -10,22 +12,22 @@ class Game:
         pygame.init()
 
         # atributos
-        self.__player = None #todo: tem que ficar aqui?
-        self.__difficulty = None
-        self.__views = ViewContainer()
+        self.playerr = None #todo: tem que ficar aqui?
+        self.difficulty = None
+        self.views = ViewContainer()
 
         # vai pra na tela depois, todo: nao vimos mvcnho
-        self.__width = 1280
-        self.__heigth = 768
-        self.__fps = 60
-        self.__clock = pygame.time.Clock()
-        self.view = pygame.display.set_mode((self.__width, self.__heigth))
+        self.width = 1280
+        self.heigth = 768
+        self.fps = 60
+        self.clock = pygame.time.Clock()
+        self.view = pygame.display.set_mode((self.width, self.heigth))
         pygame.display.set_caption('PartsFinder')
         #
 
         # demais atributos
-        self.__levels = LevelContainer()
-        self.__current_level = self.levels.get_level()
+        self.levels = LevelContainer()
+        self.current_level = self.levels.get_level()
 
     # comeca
     def start(self):
@@ -48,47 +50,73 @@ class Game:
 
             # roda fase
             self.current_level.run()
+            self.input_handler()
 
             # atualiza display
             pygame.display.update()
 
             # define fps do jogo
-            self.__clock.tick(self.__fps)
+            self.clock.tick(self.fps)
 
     def menu_principal(self):
         pass
 
-    
+    def input_handler(self):
+        keys = pygame.key.get_pressed()
+        current_time = pygame.time.get_ticks()
+        controller = self.current_level.controller
+        player = controller.player
+
+
+        # movement input
+        if not player.dashing:
+            if keys[pygame.K_UP] and player.moving:
+                player.direction.y = -1   
+                player.status = 'up'
+
+            elif keys[pygame.K_DOWN] and player.moving:
+                player.direction.y = 1  
+                player.status = 'down'
+            else:
+                player.direction.y = 0
+
+            if keys[pygame.K_LEFT] and player.moving:
+                player.direction.x = -1
+                player.status = 'left'
+
+            elif keys[pygame.K_RIGHT] and player.moving:
+                player.direction.x = 1
+                player.status = 'right'
+            else:
+                player.direction.x = 0
         
-    # getters e setters
-    @property
-    def player(self):
-        return self.__player
+        # raid input
+        if keys[pygame.K_SPACE]:
+            if player.inventory.contains("raid") and (not player.attacking):
+                player.attacking = True
+                player.inventory.get("raid").time = pygame.time.get_ticks()
+                controller.create_attack()
+        
+        # pick input
+        if keys[pygame.K_c]:
+            player.picking = True
+        else:
+            player.picking = False
+        
+        # guard input
+        if keys[pygame.K_LCTRL]:
+            if player.inventory.contains("guard"):
+                player.deffending = True
+                player.inventory.get("guard").time = pygame.time.get_ticks()
+                controller.create_defense()
 
-    @player.setter
-    def player(self, player):
-        self.__player = player
 
-    @property
-    def difficulty(self):
-        return self.__difficulty
-
-    @difficulty.setter
-    def difficulty(self, difficulty):
-        self.__difficulty = difficulty
-
-    @property
-    def views(self):
-        return self.__views
-
-    @property
-    def levels(self):
-        return self.__levels
-
-    @property
-    def current_level(self):
-        return self.__current_level
-
-    @current_level.setter
-    def current_level(self, current_level):
-        self.__current_level = current_level
+        # dash input 
+        if keys[pygame.K_LSHIFT]:
+            if player.inventory.contains("dash"):
+                try:
+                    if current_time - player.inventory.get("dash").time >= player.inventory.get("dash").cooldown:
+                        player.use_dash()
+                except:
+                    player.use_dash()
+        

@@ -1,11 +1,11 @@
 from data.components.creatures.creature import Creature
 from data.components.creatures.inventory import Inventory
+from data.components.creatures.support import import_folder
 import pygame
 import os
-from data.components.creatures.support import import_folder
 
 class Player(Creature):
-    def __init__(self, name, hp, position, groups, obstacle_sprites, generate_attack, destroy_attack, generate_defense, destroy_defense):
+    def __init__(self, name, hp, position, groups, obstacle_sprites):
         super().__init__(name, hp, position, groups, obstacle_sprites)
         
         self.name = name
@@ -31,41 +31,7 @@ class Player(Creature):
         # player actions
         self.deffending = False
         self.dashing = False
-        self.picking = False
-        
-        # metodos vindos de fase
-        self.generate_attack = generate_attack
-        self.destroy_attack = destroy_attack
-        self.generate_defense = generate_defense
-        self.destroy_defense = destroy_defense
-
-    
-    def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 
-        self.animations = {
-            'up': [], 'down': [], 'left': [], 'right': [],
-            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
-            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': [],
-            'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': [],
-            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': []
-        }
-        for animation in self.animations.keys():
-            full_path = path + "/" + animation
-            self.animations[animation] = import_folder(full_path)
-
-    def animate(self):
-        animation = self.animations[self.status]
-
-        # loop over the frame index
-        self.frame_index += self.animation_speed
-        if self.frame_index >= (len(animation)):
-            self.frame_index = 0
-
-        # set the image
-        self.image = animation[int(self.frame_index)]
-        self.hitbox = self.rect.inflate(0, -26)
-
-        self.rect = self.image.get_rect(center = self.hitbox.center)
+        self.picking = False    
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -101,77 +67,22 @@ class Player(Creature):
                     splited_status[1] = "dash"
                     self.status = "_".join(splited_status)
 
-    def input(self):
-        keys = pygame.key.get_pressed()
-        current_time = pygame.time.get_ticks()
-        
-        # movement input
-        if not self.dashing:
-            if keys[pygame.K_UP] and self.moving:
-                self.direction.y = -1   
-                self.status = 'up'
-
-            elif keys[pygame.K_DOWN] and self.moving:
-                self.direction.y = 1  
-                self.status = 'down'
-            else:
-                self.direction.y = 0
-
-            if keys[pygame.K_LEFT] and self.moving:
-                self.direction.x = -1
-                self.status = 'left'
-
-            elif keys[pygame.K_RIGHT] and self.moving:
-                self.direction.x = 1
-                self.status = 'right'
-            else:
-                self.direction.x = 0
-        
-        # raid input
-        if keys[pygame.K_SPACE]:
-            if self.inventory.contains("raid") and (not self.attacking):
-                self.attacking = True
-                self.inventory.get("raid").time = pygame.time.get_ticks()
-                self.generate_attack()
-        
-        # pick input
-        if keys[pygame.K_c]:
-            self.picking = True
-        else:
-            self.picking = False
-        
-        # guard input
-        if keys[pygame.K_LCTRL]:
-            if self.inventory.contains("guard"):
-                self.deffending = True
-                self.inventory.get("guard").time = pygame.time.get_ticks()
-                self.generate_defense()
-
-
-        # dash input 
-        if keys[pygame.K_LSHIFT]:
-            if self.inventory.contains("dash"):
-                try:
-                    if current_time - self.inventory.get("dash").time >= self.inventory.get("dash").cooldown:
-                        self.use_dash()
-                except:
-                    self.use_dash()
-            
     def update(self):
-        self.input()
-        self.cooldowns()
         self.get_status()
         self.animate()
         self.move()
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
+        destroy_defense = False
+        destroy_attack = False
+
         if self.attacking:
             self.moving = False
             if current_time - self.inventory.get("raid").time >= self.inventory.get("raid").cooldown:
                 self.attacking = False
                 self.moving = True
-                self.destroy_attack()
+                destroy_attack = True
                 self.status = self.status.split("_")[0]
         
         if self.invincible:
@@ -183,7 +94,7 @@ class Player(Creature):
             if current_time - self.inventory.get("guard").time >= self.inventory.get("guard").cooldown:
                 self.deffending = False
                 self.moving = True
-                self.destroy_defense()
+                destroy_defense = True
                 self.status = self.status.split("_")[0]
 
         if self.dashing:
@@ -197,6 +108,8 @@ class Player(Creature):
                 self.speed = self.normal_speed
             
                 self.status = self.status.split("_")[0]
+
+        return destroy_attack, destroy_defense
 
     def use_dash(self):
         self.inventory.get("dash").get_player_direction()

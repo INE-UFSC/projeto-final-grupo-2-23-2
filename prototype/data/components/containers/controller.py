@@ -61,6 +61,12 @@ class Controller:
                     self.player.inventory.add_item(Guard(item_sprite.name, self.player,[]))
                 if 'dash' == item_sprite.name: 
                     self.player.inventory.add_item(Dash(item_sprite.name, self.player,[]))
-                    
+                   
                 item_sprite.kill()
 
+    def player_cooldowns(self):
+        cd = self.player.cooldowns()
+        if cd[0] == True:
+            self.destroy_attack()
+        if cd[1] == True:
+            self.destroy_defense()
