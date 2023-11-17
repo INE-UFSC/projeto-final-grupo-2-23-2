@@ -90,19 +90,12 @@ class Game:
             else:
                 player.direction.x = 0
         
-        # attack input
+        # raid input
         if keys[pygame.K_SPACE]:
-            weapon = player.inventory.weapon
-            if (weapon is not None) and (not player.attacking):
-                try:
-                    if current_time - weapon.time >= weapon.cooldown:
-                        player.attacking = True
-                        weapon.time = pygame.time.get_ticks()
-                        controller.create_attack()
-                except:
-                    player.attacking = True
-                    weapon.time = pygame.time.get_ticks()
-                    controller.create_attack()
+            if player.inventory.contains("raid") and (not player.attacking):
+                player.attacking = True
+                player.inventory.get("raid").time = pygame.time.get_ticks()
+                controller.create_attack()
         
         # pick input
         if keys[pygame.K_c]:
@@ -110,21 +103,19 @@ class Game:
         else:
             player.picking = False
         
-        # deffend input
+        # guard input
         if keys[pygame.K_LCTRL]:
-            defense = player.inventory.defense
-            if defense is not None:
+            if player.inventory.contains("guard"):
                 player.deffending = True
-                defense.time = pygame.time.get_ticks()
+                player.inventory.get("guard").time = pygame.time.get_ticks()
                 controller.create_defense()
 
 
         # dash input 
         if keys[pygame.K_LSHIFT]:
-            dash = player.inventory.dash
-            if dash is not None:
+            if player.inventory.contains("dash"):
                 try:
-                    if current_time - dash.time >= dash.cooldown:
+                    if current_time - player.inventory.get("dash").time >= player.inventory.get("dash").cooldown:
                         player.use_dash()
                 except:
                     player.use_dash()

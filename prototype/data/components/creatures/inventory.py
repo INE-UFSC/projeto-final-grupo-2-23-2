@@ -1,18 +1,29 @@
-from data.components.items.item import Item
-
-
 class Inventory:
     def __init__(self):
-        self.size = 0
-        self.items = []
-        
-        self.weapon = None
-        self.defense = None
-        self.dash = None
+        self.__items = []
+
+    @property
+    def items(self):
+        return self.__items
 
     def add_item(self, item):
         self.items.append(item)
-        self.size += 1
         
     def remove_item(self, item):
         self.items.remove(item)
+    
+    def contains(self, name):
+        for item in self.items:
+            if item.name == name:
+                return True
+        else:
+            return False
+    
+    def get(self, name):
+        for item in self.items:
+            if item.name == name:
+                return item
+        return None
+
+    def size(self):
+        return len(self.items)

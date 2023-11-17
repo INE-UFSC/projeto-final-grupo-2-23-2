@@ -1,5 +1,6 @@
 from data.components.creatures.creature import Creature
 from data.components.creatures.inventory import Inventory
+from data.components.creatures.support import import_folder
 import pygame
 import os
 
@@ -7,7 +8,6 @@ class Player(Creature):
     def __init__(self, name, hp, position, groups, obstacle_sprites):
         super().__init__(name, hp, position, groups, obstacle_sprites)
         
-        # todo: analisar heranca inimigo jogador
         self.name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
@@ -22,16 +22,16 @@ class Player(Creature):
         self.animation_speed = 0.15
         self.direction = pygame.math.Vector2()
         self.moving = True
+
         self.normal_speed = 5
 
         # items
-        self.item_inventory = Inventory()
+        self.inventory = Inventory()
 
         # player actions
         self.deffending = False
         self.dashing = False
-        self.picking = False
-
+        self.picking = False    
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -66,12 +66,11 @@ class Player(Creature):
                 else:
                     splited_status[1] = "dash"
                     self.status = "_".join(splited_status)
-            
+
     def update(self):
         self.get_status()
         self.animate()
         self.move()
-        # self.health_bar()
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
@@ -80,9 +79,7 @@ class Player(Creature):
 
         if self.attacking:
             self.moving = False
-            weapon = self.inventory.weapon
-            
-            if current_time - weapon.time >= weapon.duration:
+            if current_time - self.inventory.get("raid").time >= self.inventory.get("raid").cooldown:
                 self.attacking = False
                 self.moving = True
                 destroy_attack = True
@@ -93,17 +90,15 @@ class Player(Creature):
                 self.invincible = False
 
         if self.deffending:
-            defense = self.inventory.defense
             self.moving = False
-            
-            if current_time - defense.time >= defense.cooldown:
+            if current_time - self.inventory.get("guard").time >= self.inventory.get("guard").cooldown:
                 self.deffending = False
                 self.moving = True
                 destroy_defense = True
                 self.status = self.status.split("_")[0]
 
         if self.dashing:
-            dash = self.inventory.dash
+            dash = self.inventory.get("dash")
             self.speed = dash.speed
             self.direction = dash.direction
             
@@ -117,11 +112,8 @@ class Player(Creature):
         return destroy_attack, destroy_defense
 
     def use_dash(self):
-        dash = self.inventory.dash
-
-        dash.get_player_direction()
-        dash.time = pygame.time.get_ticks()
+        self.inventory.get("dash").get_player_direction()
+        self.inventory.get("dash").time = pygame.time.get_ticks()
         self.dashing = True
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()
-
