@@ -7,6 +7,8 @@ from data.components.creatures.enemy import Enemy
 from data.components.containers.tiles.tile import Tile
 from data.components.containers.controller import Controller
 from data.components.creatures.ui import Ui
+from data.components.creatures.support import import_csv_layout, import_folder
+from random import choice
 
 class Level:
     # todo: name_fase != map_name?
@@ -35,11 +37,68 @@ class Level:
             return json.load(file)
 
     def generate_map(self):
+        cont = self.controller
         # loop pela matriz
-        for lin_index, lin in enumerate(self.map):
-            for col_index, col in enumerate(lin):
-                x = col_index * self.tilesize
-                y = lin_index * self. tilesize
+        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_FloorBlocks.csv'),
+                  'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_Grass.csv'),
+                  'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_Objects.csv'),
+                  'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_Entities.csv')
+                  }
+        
+        graphics = {
+             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/grass'),
+             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/objects')
+        }
+
+        for style, layout in layout.items():
+            for lin_index, lin in enumerate(layout):
+                for col_index, col in enumerate(lin):
+                    if col != '-1':
+                        x = (col_index + 6) * self.tilesize
+                        y = (lin_index + 6) * self. tilesize
+                        
+                        if style == 'boundary':
+                            Tile((x,y),[cont.obstacles_sprites],'invisible')
+                        
+                        if style == 'grass':
+                                random_grass = choice(graphics['grass'])
+                                Tile((x,y), [cont.visible_sprites],'grass', random_grass)
+                        
+                        if style == 'object':
+                                surface = graphics['objects'][int(col)+13]
+                                Tile((x + (10 * 64), y + (5 * 64)), [cont.visible_sprites, cont.obstacles_sprites],'object', surface)
+
+                        if style == 'entity':
+                            if col == '393':
+                                  self.controller.enemies = Enemy("enemy", 100, (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
+                                  
+                            if col == '394':
+                                cont.player = Player("player", 100, (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
+                                
+                            if col == '376':
+                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'weapon_item')
+                            
+                            if col == '252':
+                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'defensive_item')
+
+                            if col == '89':
+                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'dash_item')
+
+        
+
+    def run(self):
+        # desenha e atualiza o jogo
+        self.controller.visible_sprites.custom_draw(self.controller.player)
+        self.controller.player_cooldowns()
+        self.controller.visible_sprites.update()
+        self.controller.visible_sprites.enemy_update(self.controller.player)
+        self.controller.player_attack_logic()
+        self.controller.player_collect_item()
+        self.ui.display()
+
+
+
+""" 
                 if col == 'x':
                     Tile("tree", (x, y), [
                          self.controller.visible_sprites, self.controller.obstacles_sprites])
@@ -58,14 +117,4 @@ class Level:
                 elif col == 's':
                     Tile("dash_item", (x, y), [
                          self.controller.visible_sprites, self.controller.item_sprites])
-                    
-    def run(self):
-        # desenha e atualiza o jogo
-        self.controller.visible_sprites.custom_draw(self.controller.player)
-        self.controller.player_cooldowns()
-        self.controller.visible_sprites.update()
-        self.controller.visible_sprites.enemy_update(self.controller.player)
-        self.controller.player_attack_logic()
-        self.controller.player_collect_item()
-        self.ui.display()
-        
+ """

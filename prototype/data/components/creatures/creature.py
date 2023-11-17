@@ -55,6 +55,7 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.hitbox = self.rect.inflate(0, -26)
 
         self.rect = self.image.get_rect(center = self.hitbox.center)
+        
     def move(self):
         # normalizando a velocidade na diagonal
         if self.direction.magnitude() != 0:

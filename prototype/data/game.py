@@ -46,7 +46,7 @@ class Game:
                 pygame.quit()
 
             # prenchendo display com verde, reseta a malha
-            self.current_level.surface.fill('darkgreen')
+            self.current_level.surface.fill('black')
 
             # roda fase
             self.current_level.run()

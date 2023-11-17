@@ -5,11 +5,12 @@ import os
 # todo : tratamento
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, name, position, groups):
+    def __init__(self, position, groups, sprite_type, surface = pygame.Surface((64,64))):
         super().__init__(groups)
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__)) + '/../../../../resources/graphics/objects/' + name + '.png').convert_alpha()
+        self.sprite_type = sprite_type
+        self.image = surface
+        if sprite_type == 'object':
+            self.rect = self.image.get_rect(topleft = (position[0], position[1] - 64))
+        
         self.rect = self.image.get_rect(topleft=position)
-        self.hitbox = self.rect.inflate(0, -20)
-        self. name = name
-        self.position = position
+        self.hitbox = self.rect.inflate(0, -10)

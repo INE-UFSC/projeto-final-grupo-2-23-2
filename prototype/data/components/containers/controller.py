@@ -55,12 +55,12 @@ class Controller:
         for item_sprite in self.item_sprites:
             collision_sprites = pygame.sprite.spritecollide(item_sprite,self.player_sprite, False)
             if collision_sprites and self.player.picking:
-                self.player.item_inventory.add_item(item_sprite.name)
-                if 'weapon' in item_sprite.name:
+                self.player.item_inventory.add_item(item_sprite.sprite_type)
+                if 'weapon' in item_sprite.sprite_type:
                     self.player.inventory.weapon = OffensiveItem(self.player,[])
-                if 'defensive' in item_sprite.name:
+                if 'defensive' in item_sprite.sprite_type:
                     self.player.inventory.defense = DefensiveItem(self.player,[])
-                if 'dash' in item_sprite.name:
+                if 'dash' in item_sprite.sprite_type:
                     self.player.inventory.dash = DashItem(self.player,[])
                     
                 item_sprite.kill()
