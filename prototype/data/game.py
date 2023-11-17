@@ -17,8 +17,8 @@ class Game:
         self.views = ViewContainer()
 
         # vai pra na tela depois, todo: nao vimos mvcnho
-        self.width = 1280
-        self.heigth = 768
+        self.width = 1920
+        self.heigth = 1080
         self.fps = 60
         self.clock = pygame.time.Clock()
         self.view = pygame.display.set_mode((self.width, self.heigth))

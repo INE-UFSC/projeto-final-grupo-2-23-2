@@ -5,9 +5,9 @@ class Dash(Powerup):
     def __init__(self, name, player, groups):
         super().__init__(name, player, groups)
         self.time = None
-        self.duration = 250
+        self.duration = 200
         self.cooldown = 500
-        self.speed = 2 * self.player.speed
+        self.speed = 3 * self.player.speed
         self.direction = pygame.math.Vector2()
 
     def get_player_direction(self):

@@ -24,6 +24,7 @@ class Player(Creature):
         self.moving = True
 
         self.normal_speed = 5
+        self.speed = 5
 
         # items
         self.inventory = Inventory()
