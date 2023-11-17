@@ -49,7 +49,7 @@ class Controller:
                                 target_sprite.kill()
                             else:
                                 if target_sprite.invincible == False:
-                                    target_sprite.take_damage(self.player.weapon.damage)
+                                    target_sprite.take_damage(self.player.inventory.get("raid").damage)
                                     
     def player_collect_item(self):
         for item_sprite in self.item_sprites:

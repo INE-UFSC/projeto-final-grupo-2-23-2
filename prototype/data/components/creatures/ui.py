@@ -1,6 +1,7 @@
 import pygame
 import os
 
+# controller -> player
 class Ui():
     def __init__(self, controller):
         self.controller = controller
@@ -21,5 +22,9 @@ class Ui():
         pygame.draw.rect(self.display_surface, "red", current_rect)
         pygame.draw.rect(self.display_surface, "#111111", bg_rect, 4)
 
+    def show_inventory(self):
+        pass
+
     def display(self):
         self.show_health_bar()
+        self.show_inventory()
