@@ -126,4 +126,3 @@ class Enemy(Creature):
         self.show_health_bar()
         self.move()
         self.cooldowns()
-
