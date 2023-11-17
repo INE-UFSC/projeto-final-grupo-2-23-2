@@ -13,7 +13,6 @@ from random import choice
 class Level:
     def __init__(self, map_name):
         self.name = map_name
-        self.map = self.__extract_map(map_name)
         self.controller = Controller()
         
         self.surface = pygame.display.get_surface()        
@@ -25,26 +24,19 @@ class Level:
         self.generate_map()
         self.ui = Ui(self.controller)
 
-    # todo: tratamento de excessoes try
-    def __extract_map(self, map_name):
-        file_name = os.path.dirname(os.path.abspath(
-            __file__)) + "/../../../resources/map_data/" + map_name + ".json"
-        # Carregando o map a partir do file JSON
-        with open(file_name, 'r') as file:
-            return json.load(file)
 
     def generate_map(self):
         cont = self.controller
         # loop pela matriz
-        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_FloorBlocks.csv'),
-                  'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_Grass.csv'),
-                  'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_Objects.csv'),
-                  'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/csvs/map_Entities.csv')
+        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_FloorBlocks.csv'),
+                  'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_Grass.csv'),
+                  'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_Objects.csv'),
+                  'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_Entities.csv')
                   }
         
         graphics = {
-             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/grass'),
-             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/objects')
+             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/grass'),
+             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/objects')
         }
 
         for style, layout in layout.items():

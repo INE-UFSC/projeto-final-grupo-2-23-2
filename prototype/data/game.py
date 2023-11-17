@@ -12,7 +12,7 @@ class Game:
         pygame.init()
 
         # atributos
-        self.playerr = None #todo: tem que ficar aqui?
+        self.player = None #todo: tem que ficar aqui?
         self.difficulty = None
         self.views = ViewContainer()
 
@@ -28,7 +28,6 @@ class Game:
         # demais atributos
         self.levels = LevelContainer()
         self.current_level = self.levels.get_level()
-
     # comeca
     def start(self):
         self.play()
@@ -40,9 +39,19 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+        
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_t:
+                        print('hey')
+                        self.current_level = self.levels.get_next_level()
+                        print(self.current_level)
+
+
+            if self.player == None:
+                self.player = self.current_level.controller.player
 
             # morte
-            if self.current_level.controller.player.hp == 0:
+            if self.player.hp == 0:
                 pygame.quit()
 
             # prenchendo display com verde, reseta a malha
@@ -57,6 +66,7 @@ class Game:
 
             # define fps do jogo
             self.clock.tick(self.fps)
+
 
     def menu_principal(self):
         pass
@@ -125,4 +135,4 @@ class Game:
                         player.use_dash()
                 except:
                     player.use_dash()
-        
+            
