@@ -29,7 +29,6 @@ class Controller:
         if self.current_attack != None:
             self.current_attack.kill()
             self.current_attack = None
-            # self.player.attacking = False
 
     def create_defense(self):
         self.current_defense = Guard("guard",self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
