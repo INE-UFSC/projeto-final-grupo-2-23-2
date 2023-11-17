@@ -93,9 +93,15 @@ class Game:
         # raid input
         if keys[pygame.K_SPACE]:
             if player.inventory.contains("raid") and (not player.attacking):
-                player.attacking = True
-                player.inventory.get("raid").time = pygame.time.get_ticks()
-                controller.create_attack()
+                try:
+                    if current_time - player.inventory.get("raid").time >= player.inventory.get("raid").cooldown:
+                        player.attacking = True
+                        player.inventory.get("raid").time = pygame.time.get_ticks()
+                        controller.create_attack()
+                except:
+                        player.attacking = True
+                        player.inventory.get("raid").time = pygame.time.get_ticks()
+                        controller.create_attack()
         
         # pick input
         if keys[pygame.K_c]:

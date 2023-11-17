@@ -79,7 +79,7 @@ class Player(Creature):
 
         if self.attacking:
             self.moving = False
-            if current_time - self.inventory.get("raid").time >= self.inventory.get("raid").cooldown:
+            if current_time - self.inventory.get("raid").time >= self.inventory.get("raid").duration:
                 self.attacking = False
                 self.moving = True
                 destroy_attack = True

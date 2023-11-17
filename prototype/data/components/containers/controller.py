@@ -55,12 +55,12 @@ class Controller:
         for item_sprite in self.item_sprites:
             collision_sprites = pygame.sprite.spritecollide(item_sprite,self.player_sprite, False)
             if collision_sprites and self.player.picking:
-                if 'raid' == item_sprite.name:
-                    self.player.inventory.add_item(Raid(item_sprite.name, self.player,[]))
-                if 'guard' == item_sprite.name:
-                    self.player.inventory.add_item(Guard(item_sprite.name, self.player,[]))
-                if 'dash' == item_sprite.name: 
-                    self.player.inventory.add_item(Dash(item_sprite.name, self.player,[]))
+                if 'raid' == item_sprite.sprite_type:
+                    self.player.inventory.add_item(Raid(item_sprite.sprite_type, self.player,[]))
+                if 'guard' == item_sprite.sprite_type:
+                    self.player.inventory.add_item(Guard(item_sprite.sprite_type, self.player,[]))
+                if 'dash' == item_sprite.sprite_type: 
+                    self.player.inventory.add_item(Dash(item_sprite.sprite_type, self.player,[]))
                    
                 item_sprite.kill()
 
