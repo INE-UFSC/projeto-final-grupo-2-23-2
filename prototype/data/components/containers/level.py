@@ -73,7 +73,7 @@ class Level:
                                 cont.player = Player("player", 100, (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
                                 
                             if col == '376':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid')
+                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/items/weapons/sword/full.png').convert_alpha())
                             
                             if col == '252':
                                 Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'guard')
