@@ -63,7 +63,7 @@ class Player(Creature):
 
         # set the image
         self.image = animation[int(self.frame_index)]
-        self.__hitbox = self.rect.inflate(0, -26)
+        self.hitbox = self.rect.inflate(0, -26)
 
         self.rect = self.image.get_rect(center = self.hitbox.center)
 

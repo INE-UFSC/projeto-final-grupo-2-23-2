@@ -1,6 +1,10 @@
 class Inventory:
     def __init__(self):
-        self.items = []
+        self.__items = []
+
+    @property
+    def items(self):
+        return self.__items
 
     def add_item(self, item):
         self.items.append(item)
@@ -20,3 +24,6 @@ class Inventory:
             if item.name == name:
                 return item
         return None
+
+    def size(self):
+        return len(self.items)
