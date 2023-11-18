@@ -1,8 +1,10 @@
 import pygame
 import sys
-from data.components.containers.level_container import LevelContainer
-from data.components.containers.controller import Controller
-from data.views.view_container import ViewContainer
+from .components.containers.level_container import LevelContainer
+from .components.containers.controller import Controller
+from .views.view_container import ViewContainer
+from .button import Button
+
 
 
 
@@ -15,14 +17,17 @@ class Game:
         self.player = None #todo: tem que ficar aqui?
         self.difficulty = None
         self.views = ViewContainer()
+        self.font = pygame.font.Font('stocky.ttf', 32)
 
         # vai pra na tela depois, todo: nao vimos mvcnho
         self.width = 1920
         self.heigth = 1080
         self.fps = 60
         self.clock = pygame.time.Clock()
+        self.intro_background = pygame.image.load("prototype/resources/graphics/intro2.png")
         self.view = pygame.display.set_mode((self.width, self.heigth))
         pygame.display.set_caption('PartsFinder')
+        
         #
 
         # demais atributos
@@ -52,7 +57,8 @@ class Game:
 
             # morte
             if self.player.hp == 0:
-                pygame.quit()
+                self.game_over()
+                #pygame.quit()
 
             # prenchendo display com verde, reseta a malha
             self.current_level.surface.fill('black')
@@ -69,6 +75,40 @@ class Game:
 
 
     def menu_principal(self):
+        pass
+
+    def game_over(self):
+        # text = self.font.render('Game Over', True, WHITE)
+        # text_rect = text.get_rect()
+
+        # restart_buttton = 
+
+        pass
+
+    def intro_screen(self):
+        intro = True
+        
+        title = self.font.render('Parts Finder', True, (255,255,255))
+        title_rect = title.get_rect(x = 10, y = 10)
+
+        play_button = Button(10, 50, 100, 50, (255,255,255), (255,255,255), 'play', 32)
+
+        while intro:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    intro = False
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_pressed = pygame.mouse.get_pressed()    
+
+            if play_button.is_pressed(mouse_pos, mouse_pressed):
+                self.start()
+
+            self.view.blit(self.intro_background, (0,0))
+            self.view.blit(title, title_rect)
+            self.view.blit(play_button.image, play_button.rect)
+            pygame.display.flip()
+            self.clock.tick(self.fps)
+
         pass
 
     def input_handler(self):
