@@ -8,7 +8,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.surface = pygame.display.get_surface()
         self.half_width = self.surface.get_size()[0] // 2
         self.half_heigth = self.surface.get_size()[1] // 2
-        image = os.path.dirname(os.path.abspath(__file__))+'/../../../../resources/graphics/floor/map.png'
+        image = os.path.dirname(os.path.abspath(__file__))+'/../../resources/textures/floor/map.png'
         self.floor_surface = pygame.image.load(image).convert()
         self.floor_rect = self.floor_surface.get_rect(topleft = (0,0))
         # desvia o map em referencia a tela

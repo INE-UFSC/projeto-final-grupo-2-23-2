@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 import pygame
 import os
-from data.components.creatures.inventory import Inventory
-from data.components.creatures.support import import_folder
+from data.elements.inventory import Inventory
+from data.components.support import import_folder
 
 
 class Creature(pygame.sprite.Sprite, ABC):
@@ -30,7 +30,7 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.invincible_cooldown = 400
     
     def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/' + self.name 
         self.animations = {
             'up': [], 'down': [], 'left': [], 'right': [],
             'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],

@@ -1,9 +1,9 @@
 import pygame
 import os
-from data.components.containers.tiles.y_camera_group import YSortCameraGroup
-from data.components.powerups.raid import Raid
-from data.components.powerups.guard import Guard
-from data.components.powerups.dash import Dash
+from data.components.y_camera_group import YSortCameraGroup
+from data.elements.raid import Raid
+from data.elements.guard import Guard
+from data.elements.dash import Dash
 
 class Controller:
     def __init__(self):

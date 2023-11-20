@@ -1,6 +1,6 @@
-from data.components.creatures.creature import Creature
-from data.components.creatures.inventory import Inventory
-from data.components.creatures.support import import_folder
+from data.elements.creature import Creature
+from data.elements.inventory import Inventory
+from data.components.support import import_folder
 import pygame
 import os
 
@@ -10,7 +10,7 @@ class Player(Creature):
         
         self.name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../../resources/graphics/player/' + name + '.png').convert_alpha()
+            __file__)) + '/../../resources/elements/player/' + name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
         self.hitbox = self.rect.inflate(0, -26)
         self.sprite_type = 'player'

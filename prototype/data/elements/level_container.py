@@ -1,9 +1,9 @@
-from data.components.containers.level import Level
+from data.elements.level import Level
 
 
 class LevelContainer:
     def __init__(self):
-        self.levels = [Level("level_1"), Level("Level_2")]
+        self.levels = [Level("level_1"), Level("level_2")]
         self.index_current_level = 0
 
 

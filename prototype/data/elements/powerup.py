@@ -6,6 +6,6 @@ class Powerup(pygame.sprite.Sprite):
         super().__init__(groups)
         self.name = name
         self.icon = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__)) + '/../../../resources/graphics/objects/' + name + '.png').convert_alpha()
+            __file__)) + '/../../resources/elements/powerups/icons/' + name + '.png').convert_alpha()
         self.player = player
         self.direction = player.direction

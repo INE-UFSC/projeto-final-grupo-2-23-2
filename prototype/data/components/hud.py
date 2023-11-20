@@ -6,7 +6,7 @@ class Ui():
     def __init__(self, controller):
         self.controller = controller
         self.display_surface = pygame.display.get_surface()
-        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../../../resources/graphics/font/asman.ttf', 18)     
+        # self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../../../resources/graphics/font/asman.ttf', 18)     
 
     def show_health_bar(self):
         # bg rect

@@ -2,12 +2,12 @@ import pygame
 import json
 import os
 
-from data.components.creatures.player import Player
-from data.components.creatures.enemy import Enemy
-from data.components.containers.tiles.tile import Tile
-from data.components.containers.controller import Controller
-from data.components.creatures.ui import Ui
-from data.components.creatures.support import import_csv_layout, import_folder
+from data.elements.player import Player
+from data.elements.enemy import Enemy
+from data.components.tile import Tile
+from data.elements.controller import Controller
+from data.components.hud import Ui
+from data.components.support import import_csv_layout, import_folder
 from random import choice
 
 class Level:
@@ -28,15 +28,15 @@ class Level:
     def generate_map(self):
         cont = self.controller
         # loop pela matriz
-        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_FloorBlocks.csv'),
-                  'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_Grass.csv'),
-                  'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_Objects.csv'),
-                  'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/level_graphics/{self.name}/csvs/map_Entities.csv')
+        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/{self.name}/csvs/map_FloorBlocks.csv'),
+                  'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/{self.name}/csvs/map_Grass.csv'),
+                  'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/{self.name}/csvs/map_Objects.csv'),
+                  'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ f'/../../resources/levels/{self.name}/csvs/map_Entities.csv')
                   }
         
         graphics = {
-             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/grass'),
-             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/objects')
+             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/textures/grass'),
+             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/textures/objects')
         }
 
         for style, layout in layout.items():
@@ -65,7 +65,7 @@ class Level:
                                 cont.player = Player("player", 100, (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
                                 
                             if col == '376':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/items/weapons/sword/full.png').convert_alpha())
+                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/raid/full.png').convert_alpha())
                             
                             if col == '252':
                                 Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'guard')

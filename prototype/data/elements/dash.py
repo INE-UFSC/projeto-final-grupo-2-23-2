@@ -1,4 +1,4 @@
-from data.components.powerups.powerup import Powerup
+from data.elements.powerup import Powerup
 import pygame
 
 class Dash(Powerup):

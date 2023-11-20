@@ -1,8 +1,5 @@
 import pygame
-import os
 
-
-# todo : tratamento
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, position, groups, sprite_type, surface = pygame.Surface((64,64))):
