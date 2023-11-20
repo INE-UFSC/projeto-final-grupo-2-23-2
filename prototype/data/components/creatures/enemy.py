@@ -8,7 +8,7 @@ class Enemy(Creature):
         super().__init__(name, hp, position, groups, obstacle_sprites)
 
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../../resources/graphics/enemies/' + name + '.png').convert_alpha()
+            __file__))+'/../../../resources/graphics/ingame_graphics/enemies/' + name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
 
         self.hitbox = self.rect.inflate(0, -10)

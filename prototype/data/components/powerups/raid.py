@@ -13,17 +13,17 @@ class Raid(Powerup):
         self.time = None
         
         if "right" in direction:
-            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/items/weapons/sword/right.png').convert_alpha()
+            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/ingame_graphics/items/weapons/sword/right.png').convert_alpha()
             self.rect = self.image.get_rect(midleft = player.rect.midright + pygame.math.Vector2(0,16))
             
         elif 'left' in direction:
-            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/items/weapons/sword/left.png').convert_alpha()
+            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/ingame_graphics/items/weapons/sword/left.png').convert_alpha()
             self.rect = self.image.get_rect(midright = player.rect.midleft + pygame.math.Vector2(0,16))
 
         elif "down" in direction:
-            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/items/weapons/sword/down.png').convert_alpha()
+            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/ingame_graphics/items/weapons/sword/down.png').convert_alpha()
             self.rect = self.image.get_rect(midtop = player.rect.midbottom + pygame.math.Vector2(-10,0))
             
         elif "up" in direction:
-            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/items/weapons/sword/up.png').convert_alpha()
+            self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/ingame_graphics/items/weapons/sword/up.png').convert_alpha()
             self.rect = self.image.get_rect(midbottom = player.rect.midtop + pygame.math.Vector2(-10,0))

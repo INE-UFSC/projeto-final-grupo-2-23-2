@@ -34,9 +34,13 @@ class Controller:
         self.current_defense = Guard("guard",self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
         
     def destroy_defense(self):
-        if self.current_defense != None:
+        try:
+            self.visible_sprites.remove(self.current_defense)
+            self.obstacles_sprites.remove(self.current_defense)
             self.current_defense.kill()
             self.current_defense = None
+        except:
+            pass
 
     def player_attack_logic(self):
         if self.attacks_sprites:

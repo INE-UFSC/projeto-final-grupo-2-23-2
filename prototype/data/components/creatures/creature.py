@@ -30,7 +30,7 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.invincible_cooldown = 400
     
     def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/' + self.name 
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/ingame_graphics/' + self.name 
         self.animations = {
             'up': [], 'down': [], 'left': [], 'right': [],
             'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
