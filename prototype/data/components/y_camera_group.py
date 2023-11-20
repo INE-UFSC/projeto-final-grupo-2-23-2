@@ -1,8 +1,8 @@
 import pygame
 import os
 
-# agrupa todos os sprites visiveis alem de custom_draw pelo y
-class YSortCameraGroup(pygame.sprite.Group):
+# all visible sprites + custom_draw pelo y
+class Sprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
         self.surface = pygame.display.get_surface()

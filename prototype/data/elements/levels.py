@@ -1,7 +1,7 @@
 from data.elements.level import Level
 
 
-class LevelContainer:
+class Levels:
     def __init__(self):
         self.levels = [Level("level_1"), Level("level_2")]
         self.index_current_level = 0

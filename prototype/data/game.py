@@ -1,7 +1,7 @@
 import pygame
 import os
 import sys
-from data.elements.level_container import LevelContainer
+from data.elements.levels import Levels
 from data.elements.controller import Controller
 from data.views.view_container import ViewContainer
 from data.components.button import Button
@@ -31,7 +31,7 @@ class Game:
         #
 
         # demais atributos
-        self.levels = LevelContainer()
+        self.levels = Levels()
         self.current_level = self.levels.get_level()
     # comeca
     def start(self):

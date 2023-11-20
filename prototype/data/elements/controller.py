@@ -1,6 +1,6 @@
 import pygame
 import os
-from data.components.y_camera_group import YSortCameraGroup
+from data.components.y_camera_group import Sprites
 from data.elements.raid import Raid
 from data.elements.guard import Guard
 from data.elements.dash import Dash
@@ -10,7 +10,7 @@ class Controller:
         self.player = None
         self.enemies = None
         
-        self.visible_sprites = YSortCameraGroup()
+        self.visible_sprites = Sprites()
         self.obstacles_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
         self.attacks_sprites = pygame.sprite.Group()
