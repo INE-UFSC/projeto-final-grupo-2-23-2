@@ -1,6 +1,6 @@
 import pygame
 import os
-from data.components.y_camera_group import Sprites
+from data.components.sprites import Sprites
 from data.elements.raid import Raid
 from data.elements.guard import Guard
 from data.elements.dash import Dash
