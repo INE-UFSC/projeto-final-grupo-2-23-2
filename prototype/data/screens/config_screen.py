@@ -1,5 +1,5 @@
-from data.views.screen import Screen
-from data.views.button import Button
+from data.screens.screen import Screen
+from data.screens.button import Button
 import pygame
 
 class ConfigScreen(Screen):

@@ -5,10 +5,10 @@ class Screen:
     def __init__(self, game):
         pygame.init()
         self.game = game
-        self.width = self.game.width
         self.height = self.game.height
+        self.width = self.game.width
 
-        self.background = pygame.image.load("prototype/resources/graphics/menu_graphics/intros/intro2.png")
+        self.background = pygame.image.load("prototype/resources/screens/intro2.png")
         self.background_rect = self.background.get_rect()
         
         self.background_x = (self.width - self.background_rect.width) // 2

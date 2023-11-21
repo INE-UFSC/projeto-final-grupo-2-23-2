@@ -1,7 +1,7 @@
 import pygame
 import os
 import sys
-from data.views.screen_container import ScreenContainer
+from data.screens.screen_container import ScreenContainer
 from data.elements.levels import Levels
 from data.elements.controller import Controller
 from data.components.button import Button
@@ -16,19 +16,19 @@ class Game:
         # atributos
         self.player = None #todo: tem que ficar aqui?
         self.difficulty = None
-        self.views = ScreenContainer()
         self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../resources/fonts/stocky.ttf', 32)
 
         # self.width = 1920
         # self.heigth = 1080
         self.width = 1080
-        self.heigth = 720
+        self.height = 720
         self.fps = 60
         self.clock = pygame.time.Clock()
-        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/views/intro2.png")
-        self.view = pygame.display.set_mode((self.width, self.heigth))
+        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
+        self.view = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('PartsFinder')
         
+        self.views = ScreenContainer(self)
         #
 
         # demais atributos

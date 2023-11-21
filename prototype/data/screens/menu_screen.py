@@ -1,15 +1,15 @@
-from data.views.screen import Screen
-from data.views.button import Button
+from data.screens.screen import Screen
+from data.screens.button import Button
 import pygame
 
-class IntroScreen(Screen):
+class MenuScreen(Screen):
     def __init__(self, game):
         super().__init__(game)
-        self.name = 'intro'
-        self.buttons = [Button((self.width/2 - 110), (self.height/2 - 100), 220, 50, (255,255,255), (0,0,0), 'Start Game', 32),
+        self.name = 'menu'
+        self.buttons = [Button((self.width/2 - 150), (self.height/2 - 100), 300, 50, (255,255,255), (0,0,0), 'Return to game', 32),
                         Button((self.width/2 - 150), (self.height/2), 300, 50, (255,255,255), (0,0,0), 'Configurations', 32),
                         Button((self.width/2 - 125), (self.height/2 + 100), 250, 50, (255,255,255), (0,0,0), 'Quit Game', 32)]
-        
+
 
     def run(self):
         while self.primary:
@@ -24,7 +24,7 @@ class IntroScreen(Screen):
                 if button is not None:
                     self.game.last_click_time = current_time
 
-                    if button.content == 'Start Game':
+                    if button.content == 'Return to game':
                         self.game.start()
 
                     if button.content == 'Configurations':
@@ -34,3 +34,4 @@ class IntroScreen(Screen):
                         pygame.quit()
 
             self.blit()
+
