@@ -1,9 +1,10 @@
 import pygame
+import os
 import sys
-from .components.containers.level_container import LevelContainer
-from .views.screen_container import ScreenContainer
-from .views.button import Button
-
+from data.views.screen_container import ScreenContainer
+from data.elements.levels import Levels
+from data.elements.controller import Controller
+from data.components.button import Button
 
 
 
@@ -12,17 +13,26 @@ class Game:
         # inciando pygame
         pygame.init()
 
+        # atributos
+        self.player = None #todo: tem que ficar aqui?
+        self.difficulty = None
+        self.views = ScreenContainer()
+        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../resources/fonts/stocky.ttf', 32)
+
+        # self.width = 1920
+        # self.heigth = 1080
+        self.width = 1080
+        self.heigth = 720
         self.fps = 60
         self.clock = pygame.time.Clock()
-
-        self.width = 1600
-        self.height = 900
-        self.view = pygame.display.set_mode((self.width, self.height))
-        
+        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/views/intro2.png")
+        self.view = pygame.display.set_mode((self.width, self.heigth))
         pygame.display.set_caption('PartsFinder')
         
-        # Levels
-        self.levels = LevelContainer()
+        #
+
+        # demais atributos
+        self.levels = Levels()
         self.current_level = self.levels.get_level()
         
         # Screens
