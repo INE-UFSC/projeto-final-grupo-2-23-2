@@ -4,6 +4,7 @@ import os
 from data.components.creatures.inventory import Inventory
 from data.components.creatures.support import import_folder
 
+#a
 
 class Creature(pygame.sprite.Sprite, ABC):
     def __init__(self, name, hp, position, groups, obstacle_sprites):
