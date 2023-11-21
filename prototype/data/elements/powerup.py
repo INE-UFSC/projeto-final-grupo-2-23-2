@@ -8,4 +8,4 @@ class Powerup(pygame.sprite.Sprite):
         self.icon = pygame.image.load(os.path.dirname(os.path.abspath(
             __file__)) + '/../../resources/elements/powerups/icons/' + name + '.png').convert_alpha()
         self.player = player
-        self.direction = player.direction
+        self.direction = self.player.status

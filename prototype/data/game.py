@@ -1,10 +1,11 @@
 import pygame
 import os
 import sys
+from data.screens.screen_container import ScreenContainer
 from data.elements.levels import Levels
 from data.elements.controller import Controller
-from data.views.view_container import ViewContainer
 from data.components.button import Button
+
 
 
 class Game:
@@ -15,24 +16,33 @@ class Game:
         # atributos
         self.player = None #todo: tem que ficar aqui?
         self.difficulty = None
-        self.views = ViewContainer()
         self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../resources/fonts/stocky.ttf', 32)
 
         # self.width = 1920
         # self.heigth = 1080
         self.width = 1080
-        self.heigth = 720
+        self.height = 720
         self.fps = 60
         self.clock = pygame.time.Clock()
-        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/views/intro2.png")
-        self.view = pygame.display.set_mode((self.width, self.heigth))
+        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
+        self.view = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('PartsFinder')
         
+        self.views = ScreenContainer(self)
         #
 
         # demais atributos
         self.levels = Levels()
         self.current_level = self.levels.get_level()
+        
+        # Screens
+        self.screens = ScreenContainer(self)
+        self.current_screen = None
+        self.last_click_time = 0
+
+        # Others
+        self.player = None
+
     # comeca
     def start(self):
         self.play()
@@ -42,14 +52,13 @@ class Game:
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    while True:
+                        pygame.quit()
+                        sys.exit()
         
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_t:
-                        print('hey')
                         self.current_level = self.levels.get_next_level()
-                        print(self.current_level)
 
 
             if self.player == None:
@@ -68,48 +77,25 @@ class Game:
             self.input_handler()
 
             # atualiza display
-            pygame.display.update()
+            pygame.display.flip()
 
             # define fps do jogo
             self.clock.tick(self.fps)
 
-
-    def menu_principal(self):
-        pass
-
     def game_over(self):
-        # text = self.font.render('Game Over', True, WHITE)
-        # text_rect = text.get_rect()
-
-        # restart_buttton = 
-
         pass
 
     def intro_screen(self):
-        intro = True
-        
-        title = self.font.render('Parts Finder', True, (255,255,255))
-        title_rect = title.get_rect(x = 10, y = 10)
+        self.current_screen = self.screens.get_screen('intro')
+        self.current_screen.run()
 
-        play_button = Button(10, 50, 100, 50, (255,255,255), (255,255,255), 'play', 32)
+    def menu_screen(self):
+        self.current_screen = self.screens.get_screen('menu')
+        self.current_screen.run()
 
-        while intro:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    intro = False
-            mouse_pos = pygame.mouse.get_pos()
-            mouse_pressed = pygame.mouse.get_pressed()    
-
-            if play_button.is_pressed(mouse_pos, mouse_pressed):
-                self.start()
-
-            self.view.blit(self.intro_background, (0,0))
-            self.view.blit(title, title_rect)
-            self.view.blit(play_button.image, play_button.rect)
-            pygame.display.flip()
-            self.clock.tick(self.fps)
-
-        pass
+    def config_screen(self):
+        self.current_screen = self.screens.get_screen('config')
+        self.current_screen.run()
 
     def input_handler(self):
         keys = pygame.key.get_pressed()
@@ -162,9 +148,15 @@ class Game:
         # guard input
         if keys[pygame.K_LCTRL]:
             if player.inventory.contains("guard"):
-                player.deffending = True
-                player.inventory.get("guard").time = pygame.time.get_ticks()
-                controller.create_defense()
+                try:
+                    if current_time - player.inventory.get("guard").time >= player.inventory.get("guard").cooldown:
+                        player.deffending = True
+                        player.inventory.get("guard").time = pygame.time.get_ticks()
+                        controller.create_defense()
+                except:
+                        player.deffending = True
+                        player.inventory.get("guard").time = pygame.time.get_ticks()
+                        controller.create_defense()
 
 
         # dash input 
@@ -175,4 +167,7 @@ class Game:
                         player.use_dash()
                 except:
                     player.use_dash()
-            
+
+        if keys[pygame.K_p]:
+            self.menu_screen()
+
