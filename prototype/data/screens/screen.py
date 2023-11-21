@@ -1,5 +1,5 @@
 import pygame
-
+import os
 
 class Screen:
     def __init__(self, game):
@@ -8,14 +8,14 @@ class Screen:
         self.height = self.game.height
         self.width = self.game.width
 
-        self.background = pygame.image.load("prototype/resources/screens/intro2.png")
+        self.background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/screens/intro2.png")
         self.background_rect = self.background.get_rect()
         
         self.background_x = (self.width - self.background_rect.width) // 2
         self.background_y = (self.height - self.background_rect.height) // 2
         
-        self.font = pygame.font.Font('stocky.ttf', 32)
-        self.title = self.font.render('Parts Finder', True, (255,255,255))
+        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/fonts/stocky.ttf", 32)
+        self.title = self.font.render('Parts Finder', True, (255, 255,255))
         self.title_rect = self.title.get_rect(x = self.game.width/2 - 130, y = 10)
         
         self.buttons = []
