@@ -48,9 +48,7 @@ class Game:
         
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_t:
-                        print('hey')
                         self.current_level = self.levels.get_next_level()
-                        print(self.current_level)
 
 
             if self.player == None:
@@ -140,9 +138,15 @@ class Game:
         # guard input
         if keys[pygame.K_LCTRL]:
             if player.inventory.contains("guard"):
-                player.deffending = True
-                player.inventory.get("guard").time = pygame.time.get_ticks()
-                controller.create_defense()
+                try:
+                    if current_time - player.inventory.get("guard").time >= player.inventory.get("guard").cooldown:
+                        player.deffending = True
+                        player.inventory.get("guard").time = pygame.time.get_ticks()
+                        controller.create_defense()
+                except:
+                        player.deffending = True
+                        player.inventory.get("guard").time = pygame.time.get_ticks()
+                        controller.create_defense()
 
 
         # dash input 

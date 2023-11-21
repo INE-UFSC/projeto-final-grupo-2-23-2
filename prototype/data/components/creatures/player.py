@@ -92,7 +92,7 @@ class Player(Creature):
 
         if self.deffending:
             self.moving = False
-            if current_time - self.inventory.get("guard").time >= self.inventory.get("guard").cooldown:
+            if current_time - self.inventory.get("guard").time >= self.inventory.get("guard").duration:
                 self.deffending = False
                 self.moving = True
                 destroy_defense = True

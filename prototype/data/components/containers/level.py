@@ -80,5 +80,6 @@ class Level:
         self.controller.visible_sprites.update()
         self.controller.visible_sprites.enemy_update(self.controller.player)
         self.controller.player_attack_logic()
+        self.controller.player_defense_logic()
         self.controller.player_collect_item()
         self.ui.display()

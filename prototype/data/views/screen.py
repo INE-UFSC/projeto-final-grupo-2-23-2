@@ -1,5 +1,6 @@
 import pygame
 
+
 class Screen:
     def __init__(self, game):
         pygame.init()
@@ -13,15 +14,10 @@ class Screen:
         self.title = self.font.render('Parts Finder', True, (255,255,255))
         self.title_rect = self.title.get_rect(x = self.game.width/2 - 130, y = 10)
         
-        self.buttons = self.get_buttons()
-
-
-        
+        self.buttons = []
         self.wait_time = 300
         self.primary = True
 
-    def get_buttons(self):
-        pass
 
     def get_button_clicks(self, mouse_pos, mouse_pressed):
         for button in self.buttons:

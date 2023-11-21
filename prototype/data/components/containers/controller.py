@@ -31,7 +31,7 @@ class Controller:
             self.current_attack = None
 
     def create_defense(self):
-        self.current_defense = Guard("guard",self.player,[self.visible_sprites,self.deffense_sprites])
+        self.current_defense = Guard("guard",self.player,[self.visible_sprites,self.deffense_sprites, self.obstacles_sprites])
         
     def destroy_defense(self):
         if self.current_defense != None:
@@ -62,6 +62,16 @@ class Controller:
                     self.player.inventory.add_item(Dash(item_sprite.sprite_type, self.player,[]))
                    
                 item_sprite.kill()
+
+    def player_defense_logic(self):
+        if self.deffense_sprites:
+            enemy_sprites = [sprite for sprite in self.attackable_sprites if hasattr(sprite, 'name') and sprite.name == 'enemy']
+            for defense_sprite in self.deffense_sprites:
+                collision_sprites = pygame.sprite.spritecollide(defense_sprite, enemy_sprites, False)
+                if collision_sprites:
+                    for target_sprite in collision_sprites:
+                        target_sprite.can_attack = False
+
 
     def player_cooldowns(self):
         cd = self.player.cooldowns()

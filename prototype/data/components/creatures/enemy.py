@@ -20,9 +20,9 @@ class Enemy(Creature):
         self.damage = 25
         self.visible_sprites = visible_sprites
 
+        self.can_damage = True
         self.attack_time = None
         self.attack_cooldown = 1000
-    
         self.origin = position
         
         #barra de hp
@@ -71,7 +71,7 @@ class Enemy(Creature):
         if self.invincible:
                 self.direction = self.get_player_distance_direction(player)[1]*(-1)
         else:
-            if self.status == 'attack' and self.cooldowns():
+            if self.status == 'attack' and self.cooldowns() and self.can_damage:
                 self.atacar(player)
             
             elif self.status == 'move':
