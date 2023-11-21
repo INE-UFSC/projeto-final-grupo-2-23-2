@@ -9,6 +9,10 @@ class Screen:
         self.height = self.game.height
 
         self.background = pygame.image.load("prototype/resources/graphics/menu_graphics/intros/intro2.png")
+        self.background_rect = self.background.get_rect()
+        
+        self.background_x = (self.width - self.background_rect.width) // 2
+        self.background_y = (self.height - self.background_rect.height) // 2
         
         self.font = pygame.font.Font('stocky.ttf', 32)
         self.title = self.font.render('Parts Finder', True, (255,255,255))
@@ -26,7 +30,7 @@ class Screen:
         return None
 
     def blit(self):
-        self.game.view.blit(self.background, (0,0))
+        self.game.view.blit(self.background, (self.background_x,self.background_y))
         self.game.view.blit(self.title, self.title_rect)
 
         for button in self.buttons:
