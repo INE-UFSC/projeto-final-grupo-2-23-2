@@ -38,40 +38,38 @@ class Level:
              'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/ingame_graphics/grass'),
              'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../../resources/graphics/ingame_graphics/objects')
         }
-
         for style, layout in layout.items():
             for lin_index, lin in enumerate(layout):
                 for col_index, col in enumerate(lin):
+                    x = (col_index + 9) * self.tilesize
+                    y = (lin_index + 11) * self. tilesize
                     if col != '-1':
-                        x = (col_index + 6) * self.tilesize
-                        y = (lin_index + 6) * self. tilesize
-                        
                         if style == 'boundary':
-                            Tile((x,y),[cont.obstacles_sprites],'invisible')
+                            Tile((x - (3 * 64),y - (5 * 64)),[cont.obstacles_sprites],'invisible')
                         
                         if style == 'grass':
                                 random_grass = choice(graphics['grass'])
-                                Tile((x,y), [cont.visible_sprites],'grass', random_grass)
+                                Tile((x + (7 * 64), y), [cont.visible_sprites],'grass', random_grass)
                         
                         if style == 'object':
                                 surface = graphics['objects'][int(col)+13]
-                                Tile((x + (10 * 64), y + (5 * 64)), [cont.visible_sprites, cont.obstacles_sprites],'object', surface)
+                                Tile((x + (7 * 64), y), [cont.visible_sprites, cont.obstacles_sprites],'object', surface)
 
                         if style == 'entity':
                             if col == '393':
-                                  self.controller.enemies = Enemy("enemy", 100, (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
+                                  self.controller.enemies = Enemy("enemy", 100, (x,y), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
                                   
                             if col == '394':
-                                cont.player = Player("player", 100, (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
+                                cont.player = Player("player", 100, (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
                                 
                             if col == '376':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/ingame_graphics/items/weapons/sword/full.png').convert_alpha())
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../../resources/graphics/ingame_graphics/items/weapons/sword/full.png').convert_alpha())
                             
                             if col == '252':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'guard')
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard')
 
                             if col == '89':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'dash')
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash')
 
         
 
