@@ -81,3 +81,9 @@ class Controller:
             self.destroy_attack()
         if cd[1] == True:
             self.destroy_defense()
+            
+    def update_player(self, player, inventory):
+        self.player = player
+        self.player.inventory = inventory
+        for item in self.player.inventory.items:
+            item.player = self.player

@@ -11,7 +11,9 @@ from data.components.support import import_csv_layout, import_folder
 from random import choice
 
 class Level:
-    def __init__(self, map_name):
+    def __init__(self, map_name, player = None):
+
+        self.player = player
         self.name = map_name
         self.controller = Controller(self.name)
         
@@ -61,7 +63,10 @@ class Level:
                                   self.controller.enemies = Enemy("enemy", 100, (x,y), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
                                   
                             if col == '394':
-                                cont.player = Player("player", 100, (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
+                                if self.player:
+                                    cont.update_player(Player("player", self.player.hp, (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites), self.player.inventory) 
+                                else:
+                                    cont.player = Player("player", 100, (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
                                 
                             if col == '376':
                                 Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/raid/full.png').convert_alpha())                            
