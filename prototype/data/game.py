@@ -45,7 +45,22 @@ class Game:
 
     # comeca
     def start(self):
+        if self.player != None:
+            if self.player.hp == 0:
+                self.reset_game()
+        else:
+            self.play()
+
+    def reset_game(self):
+        # Reiniciar os atributos necessários para reiniciar o jogo
+        self.levels = Levels()
+        self.current_level = self.levels.get_level()
+        
+        self.player = None
+
+        # Iniciar o jogo novamente
         self.play()
+
 
     # loop do jogo
     def play(self):
@@ -67,7 +82,7 @@ class Game:
             # morte
             if self.player.hp == 0:
                 self.game_over()
-                #pygame.quit()
+                
 
             # prenchendo display com verde, reseta a malha
             self.current_level.surface.fill('black')
@@ -83,7 +98,9 @@ class Game:
             self.clock.tick(self.fps)
 
     def game_over(self):
-        pass
+        self.current_screen = self.screens.get_screen('game_over')
+        self.current_screen.run()
+        
 
     def intro_screen(self):
         self.current_screen = self.screens.get_screen('intro')

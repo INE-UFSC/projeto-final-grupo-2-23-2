@@ -26,6 +26,7 @@ class MenuScreen(Screen):
 
                     if button.content == 'Return to game':
                         self.game.start()
+                        
 
                     if button.content == 'Configurations':
                         self.game.config_screen()
