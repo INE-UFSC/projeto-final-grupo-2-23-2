@@ -169,6 +169,6 @@ class Game:
                 except:
                     player.use_dash()
 
-        if keys[pygame.K_p]:
+        if keys[pygame.K_ESCAPE]:
             self.menu_screen()
 
