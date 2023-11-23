@@ -24,6 +24,7 @@ class Enemy(Creature):
         self.attack_time = None
         self.attack_cooldown = 1000
         self.origin = position
+        self.returning = False
         
         #barra de hp
         self.health_bar_size = self.rect.width*1.5
@@ -70,13 +71,13 @@ class Enemy(Creature):
         distance_to_origin = self.return_to_origin()[0]
         
         if distance_to_player <= self.attack_range:
-            self.status = 'attack'
+            self.status += '_attack'
 
         elif distance_to_player <= self.range:
-            self.status = 'move'
+            self.status += '_move'
         else:
             if distance_to_origin >= 10:
-                self.status = 'return'
+                self.returning = 'return'
             else:
                 self.status = 'idle'
 
