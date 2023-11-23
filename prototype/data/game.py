@@ -108,21 +108,15 @@ class Game:
         if not player.dashing:
             if keys[pygame.K_UP] and player.moving:
                 player.direction.y = -1   
-                player.status = 'up'
-
             elif keys[pygame.K_DOWN] and player.moving:
                 player.direction.y = 1  
-                player.status = 'down'
             else:
                 player.direction.y = 0
 
             if keys[pygame.K_LEFT] and player.moving:
                 player.direction.x = -1
-                player.status = 'left'
-
             elif keys[pygame.K_RIGHT] and player.moving:
                 player.direction.x = 1
-                player.status = 'right'
             else:
                 player.direction.x = 0
         
@@ -134,7 +128,6 @@ class Game:
                         player.attacking = True
                         player.inventory.get("raid").time = pygame.time.get_ticks()
                         controller.create_attack()
-                        print('oi')
                 except:
                         player.attacking = True
                         player.inventory.get("raid").time = pygame.time.get_ticks()

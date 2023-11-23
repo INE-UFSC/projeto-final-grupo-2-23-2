@@ -15,7 +15,6 @@ class Enemy(Creature):
 
         self.hitbox = self.rect.inflate(0, -10)
         self.state = 'idle'
-        self.status = 'down'
         self.range = 300
         self.sprite_type = 'enemy'
         self.speed = 3
@@ -30,6 +29,16 @@ class Enemy(Creature):
 
         self.import_assets()
 
+    def import_assets(self):
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies' + self.name 
+        self.animations = {
+            'up': [], 'down': [], 'left': [], 'right': [],
+            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
+            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []
+            }
+        for animation in self.animations.keys():
+            full_path = path + "/" + animation
+            self.animations[animation] = import_folder(full_path)
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -47,16 +56,21 @@ class Enemy(Creature):
                     splited_status[1] = "attack"
                     self.status = "_".join(splited_status)
 
-    def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies' + self.name 
-        self.animations = {
-            'up': [], 'down': [], 'left': [], 'right': [],
-            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
-            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []
-            }
-        for animation in self.animations.keys():
-            full_path = path + "/" + animation
-            self.animations[animation] = import_folder(full_path)
+    def animate(self):
+        animation = self.animations[self.status]
+
+        # print(animation)
+
+        # loop over the frame index
+        self.frame_index += self.animation_speed
+        if self.frame_index >= (len(animation)):
+            self.frame_index = 0
+
+        # set the image
+        self.image = animation[int(self.frame_index)]
+        self.hitbox = self.rect.inflate(0, -26)
+
+        self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -127,6 +141,7 @@ class Enemy(Creature):
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+                self.status = self.status.split("_")[0]
         if self.invincible:
             if current_time - self.invincible_time >= self.invincible_cooldown:
                 self.invincible = False
@@ -156,7 +171,8 @@ class Enemy(Creature):
 
     def update(self):
         self.get_status()
+        # self.animate()
         self.show_health_bar()
         self.move()
         self.cooldowns()
-        print(self.status)
+        

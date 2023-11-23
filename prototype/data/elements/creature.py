@@ -29,6 +29,12 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.invincible = False
         self.invincible_time = None
         self.invincible_cooldown = 400
+
+        # animate
+        self.frame_index = 0
+        self.animation_speed = 0.15
+
+        self.status = "down"
     
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/' + self.name 
@@ -58,16 +64,28 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.rect = self.image.get_rect(center = self.hitbox.center)
         
     def move(self):
-        # normalizando a velocidade na diagonal
+        # Define a direção baseada nas componentes x e y da direção
+        if self.direction.y > 0:
+            self.status = "down"
+        elif self.direction.y < 0:
+            self.status = "up"
+        if self.direction.x > 0:
+            self.status = "right"
+        elif self.direction.x < 0:
+            self.status = "left"
+
+        # diagonal fixed
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
         
         # horizontal
         self.hitbox.x += self.direction.x * self.speed
         self.colision('horizontal')
+
         # vertical
         self.hitbox.y += self.direction.y * self.speed
         self.colision('vertical')
+
         self.rect.center = self.hitbox.center
 
     def colision(self, direction):
