@@ -27,24 +27,19 @@ class Enemy(Creature):
         self.attack_time = None
         self.attack_cooldown = 1000
         self.origin = position
-        
-        # #barra de hp
-        # self.health_bar_size = self.rect.width*1.5
-        # self.ratio_health_bar = hp / self.health_bar_size # tamanho da barra
 
         self.import_assets()
 
     def health_bar(self):
         # coordinarion calculation
-        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (self.health_bar_size-self.rect.width)/2
+        width = self.rect.width*1.5
+        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (width - self.rect.width)/2
         y = self.rect.topleft[1] - self.visible_sprites.player.rect.centery + self.visible_sprites.half_heigth - 20
         self.desvio_y = self.rect.centery - self.visible_sprites.half_heigth
 
         # bg rect
         bg_rect = pygame.Rect(x, y, self.rect.width*1.5, 12) 
         pygame.draw.rect(self.visible_sprites.surface, "#222222", bg_rect) 
-
-
 
         # insider rect
         ratio = self.hp / self.max_hp
