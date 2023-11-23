@@ -13,7 +13,7 @@ from random import choice
 class Level:
     def __init__(self, map_name):
         self.name = map_name
-        self.controller = Controller()
+        self.controller = Controller(self.name)
         
         self.surface = pygame.display.get_surface()        
         self.tilesize = 64
