@@ -20,12 +20,12 @@ class Game:
 
         # self.width = 1920
         # self.heigth = 1080
-        self.width = 1600
-        self.height = 900
+        
+        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
         self.fps = 60
         self.clock = pygame.time.Clock()
         self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
-        self.view = pygame.display.set_mode((self.width, self.height))
+        self.view = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
         pygame.display.set_caption('PartsFinder')
         
         self.views = ScreenContainer(self)
@@ -70,7 +70,7 @@ class Game:
                 #pygame.quit()
 
             # prenchendo display com verde, reseta a malha
-            self.current_level.surface.fill('black')
+            self.current_level.surface.fill('#71ddee')
 
             # roda fase
             self.current_level.run()
