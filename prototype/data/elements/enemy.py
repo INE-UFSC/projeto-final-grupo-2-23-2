@@ -30,7 +30,7 @@ class Enemy(Creature):
         self.import_assets()
 
     def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies' + self.name 
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies/' + self.name 
         self.animations = {
             'up': [], 'down': [], 'left': [], 'right': [],
             'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
@@ -172,7 +172,7 @@ class Enemy(Creature):
     def update(self):
         self.get_status()
         # self.animate()
-        self.show_health_bar()
         self.move()
+        self.show_health_bar()
         self.cooldowns()
         
