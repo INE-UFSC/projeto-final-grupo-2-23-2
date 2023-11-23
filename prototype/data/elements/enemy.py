@@ -15,7 +15,7 @@ class Enemy(Creature):
 
         self.hitbox = self.rect.inflate(0, -10)
         self.state = 'idle'
-        self.status = 'idle'
+        self.status = 'down'
         self.range = 300
         self.sprite_type = 'enemy'
         self.speed = 3
@@ -30,29 +30,22 @@ class Enemy(Creature):
 
         self.import_assets()
 
-    def health_bar(self):
-        # coordinarion calculation
-        width = self.rect.width*1.5
-        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (width - self.rect.width)/2
-        y = self.rect.topleft[1] - self.visible_sprites.player.rect.centery + self.visible_sprites.half_heigth - 20
-        self.desvio_y = self.rect.centery - self.visible_sprites.half_heigth
-
-        # bg rect
-        bg_rect = pygame.Rect(x, y, self.rect.width*1.5, 12) 
-        pygame.draw.rect(self.visible_sprites.surface, "#222222", bg_rect) 
-
-        # insider rect
-        ratio = self.hp / self.max_hp
-        current_width = bg_rect.width * ratio
-        current_rect = bg_rect.copy()
-        current_rect.width = current_width
-
-        pygame.draw.rect(self.visible_sprites.surface, "red", current_rect)
-        pygame.draw.rect(self.visible_sprites.surface, "#111111", bg_rect, 3)
-
 
     def get_status(self):
-        pass
+        if self.direction.x == 0 and self.direction.y == 0:
+            if not "_" in self.status:
+                self.status = self.status + "_idle"
+
+        if self.attacking:
+            self.direction.x = 0
+            self.direction.y = 0
+            if not "attack" in self.status:
+                splited_status = self.status.split("_")
+                if len(splited_status) == 1:
+                    self.status = self.status + "_attack"
+                else:
+                    splited_status[1] = "attack"
+                    self.status = "_".join(splited_status)
 
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies' + self.name 
@@ -140,7 +133,30 @@ class Enemy(Creature):
         else:
             return True
     
+    def show_health_bar(self):
+        # coordinarion calculation
+        width = self.rect.width*1.5
+        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (width - self.rect.width)/2
+        y = self.rect.topleft[1] - self.visible_sprites.player.rect.centery + self.visible_sprites.half_heigth - 20
+        self.desvio_y = self.rect.centery - self.visible_sprites.half_heigth
+
+        # bg rect
+        bg_rect = pygame.Rect(x, y, self.rect.width*1.5, 12) 
+        pygame.draw.rect(self.visible_sprites.surface, "#222222", bg_rect) 
+
+        # insider rect
+        ratio = self.hp / self.max_hp
+        current_width = bg_rect.width * ratio
+        current_rect = bg_rect.copy()
+        current_rect.width = current_width
+
+        pygame.draw.rect(self.visible_sprites.surface, "red", current_rect)
+        pygame.draw.rect(self.visible_sprites.surface, "#111111", bg_rect, 3)
+
+
     def update(self):
-        self.health_bar()
+        self.get_status()
+        self.show_health_bar()
         self.move()
         self.cooldowns()
+        print(self.status)
