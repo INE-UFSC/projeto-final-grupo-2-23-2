@@ -7,7 +7,6 @@ from data.elements.controller import Controller
 from data.components.button import Button
 
 
-
 class Game:
     def __init__(self):
         # inciando pygame
@@ -42,6 +41,9 @@ class Game:
 
         # Others
         self.player = None
+
+    def run(self):
+        self.intro_screen()
 
     # comeca
     def start(self):
