@@ -91,6 +91,7 @@ class Enemy(Creature):
                 self.direction = self.get_player_distance_direction(player)[1]*(-1)
         else:
             if self.state == 'attack' and self.cooldowns() and self.can_damage:
+                self.direction = pygame.math.Vector2()
                 self.attack(player)
             
             elif self.state == 'move':
