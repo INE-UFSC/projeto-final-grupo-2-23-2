@@ -1,5 +1,6 @@
 from data.elements.creature import Creature
 from data.elements.player import Player
+from data.components.support import import_folder
 import pygame
 import os
 
@@ -8,9 +9,8 @@ class Enemy(Creature):
         super().__init__(name, hp, position, groups, obstacle_sprites)
 
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../resources/elements/enemies/' + name + '.png').convert_alpha()
+            __file__))+'/../../resources/elements/enemies/enemy/' +  name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
-
         self.hitbox = self.rect.inflate(0, -10)
         self.status = 'idle'
         self.range = 300
@@ -28,6 +28,18 @@ class Enemy(Creature):
         #barra de hp
         self.health_bar_size = self.rect.width*1.5
         self.ratio_health_bar = hp / self.health_bar_size # tamanho da barra
+        self.import_assets()
+        
+    def import_assets(self):
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies' + self.name 
+        self.animations = {
+            'up': [], 'down': [], 'left': [], 'right': [],
+            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
+            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []
+            }
+        for animation in self.animations.keys():
+            full_path = path + "/" + animation
+            self.animations[animation] = import_folder(full_path)
         
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -52,6 +64,7 @@ class Enemy(Creature):
 
         return (distance, direction)
         
+        
     def get_status(self, player):
         distance_to_player = self.get_player_distance_direction(player)[0]
         distance_to_origin = self.return_to_origin()[0]
@@ -62,7 +75,7 @@ class Enemy(Creature):
         elif distance_to_player <= self.range:
             self.status = 'move'
         else:
-            if distance_to_origin != 0:
+            if distance_to_origin >= 10:
                 self.status = 'return'
             else:
                 self.status = 'idle'
@@ -72,6 +85,7 @@ class Enemy(Creature):
                 self.direction = self.get_player_distance_direction(player)[1]*(-1)
         else:
             if self.status == 'attack' and self.cooldowns() and self.can_damage:
+                self.direction = pygame.math.Vector2()
                 self.atacar(player)
             
             elif self.status == 'move':

@@ -20,8 +20,8 @@ class Game:
 
         # self.width = 1920
         # self.heigth = 1080
-        self.width = 1080
-        self.height = 720
+        self.width = 1600
+        self.height = 900
         self.fps = 60
         self.clock = pygame.time.Clock()
         self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
@@ -134,6 +134,7 @@ class Game:
                         player.attacking = True
                         player.inventory.get("raid").time = pygame.time.get_ticks()
                         controller.create_attack()
+                        print('oi')
                 except:
                         player.attacking = True
                         player.inventory.get("raid").time = pygame.time.get_ticks()
