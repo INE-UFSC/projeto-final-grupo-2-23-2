@@ -6,7 +6,7 @@ from data.elements.player import Player
 from data.elements.enemy import Enemy
 from data.components.tile import Tile
 from data.elements.controller import Controller
-from data.components.hud import Ui
+from data.components.hud import Hud
 from data.components.support import import_csv_layout, import_folder
 from random import choice
 
@@ -22,7 +22,7 @@ class Level:
         self.dropped_items = None  # dropped_items
 
         self.generate_map()
-        self.ui = Ui(self.controller)
+        self.hud = Hud(self.controller.player)
 
 
     def generate_map(self):
@@ -83,4 +83,4 @@ class Level:
         self.controller.player_attack_logic()
         self.controller.player_defense_logic()
         self.controller.player_collect_item()
-        self.ui.display()
+        self.hud.display()
