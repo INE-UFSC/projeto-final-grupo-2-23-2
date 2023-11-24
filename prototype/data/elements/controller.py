@@ -1,3 +1,4 @@
+from data.components.settings import Settings
 import pygame
 import os
 from data.components.sprites import Sprites

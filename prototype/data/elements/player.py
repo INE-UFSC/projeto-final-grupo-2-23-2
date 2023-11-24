@@ -1,28 +1,33 @@
 from data.elements.creature import Creature
+from data.components.settings import Settings
 from data.elements.inventory import Inventory
 from data.components.support import import_folder
 import pygame
 import os
 
 class Player(Creature):
-    def __init__(self, name, hp, position, groups, obstacle_sprites):
-        super().__init__(name, hp, position, groups, obstacle_sprites)
+    def __init__(self, name, position, groups, obstacle_sprites):
+        super().__init__(name, position, groups, obstacle_sprites)
         
-        self.name = name
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__)) + '/../../resources/elements/creatures/player/' + name + '.png').convert_alpha()
+            __file__)) + Settings().player_folder + self.name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
         self.hitbox = self.rect.inflate(0, -26)
         self.sprite_type = 'player'
         self.import_assets()
         
+        #health
+        self.max_hp = self.info.get('health')
+        self.hp = self.info.get('health')
+
         # movement
-        
         self.direction = pygame.math.Vector2()
         self.moving = True
-
-        self.normal_speed = 5
-        self.speed = 4
+        self.normal_speed = self.info.get('speed')
+        self.speed = self.info.get('speed')
+        
+        #invincibility
+        self.invincible_cooldown = self.info.get('invincible_cooldown')
 
         # items
         self.inventory = Inventory()
