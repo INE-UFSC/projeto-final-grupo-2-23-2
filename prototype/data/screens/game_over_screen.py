@@ -26,7 +26,7 @@ class GameOverScreen(Screen):
                     game.last_click_time = current_time
 
                     if button.content == 'Reiniciar':
-                        game.reset_game()
+                        game.reset()
 
                     if button.content == 'Voltar ao menu principal':
                         game.choose_screen("intro")

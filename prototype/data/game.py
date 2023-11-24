@@ -27,15 +27,7 @@ class Game:
     def run(self):
         self.choose_screen("intro")
 
-    # comeca
-    def start(self):
-        if self.player != None:
-            if self.player.hp == 0:
-                self.reset_game()
-        else:
-            self.play()
-
-    def reset_game(self):
+    def reset(self):
         # Reiniciar os atributos necessários para reiniciar o jogo
         self.levels = Levels()
         self.level = self.levels.get_level()
@@ -43,45 +35,49 @@ class Game:
         self.player = None
 
         # Iniciar o jogo novamente
-        self.play()
+        self.start()
 
 
     # loop do jogo
-    def play(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    while True:
-                        pygame.quit()
-                        sys.exit()
-        
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_t:
-                        next_level = Level(f"level_{len(self.levels.levels) + 1}", self.player)
-                        self.levels.add_level(next_level)
-                        self.level = next_level
-
-
-            if self.player == None:
-                self.player = self.level.controller.player
-
-            # morte
+    def start(self):
+        if self.player != None:
             if self.player.hp == 0:
-                self.choose_screen("gameover")                
+                    self.reset()
+        else:
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        while True:
+                            pygame.quit()
+                            sys.exit()
+            
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_t:
+                            next_level = Level(f"level_{len(self.levels.levels) + 1}", self.player)
+                            self.levels.add_level(next_level)
+                            self.level = next_level
 
-            # prenchendo display com verde, reseta a malha
-            self.level.surface.fill('#71ddee')
 
-            # roda fase
-            self.level.run()
-            self.input_handler()
+                if self.player == None:
+                    self.player = self.level.controller.player
 
-            # atualiza display
-            pygame.display.flip()
+                # morte
+                if self.player.hp == 0:
+                    self.choose_screen("gameover")                
 
-            # define fps do jogo
-            self.clock.tick(Settings().fps)
-    
+                # prenchendo display com verde, reseta a malha
+                self.level.surface.fill('#71ddee')
+
+                # roda fase
+                self.level.run()
+                self.input_handler()
+
+                # atualiza display
+                pygame.display.flip()
+
+                # define fps do jogo
+                self.clock.tick(Settings().fps)
+        
     def choose_screen(self, name):
         try:
             self.screens.choose_screen(name)

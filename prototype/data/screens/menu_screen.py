@@ -25,7 +25,7 @@ class MenuScreen(Screen):
                     game.last_click_time = current_time
 
                     if button.content == 'Return to game':
-                        game.play()
+                        game.start()
                         
                     if button.content == 'Configurations':
                         game.choose_screen("config")

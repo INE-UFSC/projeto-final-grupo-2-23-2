@@ -24,7 +24,7 @@ class ConfigScreen(Screen):
                 if button is not None:
                     game.last_click_time = current_time
                     if button.content == 'Return to game':
-                        game.play()
+                        game.start()
                     if button.content == 'Return to menu':
                         game.choose_screen("menu")
 
