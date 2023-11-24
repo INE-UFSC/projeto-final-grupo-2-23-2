@@ -10,7 +10,7 @@ class Enemy(Creature):
         super().__init__(name, hp, position, groups, obstacle_sprites)
 
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../resources/elements/enemies/enemy/' +  name + '.png').convert_alpha()
+            __file__))+'/../../resources/elements/creatures/'+ name + '/'+  name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
 
         self.hitbox = self.rect.inflate(0, -10)
@@ -27,19 +27,6 @@ class Enemy(Creature):
         self.attack_cooldown = 400
         self.origin = position
 
-        self.import_assets()
-
-    def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies/' + self.name 
-        self.animations = {
-            'up': [], 'down': [], 'left': [], 'right': [],
-            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
-            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []
-            }
-        for animation in self.animations.keys():
-            full_path = path + "/" + animation
-            self.animations[animation] = import_folder(full_path)
-
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
             if not "_" in self.status:
@@ -55,22 +42,6 @@ class Enemy(Creature):
                 else:
                     splited_status[1] = "attack"
                     self.status = "_".join(splited_status)
-
-    def animate(self):
-        animation = self.animations[self.status]
-
-        # print(animation)
-
-        # loop over the frame index
-        self.frame_index += self.animation_speed
-        if self.frame_index >= (len(animation)):
-            self.frame_index = 0
-
-        # set the image
-        self.image = animation[int(self.frame_index)]
-        self.hitbox = self.rect.inflate(0, -26)
-
-        self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -167,7 +138,6 @@ class Enemy(Creature):
 
         pygame.draw.rect(self.visible_sprites.surface, "red", current_rect)
         pygame.draw.rect(self.visible_sprites.surface, "#111111", bg_rect, 3)
-
 
     def update(self):
         self.get_status()

@@ -4,11 +4,8 @@ import os
 from data.elements.inventory import Inventory
 from data.components.support import import_folder
 
-#a
-
 class Creature(pygame.sprite.Sprite, ABC):
     def __init__(self, name, hp, position, groups, obstacle_sprites):
-        # insanciacao do Sprite
         super().__init__(groups)
 
         # atributos concretos
@@ -35,16 +32,15 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.animation_speed = 0.15
 
         self.status = "down"
+
+        self.import_assets()
     
     def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/' + self.name 
-        self.animations = {
-            'up': [], 'down': [], 'left': [], 'right': [],
-            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
-            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': [],
-            'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': [],
-            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': []
-        }
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/creatures/' + self.name
+
+        animations = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
+        self.animations = {animation: [] for animation in animations}
+
         for animation in self.animations.keys():
             full_path = path + "/" + animation
             self.animations[animation] = import_folder(full_path)

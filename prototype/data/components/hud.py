@@ -9,7 +9,7 @@ class Hud():
 
     def show_profile(self):
         # show image
-        image = pygame.image.load(f'{os.path.dirname(os.path.abspath(__file__))}/../../resources/elements/{self.player.name}/{self.player.name}.png')
+        image = pygame.image.load(f'{os.path.dirname(os.path.abspath(__file__))}/../../resources/elements/creatures/{self.player.name}/{self.player.name}.png')
 
         width = image.get_width() + 10
         height = image.get_height() + 10
@@ -18,7 +18,6 @@ class Hud():
         pygame.draw.rect(bordered_surface, "#111111", (0, 0, width, height), 5)
 
         self.display_surface.blit(bordered_surface, (13,13))
-
 
         # bg rect
         bg_rect = pygame.Rect(20 + width, 13, 300, 30) 

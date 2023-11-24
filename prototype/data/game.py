@@ -14,13 +14,10 @@ class Game:
         pygame.init()
 
         # atributos
-        self.player = None #todo: tem que ficar aqui?
+        self.player = None
         self.difficulty = None
         self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../resources/fonts/stocky.ttf', 32)
 
-        # self.width = 1920
-        # self.heigth = 1080
-        
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
         self.fps = 60
         self.clock = pygame.time.Clock()
@@ -29,8 +26,7 @@ class Game:
         pygame.display.set_caption('PartsFinder')
         
         self.views = ScreenContainer(self)
-        #
-
+        
         # demais atributos
         self.levels = Levels()
         self.current_level = self.levels.get_level()

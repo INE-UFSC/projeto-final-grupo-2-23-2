@@ -37,8 +37,8 @@ class Level:
                   }
         
         graphics = {
-             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/textures/grass'),
-             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/textures/objects')
+             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/textures/grass'),
+             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/textures/objects')
 
         }
         for style, layout in layout.items():
@@ -60,7 +60,7 @@ class Level:
 
                         if style == 'entity':
                             if col == '393':
-                                  self.controller.enemies = Enemy("enemy", 100, (x,y), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
+                                  self.controller.enemies = Enemy("skeleton", 100, (x,y), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
                                   
                             if col == '394':
                                 if self.player:
