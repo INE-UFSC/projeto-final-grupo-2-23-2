@@ -7,6 +7,7 @@ class Raid(Powerup):
         super().__init__(name, player, groups)
 
         self.damage = 40
+        self.stamina_cost = 50
         self.duration = 170
         self.cooldown = 400
         self.time = None

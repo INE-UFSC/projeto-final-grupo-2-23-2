@@ -17,17 +17,21 @@ class Player(Creature):
         self.import_assets()
         
         # movement
-        
         self.direction = pygame.math.Vector2()
         self.moving = True
-
         self.normal_speed = 5
         self.speed = 4
 
         # items
         self.inventory = Inventory()
 
-        # player actions
+        # player stamina
+        self.max_stamina = 200
+        self.stamina = 200
+        self.stamina_time = 0
+        self.stamina_cooldown = 100
+        
+        # player status
         self.deffending = False
         self.dashing = False
         self.picking = False    
@@ -108,11 +112,30 @@ class Player(Creature):
             
                 self.status = self.status.split("_")[0]
 
+        if current_time - self.stamina_time >= self.stamina_cooldown:
+            self.stamina_time = current_time
+            self.update_stamina()
+        
         return destroy_attack, destroy_defense
 
     def use_dash(self):
-        self.inventory.get("dash").get_player_direction()
-        self.inventory.get("dash").time = pygame.time.get_ticks()
-        self.dashing = True
-        self.invincible = True
-        self.invincible_time = pygame.time.get_ticks()
+        if self.stamina_check(self.inventory.get('dash').stamina_cost):
+            
+            self.inventory.get("dash").get_player_direction()
+            self.inventory.get("dash").time = pygame.time.get_ticks()
+            self.dashing = True
+            self.invincible = True
+            self.invincible_time = pygame.time.get_ticks()
+            print(self.stamina)
+            
+    def update_stamina(self):
+        if 'move' in self.status or 'idle' in self.status:
+            if self.stamina < self.max_stamina:
+                self.stamina += 20
+                if self.stamina > self.max_stamina:
+                    self.stamina = self.max_stamina 
+
+    def stamina_check(self, cost):
+        if self.stamina >= cost:
+            self.stamina -= cost
+            return True

@@ -7,6 +7,7 @@ class Guard(Powerup):
         super().__init__(name, player, groups)
         self.speed = 2
         self.duration = 500
+        self.stamina_cost = 70
         self.cooldown = 600
         self.time = None
         
