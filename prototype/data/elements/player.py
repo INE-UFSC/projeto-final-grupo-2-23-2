@@ -16,10 +16,8 @@ class Player(Creature):
         self.sprite_type = 'player'
         self.import_assets()
         
-        # movement 
-        self.status = 'down'
-        self.frame_index = 0
-        self.animation_speed = 0.15
+        # movement
+        
         self.direction = pygame.math.Vector2()
         self.moving = True
 

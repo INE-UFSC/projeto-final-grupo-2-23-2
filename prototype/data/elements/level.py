@@ -13,7 +13,7 @@ from random import choice
 class Level:
     def __init__(self, map_name):
         self.name = map_name
-        self.controller = Controller()
+        self.controller = Controller(self.name)
         
         self.surface = pygame.display.get_surface()        
         self.tilesize = 64
@@ -64,13 +64,13 @@ class Level:
                                 cont.player = Player("player", 100, (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
                                 
                             if col == '376':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/raid/full.png').convert_alpha())                            
+                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/icons/raid.png').convert_alpha())                            
                             
                             if col == '252':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard')
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/icons/guard.png').convert_alpha() )
 
                             if col == '89':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash')
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/icons/dash.png').convert_alpha())
 
         
 

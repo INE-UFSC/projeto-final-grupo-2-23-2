@@ -1,5 +1,7 @@
 from data.elements.creature import Creature
 from data.elements.player import Player
+from data.components.support import import_folder
+
 import pygame
 import os
 
@@ -8,11 +10,11 @@ class Enemy(Creature):
         super().__init__(name, hp, position, groups, obstacle_sprites)
 
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../resources/elements/enemies/' + name + '.png').convert_alpha()
+            __file__))+'/../../resources/elements/enemies/enemy/' +  name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
 
         self.hitbox = self.rect.inflate(0, -10)
-        self.status = 'idle'
+        self.state = 'idle'
         self.range = 300
         self.sprite_type = 'enemy'
         self.speed = 3
@@ -24,11 +26,52 @@ class Enemy(Creature):
         self.attack_time = None
         self.attack_cooldown = 1000
         self.origin = position
-        
-        #barra de hp
-        self.health_bar_size = self.rect.width*1.5
-        self.ratio_health_bar = hp / self.health_bar_size # tamanho da barra
-        
+
+        self.import_assets()
+
+    def import_assets(self):
+        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/enemies/' + self.name 
+        self.animations = {
+            'up': [], 'down': [], 'left': [], 'right': [],
+            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
+            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []
+            }
+        for animation in self.animations.keys():
+            full_path = path + "/" + animation
+            self.animations[animation] = import_folder(full_path)
+
+    def get_status(self):
+        if self.direction.x == 0 and self.direction.y == 0:
+            if not "_" in self.status:
+                self.status = self.status + "_idle"
+
+        if self.attacking:
+            self.direction.x = 0
+            self.direction.y = 0
+            if not "attack" in self.status:
+                splited_status = self.status.split("_")
+                if len(splited_status) == 1:
+                    self.status = self.status + "_attack"
+                else:
+                    splited_status[1] = "attack"
+                    self.status = "_".join(splited_status)
+
+    def animate(self):
+        animation = self.animations[self.status]
+
+        # print(animation)
+
+        # loop over the frame index
+        self.frame_index += self.animation_speed
+        if self.frame_index >= (len(animation)):
+            self.frame_index = 0
+
+        # set the image
+        self.image = animation[int(self.frame_index)]
+        self.hitbox = self.rect.inflate(0, -26)
+
+        self.rect = self.image.get_rect(center = self.hitbox.center)
+
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
         player_vec = pygame.math.Vector2(player.rect.center)
@@ -52,44 +95,45 @@ class Enemy(Creature):
 
         return (distance, direction)
         
-    def get_status(self, player):
+    def get_state(self, player):
         distance_to_player = self.get_player_distance_direction(player)[0]
         distance_to_origin = self.return_to_origin()[0]
         
         if distance_to_player <= self.attack_range:
-            self.status = 'attack'
+            self.state = 'attack'
 
         elif distance_to_player <= self.range:
-            self.status = 'move'
+            self.state = 'move'
         else:
-            if distance_to_origin != 0:
-                self.status = 'return'
+            if distance_to_origin >= 10:
+                self.state = 'return'
             else:
-                self.status = 'idle'
+                self.state = 'idle'
 
     def action(self, player):
         if self.invincible:
                 self.direction = self.get_player_distance_direction(player)[1]*(-1)
         else:
-            if self.status == 'attack' and self.cooldowns() and self.can_damage:
-                self.atacar(player)
+            if self.state == 'attack' and self.cooldowns() and self.can_damage:
+                self.direction = pygame.math.Vector2()
+                self.attack(player)
             
-            elif self.status == 'move':
+            elif self.state == 'move':
                     self.direction = self.get_player_distance_direction(player)[1]
             
-            elif self.status == 'return':
+            elif self.state == 'return':
                     self.direction = self.return_to_origin()[1]
             
             else:
                 self.direction = pygame.math.Vector2()
 
-    def atacar(self, player: Player):
+    def attack(self, player: Player):
         player.take_damage(self.damage)
         self.attacking = True
         self.attack_time = pygame.time.get_ticks()
 
     def enemy_update(self, player):
-        self.get_status(player)
+        self.get_state(player)
         self.action(player)
 
     def cooldowns(self):
@@ -97,6 +141,7 @@ class Enemy(Creature):
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+                self.status = self.status.split("_")[0]
         if self.invincible:
             if current_time - self.invincible_time >= self.invincible_cooldown:
                 self.invincible = False
@@ -105,7 +150,8 @@ class Enemy(Creature):
     
     def show_health_bar(self):
         # coordinarion calculation
-        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (self.health_bar_size-self.rect.width)/2
+        width = self.rect.width*1.5
+        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (width - self.rect.width)/2
         y = self.rect.topleft[1] - self.visible_sprites.player.rect.centery + self.visible_sprites.half_heigth - 20
         self.desvio_y = self.rect.centery - self.visible_sprites.half_heigth
 
@@ -122,8 +168,11 @@ class Enemy(Creature):
         pygame.draw.rect(self.visible_sprites.surface, "red", current_rect)
         pygame.draw.rect(self.visible_sprites.surface, "#111111", bg_rect, 3)
 
-    def update(self):
-        self.show_health_bar()
-        self.move()
-        self.cooldowns()
 
+    def update(self):
+        self.get_status()
+        self.animate()
+        self.move()
+        self.show_health_bar()
+        self.cooldowns()
+        

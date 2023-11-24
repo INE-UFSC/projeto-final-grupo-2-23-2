@@ -19,12 +19,12 @@ class Game:
 
         # self.width = 1920
         # self.heigth = 1080
-        self.width = 1080
-        self.height = 720
+        
+        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
         self.fps = 60
         self.clock = pygame.time.Clock()
         self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
-        self.view = pygame.display.set_mode((self.width, self.height))
+        self.view = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
         pygame.display.set_caption('PartsFinder')
         
         self.views = ScreenContainer(self)
@@ -87,7 +87,7 @@ class Game:
                 
 
             # prenchendo display com verde, reseta a malha
-            self.current_level.surface.fill('black')
+            self.current_level.surface.fill('#71ddee')
 
             # roda fase
             self.current_level.run()
@@ -127,21 +127,15 @@ class Game:
         if not player.dashing:
             if keys[pygame.K_UP] and player.moving:
                 player.direction.y = -1   
-                player.status = 'up'
-
             elif keys[pygame.K_DOWN] and player.moving:
                 player.direction.y = 1  
-                player.status = 'down'
             else:
                 player.direction.y = 0
 
             if keys[pygame.K_LEFT] and player.moving:
                 player.direction.x = -1
-                player.status = 'left'
-
             elif keys[pygame.K_RIGHT] and player.moving:
                 player.direction.x = 1
-                player.status = 'right'
             else:
                 player.direction.x = 0
         
@@ -187,6 +181,6 @@ class Game:
                 except:
                     player.use_dash()
 
-        if keys[pygame.K_p]:
+        if keys[pygame.K_ESCAPE]:
             self.menu_screen()
 

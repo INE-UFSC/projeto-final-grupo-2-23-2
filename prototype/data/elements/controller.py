@@ -6,11 +6,13 @@ from data.elements.guard import Guard
 from data.elements.dash import Dash
 
 class Controller:
-    def __init__(self):
+    def __init__(self, level_name):
         self.player = None
         self.enemies = None
         
-        self.visible_sprites = Sprites()
+        self.level_name = level_name
+        
+        self.visible_sprites = Sprites(self.level_name)
         self.obstacles_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
         self.attacks_sprites = pygame.sprite.Group()
