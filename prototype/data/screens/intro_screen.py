@@ -27,7 +27,7 @@ class IntroScreen(Screen):
                         game.start()
 
                     if button.content == 'Configurations':
-                        game.config_screen()
+                        game.choose_screen("config2")
 
                     if button.content == 'Quit Game':
                         pygame.quit()

@@ -25,11 +25,10 @@ class MenuScreen(Screen):
                     game.last_click_time = current_time
 
                     if button.content == 'Return to game':
-                        game.start()
+                        game.play()
                         
-
                     if button.content == 'Configurations':
-                        game.config_screen()
+                        game.choose_screen("config")
 
                     if button.content == 'Quit Game':
                         pygame.quit()

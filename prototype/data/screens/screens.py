@@ -1,14 +1,16 @@
 from data.screens.intro_screen import IntroScreen
 from data.screens.menu_screen import MenuScreen
 from data.screens.config_screen import ConfigScreen
+from data.screens.config2_screen import Config2Screen
 from data.screens.game_over_screen import GameOverScreen
+
 from data.components.exceptions import *
 import pygame
 
 
 class Screens:
     def __init__(self, game):
-        self.screens = [IntroScreen(), MenuScreen(), ConfigScreen(), GameOverScreen()]
+        self.screens = [IntroScreen(), MenuScreen(), ConfigScreen(), GameOverScreen(), Config2Screen()]
         self.screen = None
 
         self.__initialize_display()
@@ -35,5 +37,5 @@ class Screens:
     def run(self, game):
         try:
             self.screen.run(game)
-        except AttributeError:
+        except Exception:
             raise ScreenNotRunned(self.screen)

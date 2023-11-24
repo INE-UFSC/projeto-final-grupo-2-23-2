@@ -5,5 +5,5 @@ class ScreenNotFound(Exception):
 
 class ScreenNotRunned(Exception):
     def __init__(self, screen):
-        message = f"screen {screen} was not able to run"
+        message = f"screen {screen} was not able to run, fix the code"
         super().__init__(message)

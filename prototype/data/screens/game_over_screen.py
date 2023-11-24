@@ -29,7 +29,7 @@ class GameOverScreen(Screen):
                         game.reset_game()
 
                     if button.content == 'Voltar ao menu principal':
-                        game.intro_screen()
+                        game.choose_screen("intro")
 
                     if button.content == 'Sair do jogo':
                         pygame.quit()
