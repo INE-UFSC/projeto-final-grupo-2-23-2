@@ -64,15 +64,16 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.rect = self.image.get_rect(center = self.hitbox.center)
         
     def move(self):
-        # Define a direção baseada nas componentes x e y da direção
-        if self.direction.y > 0:
-            self.status = "down"
-        elif self.direction.y < 0:
-            self.status = "up"
-        if self.direction.x > 0:
-            self.status = "right"
-        elif self.direction.x < 0:
-            self.status = "left"
+        if abs(self.direction.y) > abs(self.direction.x):
+            if self.direction.y > 0:
+                self.status = "down"
+            elif self.direction.y < 0:
+                self.status = "up"
+        else:
+            if self.direction.x < 0:
+                self.status = "left"
+            elif self.direction.x > 0:
+                self.status = "right"
 
         # diagonal fixed
         if self.direction.magnitude() != 0:

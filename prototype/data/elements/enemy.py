@@ -171,7 +171,7 @@ class Enemy(Creature):
 
     def update(self):
         self.get_status()
-        # self.animate()
+        self.animate()
         self.move()
         self.show_health_bar()
         self.cooldowns()
