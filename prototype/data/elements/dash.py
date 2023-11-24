@@ -1,13 +1,15 @@
+from data.components.settings import Settings
 from data.elements.powerup import Powerup
 import pygame
 
 class Dash(Powerup):
     def __init__(self, name, player, groups):
         super().__init__(name, player, groups)
-        self.time = None
-        self.duration = 250
-        self.cooldown = 500
-        self.speed = 4 * self.player.speed
+        
+        self.duration = self.info.get('duration')
+        self.cooldown = self.info.get('cooldown')
+        self.speed = self.info.get('speed')
+        
         self.direction = pygame.math.Vector2()
 
     def get_player_direction(self):

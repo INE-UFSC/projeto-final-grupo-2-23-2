@@ -1,3 +1,4 @@
+from data.components.settings import Settings
 from data.elements.creature import Creature
 from data.elements.player import Player
 from data.components.support import import_folder
@@ -6,26 +7,31 @@ import pygame
 import os
 
 class Enemy(Creature):
-    def __init__(self, name, hp, position, groups, visible_sprites, obstacle_sprites):
-        super().__init__(name, hp, position, groups, obstacle_sprites)
+    def __init__(self, name, position, groups, visible_sprites, obstacle_sprites):
+        super().__init__(name, position, groups, obstacle_sprites)
 
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+'/../../resources/elements/creatures/'+ name + '/'+  name + '.png').convert_alpha()
+            __file__))+ Settings().creatures_folder + self.name + '/'+  self.name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
-
         self.hitbox = self.rect.inflate(0, -10)
+        
         self.state = 'idle'
-        self.range = 300
         self.sprite_type = 'enemy'
-        self.speed = 3
-        self.attack_range = 50
-        self.damage = 25
         self.visible_sprites = visible_sprites
+        self.origin = position
+        
+        #health
+        self.max_hp = self.info.get('health')
+        self.hp = self.info.get('health')
+        
+        self.speed = self.info.get('speed')
+        self.detect_range = self.info.get('detect_range')
+        self.attack_range = self.info.get('attack_range')
+        self.attack_cooldown = self.info.get('attack_cooldown')
+        self.attack_damage = self.info.get('attack_damage')
 
         self.can_damage = True
         self.attack_time = None
-        self.attack_cooldown = 400
-        self.origin = position
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -73,7 +79,7 @@ class Enemy(Creature):
         if distance_to_player <= self.attack_range:
             self.state = 'attack'
 
-        elif distance_to_player <= self.range:
+        elif distance_to_player <= self.detect_range:
             self.state = 'move'
         else:
             if distance_to_origin >= 10:
@@ -99,7 +105,7 @@ class Enemy(Creature):
                 self.direction = pygame.math.Vector2()
 
     def attack(self, player: Player):
-        player.take_damage(self.damage)
+        player.take_damage(self.attack_damage)
         self.attacking = True
         self.attack_time = pygame.time.get_ticks()
 

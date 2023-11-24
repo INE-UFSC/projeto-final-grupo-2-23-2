@@ -1,7 +1,7 @@
 import pygame
-import json
 import os
 
+from data.components.settings import Settings
 from data.elements.player import Player
 from data.elements.enemy import Enemy
 from data.components.tile import Tile
@@ -30,15 +30,16 @@ class Level:
     def generate_map(self):
         cont = self.controller
         # loop pela matriz
-        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/{self.name}/csvs/map_FloorBlocks.csv'),
-                  'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/{self.name}/csvs/map_Grass.csv'),
-                  'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/{self.name}/csvs/map_Objects.csv'),
-                  'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ f'/../../resources/levels/{self.name}/csvs/map_Entities.csv')
+        
+        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder +self.name + Settings().floor_blocks_csv),
+                  'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().grass_csv),
+                  'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().map_objects_csv),
+                  'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().map_entites_csv)
                   }
         
         graphics = {
-             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/textures/grass'),
-             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+f'/../../resources/levels/textures/objects')
+             'grass' : import_folder(os.path.dirname(os.path.abspath(__file__))+ Settings().grass_texture_folder),
+             'objects' : import_folder(os.path.dirname(os.path.abspath(__file__))+ Settings().objects_texture_folder)
 
         }
         for style, layout in layout.items():
@@ -60,22 +61,22 @@ class Level:
 
                         if style == 'entity':
                             if col == '393':
-                                  self.controller.enemies = Enemy("skeleton", 100, (x,y), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
+                                  self.controller.enemies = Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
                                   
                             if col == '394':
                                 if self.player:
-                                    cont.update_player(Player("player", self.player.hp, (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites), self.player.inventory) 
+                                    cont.update_player(Player("player", (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites), self.player.inventory) 
                                 else:
-                                    cont.player = Player("player", 100, (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
+                                    cont.player = Player("player", (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
                                 
                             if col == '376':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/icons/raid.png').convert_alpha())                            
+                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().raid_icon).convert_alpha())                            
                             
                             if col == '252':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/icons/guard.png').convert_alpha() )
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().guard_icon).convert_alpha() )
 
                             if col == '89':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/icons/dash.png').convert_alpha())
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
 
         
 

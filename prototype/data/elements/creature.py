@@ -3,19 +3,22 @@ import pygame
 import os
 from data.elements.inventory import Inventory
 from data.components.support import import_folder
+from data.components.settings import Settings
 
 class Creature(pygame.sprite.Sprite, ABC):
-    def __init__(self, name, hp, position, groups, obstacle_sprites):
+    def __init__(self, name, position, groups, obstacle_sprites):
         super().__init__(groups)
 
         # atributos concretos
         self.name = name
-        self.max_hp = hp
-        self.hp = hp
+        self.max_hp = 100
+        self.hp = 100
         self.speed = 3
         self.inventory = Inventory()
-
+        
+        self.info = getattr(Settings(), self.name)
         # atributos mais subjetivos
+        
         self.position = position
         # vetor direcao
         self.direction = pygame.math.Vector2()
@@ -36,7 +39,7 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.import_assets()
     
     def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/creatures/' + self.name
+        path = os.path.dirname(os.path.abspath(__file__))+ Settings().creatures_folder + self.name
 
         animations = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
         self.animations = {animation: [] for animation in animations}
