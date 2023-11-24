@@ -10,7 +10,13 @@ import pygame
 
 class Screens:
     def __init__(self, game):
-        self.screens = [IntroScreen(), MenuScreen(), ConfigScreen(), GameOverScreen(), Config2Screen()]
+        self.screens = [
+            IntroScreen(),
+            MenuScreen(),
+            ConfigScreen(),
+            GameOverScreen(),
+            Config2Screen(),
+        ]
         self.screen = None
 
         self.__initialize_display()
