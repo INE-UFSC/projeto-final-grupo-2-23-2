@@ -24,7 +24,7 @@ class Enemy(Creature):
 
         self.can_damage = True
         self.attack_time = None
-        self.attack_cooldown = 1000
+        self.attack_cooldown = 400
         self.origin = position
 
         self.import_assets()
