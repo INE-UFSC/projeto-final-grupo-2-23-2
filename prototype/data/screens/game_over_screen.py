@@ -18,7 +18,7 @@ class GameOverScreen(Screen):
             if current_time - self.wait_time >= game.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        self.close()
                 
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
@@ -32,7 +32,7 @@ class GameOverScreen(Screen):
                         game.choose_screen("intro")
 
                     if button.content == 'Sair do jogo':
-                        pygame.quit()
+                        self.close()
 
             self.blit()
 

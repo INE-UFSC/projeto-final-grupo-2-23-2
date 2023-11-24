@@ -2,6 +2,7 @@ import pygame
 import os
 from data.components.settings import Settings
 from abc import ABC, abstractmethod
+import sys
 
 class Screen(ABC):
     def __init__(self):
@@ -30,7 +31,6 @@ class Screen(ABC):
                 return button    
         return None
 
-
     def blit(self):
         display_surface = pygame.display.get_surface()
 
@@ -43,6 +43,10 @@ class Screen(ABC):
         pygame.display.flip()
         Settings().clock.tick(Settings().fps)
     
+    def close(self):
+        pygame.quit()
+        sys.exit()
+
     @abstractmethod
     def run(self, game):
         pass

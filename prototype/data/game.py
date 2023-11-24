@@ -11,16 +11,14 @@ class Game:
     def __init__(self):
         pygame.init()
 
-        self.screens = Screens(self)
-
         self.player = None
+        self.screens = Screens(self)
+        self.levels = Levels()
+        self.level = self.levels.get_level()
+
 
         # atributos
         self.clock = pygame.time.Clock()
-
-        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
-        self.levels = Levels()
-        self.level = self.levels.get_level()
 
         self.last_click_time = 0
 
@@ -40,10 +38,7 @@ class Game:
 
     # loop do jogo
     def start(self):
-        if self.player != None:
-            if self.player.hp == 0:
-                    self.reset()
-        else:
+        def play():
             while True:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -57,15 +52,13 @@ class Game:
                             self.levels.add_level(next_level)
                             self.level = next_level
 
-
                 if self.player == None:
                     self.player = self.level.controller.player
 
-                # morte
                 if self.player.hp == 0:
+                    self.player = None
                     self.choose_screen("gameover")                
 
-                # prenchendo display com verde, reseta a malha
                 self.level.surface.fill('#71ddee')
 
                 # roda fase
@@ -77,6 +70,14 @@ class Game:
 
                 # define fps do jogo
                 self.clock.tick(Settings().fps)
+
+        if self.player == None:
+            play()
+        else:
+            if self.player.hp == 0:
+                self.reset()
+            else:
+                play()
         
     def choose_screen(self, name):
         try:

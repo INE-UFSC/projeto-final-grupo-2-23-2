@@ -1,6 +1,7 @@
 from data.screens.screen import Screen
 from data.screens.button import Button
 import pygame
+import sys
 
 class IntroScreen(Screen):
     def __init__(self):
@@ -16,7 +17,7 @@ class IntroScreen(Screen):
             if current_time - self.wait_time >= game.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        self.close()
                 
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
@@ -30,6 +31,6 @@ class IntroScreen(Screen):
                         game.choose_screen("config2")
 
                     if button.content == 'Quit Game':
-                        pygame.quit()
+                        self.close()
 
             self.blit()

@@ -17,7 +17,7 @@ class ConfigScreen(Screen):
             if current_time - self.wait_time >= game.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        self.close()
                 
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
