@@ -4,7 +4,6 @@ import pygame
 class Dash(Powerup):
     def __init__(self, name, player, groups):
         super().__init__(name, player, groups)
-        self.time = None
         self.stamina_cost = 30
         self.duration = 250
         self.cooldown = 500

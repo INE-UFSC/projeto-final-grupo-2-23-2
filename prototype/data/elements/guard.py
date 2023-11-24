@@ -9,7 +9,6 @@ class Guard(Powerup):
         self.duration = 500
         self.stamina_cost = 70
         self.cooldown = 600
-        self.time = None
         
         if "right" in self.direction:
             self.image = pygame.Surface((5,40))

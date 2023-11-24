@@ -115,6 +115,7 @@ class Player(Creature):
         if current_time - self.stamina_time >= self.stamina_cooldown:
             self.stamina_time = current_time
             self.update_stamina()
+            print(self.stamina)
         
         return destroy_attack, destroy_defense
 
@@ -126,7 +127,6 @@ class Player(Creature):
             self.dashing = True
             self.invincible = True
             self.invincible_time = pygame.time.get_ticks()
-            print(self.stamina)
             
     def update_stamina(self):
         if 'move' in self.status or 'idle' in self.status:

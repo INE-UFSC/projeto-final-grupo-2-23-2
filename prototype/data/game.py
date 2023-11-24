@@ -145,16 +145,12 @@ class Game:
         # raid input
         if keys[pygame.K_SPACE]:
             if player.inventory.contains("raid") and (not player.attacking):
-                try:
                     if current_time - player.inventory.get("raid").time >= player.inventory.get("raid").cooldown:
-                        player.attacking = True
-                        player.inventory.get("raid").time = pygame.time.get_ticks()
-                        controller.create_attack()
-                except:
-                        player.attacking = True
-                        player.inventory.get("raid").time = pygame.time.get_ticks()
-                        controller.create_attack()
-        
+                        if player.stamina_check(player.inventory.get('raid').stamina_cost):
+                            player.attacking = True
+                            player.inventory.get("raid").time = pygame.time.get_ticks()
+                            controller.create_attack()
+            
         # pick input
         if keys[pygame.K_c]:
             player.picking = True
@@ -164,15 +160,11 @@ class Game:
         # guard input
         if keys[pygame.K_LCTRL]:
             if player.inventory.contains("guard"):
-                try:
                     if current_time - player.inventory.get("guard").time >= player.inventory.get("guard").cooldown:
-                        player.deffending = True
-                        player.inventory.get("guard").time = pygame.time.get_ticks()
-                        controller.create_defense()
-                except:
-                        player.deffending = True
-                        player.inventory.get("guard").time = pygame.time.get_ticks()
-                        controller.create_defense()
+                        if self.player.stamina_check(self.player.inventory.get('raid').stamina_cost):
+                            player.deffending = True
+                            player.inventory.get("guard").time = pygame.time.get_ticks()
+                            controller.create_defense()
 
 
         # dash input 
