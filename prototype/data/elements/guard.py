@@ -1,7 +1,6 @@
 from data.elements.powerup import Powerup
 import pygame
 
-import os
 
 class Guard(Powerup):
     def __init__(self, name, player, groups):

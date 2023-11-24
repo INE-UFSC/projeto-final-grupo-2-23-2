@@ -1,20 +1,31 @@
 import pygame
 import os
 
-# controller -> player
-class Ui():
-    def __init__(self, controller):
-        self.controller = controller
-        self.display_surface = pygame.display.get_surface()
-        # self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../../../resources/graphics/font/asman.ttf', 18)     
 
-    def show_health_bar(self):
+class Hud():
+    def __init__(self, player):
+        self.player = player
+        self.display_surface = pygame.display.get_surface()
+
+    def show_profile(self):
+        # show image
+        image = pygame.image.load(f'{os.path.dirname(os.path.abspath(__file__))}/../../resources/elements/{self.player.name}/{self.player.name}.png')
+
+        width = image.get_width() + 10
+        height = image.get_height() + 10
+        bordered_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+        bordered_surface.blit(image, (5, 5))
+        pygame.draw.rect(bordered_surface, "#111111", (0, 0, width, height), 5)
+
+        self.display_surface.blit(bordered_surface, (13,13))
+
+
         # bg rect
-        bg_rect = pygame.Rect(13, 13, 300, 30) 
+        bg_rect = pygame.Rect(20 + width, 13, 300, 30) 
         pygame.draw.rect(self.display_surface, "#222222", bg_rect) 
         
         # insider rect
-        ratio = self.controller.player.hp / self.controller.player.max_hp
+        ratio = self.player.hp / self.player.max_hp
         current_width = bg_rect.width * ratio
         current_rect = bg_rect.copy()
         current_rect.width = current_width
@@ -22,8 +33,9 @@ class Ui():
         pygame.draw.rect(self.display_surface, "red", current_rect)
         pygame.draw.rect(self.display_surface, "#111111", bg_rect, 5)
 
+
     def show_inventory(self):
-        inventory = self.controller.player.inventory
+        inventory = self.player.inventory
 
         # bg rect
         size = 80 
@@ -40,5 +52,5 @@ class Ui():
             pygame.draw.rect(self.display_surface, "#111111", bg_rect, 5)
 
     def display(self):
-        self.show_health_bar()
+        self.show_profile()
         self.show_inventory()
