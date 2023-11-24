@@ -1,10 +1,10 @@
 import pygame
 import os
 from data.components.settings import Settings
+from abc import ABC, abstractmethod
 
-class Screen:
-    def __init__(self, game):
-        self.game = game
+class Screen(ABC):
+    def __init__(self):
         pygame.init()
 
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
@@ -30,13 +30,20 @@ class Screen:
                 return button    
         return None
 
+
     def blit(self):
-        pygame.display.get_surface().blit(self.background, (self.background_x,self.background_y))
-        pygame.display.get_surface().blit(self.title, self.title_rect)
+        display_surface = pygame.display.get_surface()
+
+        display_surface.blit(self.background, (self.background_x,self.background_y))
+        display_surface.blit(self.title, self.title_rect)
 
         for button in self.buttons:
-            pygame.display.get_surface().blit(button.image, button.rect)
+            display_surface.blit(button.image, button.rect)
 
         pygame.display.flip()
         Settings().clock.tick(Settings().fps)
+    
+    @abstractmethod
+    def run(self, game):
+        pass
 

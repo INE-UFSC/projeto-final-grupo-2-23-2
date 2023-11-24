@@ -5,14 +5,13 @@ from data.screens.screens import Screens
 from data.elements.levels import Levels
 from data.elements.levels import Level
 from data.components.settings import Settings
-
+from data.components.exceptions import *
 
 class Game:
     def __init__(self):
         pygame.init()
 
         self.screens = Screens(self)
-        self.screen = None
 
         self.player = None
 
@@ -26,7 +25,7 @@ class Game:
         self.last_click_time = 0
 
     def run(self):
-        self.intro_screen()
+        self.choose_screen("intro")
 
     # comeca
     def start(self):
@@ -68,8 +67,7 @@ class Game:
 
             # morte
             if self.player.hp == 0:
-                self.game_over()
-                
+                self.choose_screen("gameover")                
 
             # prenchendo display com verde, reseta a malha
             self.level.surface.fill('#71ddee')
@@ -83,23 +81,15 @@ class Game:
 
             # define fps do jogo
             self.clock.tick(Settings().fps)
-
-    def game_over(self):
-        self.screen = self.screens.get_screen('game_over')
-        self.screen.run()
-        
-
-    def intro_screen(self):
-        self.screen = self.screens.get_screen('intro')
-        self.screen.run()
-
-    def menu_screen(self):
-        self.screen = self.screens.get_screen('menu')
-        self.screen.run()
-
-    def config_screen(self):
-        self.screen = self.screens.get_screen('config')
-        self.screen.run()
+    
+    def choose_screen(self, name):
+        try:
+            self.screens.choose_screen(name)
+            self.screens.run(self)
+        except ScreenNotFound as exception:
+            print(exception)
+        except ScreenNotRunned as exception:
+            print(exception)
 
     def input_handler(self):
         keys = pygame.key.get_pressed()
@@ -167,5 +157,5 @@ class Game:
                     player.use_dash()
 
         if keys[pygame.K_ESCAPE]:
-            self.menu_screen()
+            self.choose_screen("menu")
 
