@@ -3,6 +3,7 @@ import os
 import sys
 from data.screens.screen_container import ScreenContainer
 from data.elements.levels import Levels
+from data.elements.levels import Level
 from data.elements.controller import Controller
 from data.components.button import Button
 
@@ -75,7 +76,9 @@ class Game:
         
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_t:
-                        self.current_level = self.levels.get_next_level()
+                        next_level = Level(f"level_{len(self.levels.levels) + 1}", self.player)
+                        self.levels.add_level(next_level)
+                        self.current_level = next_level
 
 
             if self.player == None:
