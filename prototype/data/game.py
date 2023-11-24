@@ -1,43 +1,29 @@
 import pygame
 import os
 import sys
-from data.screens.screen_container import ScreenContainer
+from data.screens.screens import Screens
 from data.elements.levels import Levels
 from data.elements.levels import Level
-from data.elements.controller import Controller
-from data.components.button import Button
+from data.components.settings import Settings
 
 
 class Game:
     def __init__(self):
-        # inciando pygame
         pygame.init()
 
+        self.screens = Screens(self)
+        self.screen = None
+
+        self.player = None
+
         # atributos
-        self.player = None
-        self.difficulty = None
-        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../resources/fonts/stocky.ttf', 32)
-
-        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
-        self.fps = 60
         self.clock = pygame.time.Clock()
-        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
-        self.view = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
-        pygame.display.set_caption('PartsFinder')
-        
-        self.views = ScreenContainer(self)
-        
-        # demais atributos
-        self.levels = Levels()
-        self.current_level = self.levels.get_level()
-        
-        # Screens
-        self.screens = ScreenContainer(self)
-        self.current_screen = None
-        self.last_click_time = 0
 
-        # Others
-        self.player = None
+        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/screens/intro2.png")
+        self.levels = Levels()
+        self.level = self.levels.get_level()
+
+        self.last_click_time = 0
 
     def run(self):
         self.intro_screen()
@@ -53,7 +39,7 @@ class Game:
     def reset_game(self):
         # Reiniciar os atributos necessários para reiniciar o jogo
         self.levels = Levels()
-        self.current_level = self.levels.get_level()
+        self.level = self.levels.get_level()
         
         self.player = None
 
@@ -74,11 +60,11 @@ class Game:
                     if event.key == pygame.K_t:
                         next_level = Level(f"level_{len(self.levels.levels) + 1}", self.player)
                         self.levels.add_level(next_level)
-                        self.current_level = next_level
+                        self.level = next_level
 
 
             if self.player == None:
-                self.player = self.current_level.controller.player
+                self.player = self.level.controller.player
 
             # morte
             if self.player.hp == 0:
@@ -86,39 +72,39 @@ class Game:
                 
 
             # prenchendo display com verde, reseta a malha
-            self.current_level.surface.fill('#71ddee')
+            self.level.surface.fill('#71ddee')
 
             # roda fase
-            self.current_level.run()
+            self.level.run()
             self.input_handler()
 
             # atualiza display
             pygame.display.flip()
 
             # define fps do jogo
-            self.clock.tick(self.fps)
+            self.clock.tick(Settings().fps)
 
     def game_over(self):
-        self.current_screen = self.screens.get_screen('game_over')
-        self.current_screen.run()
+        self.screen = self.screens.get_screen('game_over')
+        self.screen.run()
         
 
     def intro_screen(self):
-        self.current_screen = self.screens.get_screen('intro')
-        self.current_screen.run()
+        self.screen = self.screens.get_screen('intro')
+        self.screen.run()
 
     def menu_screen(self):
-        self.current_screen = self.screens.get_screen('menu')
-        self.current_screen.run()
+        self.screen = self.screens.get_screen('menu')
+        self.screen.run()
 
     def config_screen(self):
-        self.current_screen = self.screens.get_screen('config')
-        self.current_screen.run()
+        self.screen = self.screens.get_screen('config')
+        self.screen.run()
 
     def input_handler(self):
         keys = pygame.key.get_pressed()
         current_time = pygame.time.get_ticks()
-        controller = self.current_level.controller
+        controller = self.level.controller
         player = controller.player
 
 

@@ -2,13 +2,15 @@ from data.screens.intro_screen import IntroScreen
 from data.screens.menu_screen import MenuScreen
 from data.screens.config_screen import ConfigScreen
 from data.screens.game_over_screen import GameOverScreen
+import pygame
 
-class ScreenContainer:
+class Screens:
     def __init__(self, game):
         self.game = game
-        self.screens = [IntroScreen(self.game),
-                        MenuScreen(self.game),
-                        ConfigScreen(self.game),
+        pygame.display.set_caption('PartsFinder')
+        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
+        pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+        self.screens = [IntroScreen(self.game), MenuScreen(self.game), ConfigScreen(self.game),
                         GameOverScreen(self.game)]
 
     def add_screen(self, screen):

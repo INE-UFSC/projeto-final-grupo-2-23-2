@@ -10,7 +10,6 @@ class MenuScreen(Screen):
                         Button((self.width/2 - 150), (self.height/2), 300, 50, (255,255,255), (0,0,0), 'Configurations', 32),
                         Button((self.width/2 - 125), (self.height/2 + 100), 250, 50, (255,255,255), (0,0,0), 'Quit Game', 32)]
 
-
     def run(self):
         while self.primary:
             current_time = pygame.time.get_ticks()

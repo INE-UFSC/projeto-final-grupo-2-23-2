@@ -88,4 +88,3 @@ class Controller:
         self.player.inventory = inventory
         for item in self.player.inventory.items:
             item.player = self.player
-
