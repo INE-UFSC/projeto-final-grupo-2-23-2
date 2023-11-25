@@ -59,7 +59,7 @@ class Level:
 
                         if style == 'entity':
                             if col == '393':
-                                Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
+                                Enemy("demon", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                                   
                             if col == '394':
                                 cont.player = Player("player", (x,y), [cont.visible_sprites, cont.player_sprite])
