@@ -35,32 +35,14 @@ class Player(Creature):
         if self.direction.x == 0 and self.direction.y == 0:
             if not "_" in self.status:
                 self.status = self.status + "_idle"
-
-        if self.action == 'attack':
-            if not "attack" in self.status:
+                
+        if self.action != 'normal':
+            if not self.action in self.status:
                 splited_status = self.status.split("_")
                 if len(splited_status) == 1:
-                    self.status = self.status + "_attack"
+                    self.status = self.status + f"_{self.action}"
                 else:
-                    splited_status[1] = "attack"
-                    self.status = "_".join(splited_status)
-
-        if self.action == 'defend':
-            if not "deffend" in self.status:
-                splited_status = self.status.split("_")
-                if len(splited_status) == 1:
-                    self.status = self.status + "_deffend"
-                else:
-                    splited_status[1] = "deffend"
-                    self.status = "_".join(splited_status)
-
-        if self.action == 'dash':
-            if not "dash" in self.status:
-                splited_status = self.status.split("_")
-                if len(splited_status) == 1:
-                    self.status = self.status + "_dash"
-                else:
-                    splited_status[1] = "dash"
+                    splited_status[1] = self.action
                     self.status = "_".join(splited_status)
 
     def update(self, obstacle_sprites):
@@ -83,7 +65,7 @@ class Player(Creature):
             if current_time - self.invincible_time >= self.invincible_cooldown:
                 self.invincible = False
 
-        if self.action == 'defend':
+        if self.action == 'deffend':
             guard = self.inventory.get("guard")
 
             if current_time - guard.time >= guard.duration:
@@ -117,7 +99,7 @@ class Player(Creature):
             guard = self.inventory.get("guard")
 
             if current_time - guard.time >= guard.cooldown:
-                self.action = 'defend'
+                self.action = 'deffend'
                 self.direction = pygame.math.Vector2()
                 guard.time = pygame.time.get_ticks()
                 self.current_power = Guard("guard",self,[visible_sprites,deffense_sprites, obstacles_sprites])
