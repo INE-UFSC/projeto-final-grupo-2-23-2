@@ -43,19 +43,20 @@ class Level:
         for style, layout in layout.items():
             for lin_index, lin in enumerate(layout):
                 for col_index, col in enumerate(lin):
-                    x = (col_index + 9) * self.tilesize
-                    y = (lin_index + 11) * self. tilesize
-                    if col != '-1':
+                    x = (col_index ) * self.tilesize
+                    y = (lin_index ) * self. tilesize
+                    if col != '356' and col != '-1':
+                        
                         if style == 'boundary':
-                            Tile((x - (3 * 64),y - (5 * 64)),[cont.obstacles_sprites],'invisible')
+                            Tile((x,y),[cont.obstacles_sprites],'invisible')
                         
                         if style == 'grass':
                                 random_grass = choice(graphics['grass'])
-                                Tile((x + (7 * 64), y), [cont.visible_sprites],'grass', random_grass)
+                                Tile((x , y), [cont.visible_sprites],'grass', random_grass)
                         
                         if style == 'object':
                                 surface = graphics['objects'][int(col)+13]
-                                Tile((x + (7 * 64), y), [cont.visible_sprites, cont.obstacles_sprites],'object', surface)
+                                Tile((x, y), [cont.visible_sprites, cont.obstacles_sprites],'object', surface)
 
                         if style == 'entity':
                             if col == '393':
