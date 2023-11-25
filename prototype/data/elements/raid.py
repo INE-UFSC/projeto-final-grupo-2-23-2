@@ -9,7 +9,6 @@ class Raid(Powerup):
         self.damage = 40
         self.duration = 170
         self.cooldown = 400
-        self.time = None
         
         if "right" in self.direction:
             self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/raid/right.png').convert_alpha()

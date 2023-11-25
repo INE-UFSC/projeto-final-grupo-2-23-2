@@ -105,22 +105,22 @@ class Game:
 
 
         # movement input
-        if not player.dashing:
-            if keys[pygame.K_UP] and player.moving:
+        if player.action == 'normal':
+            if keys[pygame.K_UP]:
                 player.direction.y = -1   
                 player.status = 'up'
 
-            elif keys[pygame.K_DOWN] and player.moving:
+            elif keys[pygame.K_DOWN]:
                 player.direction.y = 1  
                 player.status = 'down'
             else:
                 player.direction.y = 0
 
-            if keys[pygame.K_LEFT] and player.moving:
+            if keys[pygame.K_LEFT]:
                 player.direction.x = -1
                 player.status = 'left'
 
-            elif keys[pygame.K_RIGHT] and player.moving:
+            elif keys[pygame.K_RIGHT]:
                 player.direction.x = 1
                 player.status = 'right'
             else:
@@ -128,45 +128,21 @@ class Game:
         
         # raid input
         if keys[pygame.K_SPACE]:
-            if player.inventory.contains("raid") and (not player.attacking):
-                try:
-                    if current_time - player.inventory.get("raid").time >= player.inventory.get("raid").cooldown:
-                        player.attacking = True
-                        player.inventory.get("raid").time = pygame.time.get_ticks()
-                        controller.create_attack()
-                except:
-                        player.attacking = True
-                        player.inventory.get("raid").time = pygame.time.get_ticks()
-                        controller.create_attack()
+            player.create_attack(controller.visible_sprites, controller.attacks_sprites, current_time)
         
+        # guard input
+        if keys[pygame.K_LCTRL]:
+            player.create_defense(controller.visible_sprites, controller.deffense_sprites, controller.obstacles_sprites, current_time)
+
+        # dash input 
+        if keys[pygame.K_LSHIFT]:
+            player.use_dash(current_time)
+
         # pick input
         if keys[pygame.K_c]:
             player.picking = True
         else:
             player.picking = False
-        
-        # guard input
-        if keys[pygame.K_LCTRL]:
-            if player.inventory.contains("guard"):
-                try:
-                    if current_time - player.inventory.get("guard").time >= player.inventory.get("guard").cooldown:
-                        player.deffending = True
-                        player.inventory.get("guard").time = pygame.time.get_ticks()
-                        controller.create_defense()
-                except:
-                        player.deffending = True
-                        player.inventory.get("guard").time = pygame.time.get_ticks()
-                        controller.create_defense()
-
-
-        # dash input 
-        if keys[pygame.K_LSHIFT]:
-            if player.inventory.contains("dash"):
-                try:
-                    if current_time - player.inventory.get("dash").time >= player.inventory.get("dash").cooldown:
-                        player.use_dash()
-                except:
-                    player.use_dash()
 
         if keys[pygame.K_p]:
             self.menu_screen()

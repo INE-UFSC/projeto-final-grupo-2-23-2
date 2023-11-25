@@ -103,6 +103,16 @@ class Enemy(Creature):
         else:
             return True
     
+    def take_damage(self, amount):
+        if self.invincible == False:
+            self.hp -= amount
+            self.invincible = True
+            self.invincible_time = pygame.time.get_ticks()
+
+            if self.hp <= 0:
+                self.kill()
+
+
     def show_health_bar(self):
         # coordinarion calculation
         x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (self.health_bar_size-self.rect.width)/2

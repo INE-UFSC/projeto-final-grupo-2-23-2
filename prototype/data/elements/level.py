@@ -76,11 +76,5 @@ class Level:
 
     def run(self):
         # desenha e atualiza o jogo
-        self.controller.visible_sprites.custom_draw(self.controller.player)
-        self.controller.player_cooldowns()
-        self.controller.visible_sprites.update()
-        self.controller.visible_sprites.enemy_update(self.controller.player)
-        self.controller.player_attack_logic()
-        self.controller.player_defense_logic()
-        self.controller.player_collect_item()
+        self.controller.run()
         self.ui.display()
