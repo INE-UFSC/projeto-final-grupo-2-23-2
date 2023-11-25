@@ -12,19 +12,21 @@ class Settings:
         self.creatures_folder = '/../../resources/elements/creatures/'
         self.player_folder = '/../../resources/elements/creatures/player/'
         
-        self.levels_folder = '/../../resources/levels/'
+        self.levels_folder = '/../../resources/levels/'        
+        self.grass_texture_folder = '/../../resources/levels/textures/grass'
+        self.objects_texture_folder = '/../../resources/levels/textures/objects'
+        
+        self.icons_folder = '/../../resources/elements/powerups/icons/'
+
         self.floor_blocks_csv = '/csvs/map_FloorBlocks.csv'
         self.grass_csv = '/csvs/map_Grass.csv'
         self.map_objects_csv = '/csvs/map_Objects.csv'
         self.map_entites_csv = '/csvs/map_Entities.csv'
         
-        self.grass_texture_folder = '/../../resources/levels/textures/grass'
-        self.objects_texture_folder = '/../../resources/levels/textures/objects'
-        
         self.raid_icon = '/../../resources/elements/powerups/icons/raid.png'
         self.guard_icon = '/../../resources/elements/powerups/icons/guard.png'
         self.dash_icon = '/../../resources/elements/powerups/icons/dash.png'
-        
+
         self.button_font = '/../../resources/fonts/stocky.ttf'
         
         self.player = {'health': 200,

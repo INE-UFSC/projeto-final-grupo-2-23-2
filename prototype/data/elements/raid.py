@@ -6,9 +6,9 @@ class Raid(Powerup):
     def __init__(self, name, player, groups):
         super().__init__(name, player, groups)
 
-        self.damage = 40
-        self.duration = 170
-        self.cooldown = 400
+        self.damage = self.info.get('damage')
+        self.duration = self.info.get('duration')
+        self.cooldown = self.info.get('damage')
 
         
         if "right" in self.direction:

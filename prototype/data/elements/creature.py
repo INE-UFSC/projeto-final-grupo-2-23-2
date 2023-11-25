@@ -1,43 +1,40 @@
 from abc import ABC, abstractmethod
 import pygame
 import os
-from data.elements.inventory import Inventory
 from data.components.support import import_folder
 from data.components.settings import Settings
 
 class Creature(pygame.sprite.Sprite, ABC):
-    def __init__(self, name, position, groups, obstacle_sprites):
+    def __init__(self, name, position, groups):
         super().__init__(groups)
-
-        # atributos concretos
         self.name = name
-        self.max_hp = 100
-        self.hp = 100
-        self.speed = 3
-        self.inventory = Inventory()
-        
         self.info = getattr(Settings(), self.name)
-        # atributos mais subjetivos
-        
-        self.position = position
-        # vetor direcao
-        self.direction = pygame.math.Vector2()
-        self.obstacle_sprites = obstacle_sprites
-        
-        self.attacking = False
 
+        #health
+        self.max_hp = self.info.get('health')
+        self.hp = self.info.get('health')
+        
+        # movement
+        self.normal_speed = self.info.get('speed')
+        self.speed = self.info.get('speed')
+
+        # atributos mais subjetivos
+        self.position = position
+        self.direction = pygame.math.Vector2()
+    
+        # invincibility
         self.invincible = False
-        self.invincible_time = None
+        self.invincible_time = 0
         self.invincible_cooldown = 400
 
         # animate
         self.frame_index = 0
         self.animation_speed = 0.15
-
         self.status = "down"
 
         self.import_assets()
     
+
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+ Settings().creatures_folder + self.name
 
@@ -62,7 +59,7 @@ class Creature(pygame.sprite.Sprite, ABC):
 
         self.rect = self.image.get_rect(center = self.hitbox.center)
         
-    def move(self):
+    def move(self, obstacle_sprites):
         if abs(self.direction.y) > abs(self.direction.x):
             if self.direction.y > 0:
                 self.status = "down"
@@ -80,26 +77,27 @@ class Creature(pygame.sprite.Sprite, ABC):
         
         # horizontal
         self.hitbox.x += self.direction.x * self.speed
-        self.colision('horizontal')
+        self.colision('horizontal', obstacle_sprites)
 
         # vertical
         self.hitbox.y += self.direction.y * self.speed
-        self.colision('vertical')
+        self.colision('vertical', obstacle_sprites)
 
         self.rect.center = self.hitbox.center
 
-    def colision(self, direction):
+    def colision(self, direction, obstacle_sprites):
         # colision horizontal
         if direction == 'horizontal':
-            for sprite in self.obstacle_sprites:
+            for sprite in obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.x > 0 :
                         self.hitbox.right = sprite.hitbox.left
                     if self.direction.x < 0 :
                         self.hitbox.left = sprite.hitbox.right
+        
         # colision vertical
         if direction == 'vertical':
-            for sprite in self.obstacle_sprites:
+            for sprite in obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.y > 0 :
                         self.hitbox.bottom = sprite.hitbox.top

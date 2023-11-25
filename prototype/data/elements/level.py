@@ -1,4 +1,5 @@
 import pygame
+import json
 import os
 
 from data.components.settings import Settings
@@ -11,9 +12,7 @@ from data.components.support import import_csv_layout, import_folder
 from random import choice
 
 class Level:
-    def __init__(self, map_name, player = None):
-
-        self.player = player
+    def __init__(self, map_name):
         self.name = map_name
         self.controller = Controller(self.name)
         
@@ -24,14 +23,13 @@ class Level:
         self.dropped_items = None  # dropped_items
 
         self.generate_map()
-        self.hud = Hud(self.controller.player)
+        self.ui = Hud(self.controller.player)
 
 
     def generate_map(self):
         cont = self.controller
         # loop pela matriz
-        
-        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder +self.name + Settings().floor_blocks_csv),
+        layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().floor_blocks_csv),
                   'grass' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().grass_csv),
                   'object' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().map_objects_csv),
                   'entity' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().map_entites_csv)
@@ -61,19 +59,16 @@ class Level:
 
                         if style == 'entity':
                             if col == '393':
-                                  self.controller.enemies = Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites], cont.visible_sprites, cont.obstacles_sprites)
+                                Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                                   
                             if col == '394':
-                                if self.player:
-                                    cont.update_player(Player("player", (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites), self.player.inventory) 
-                                else:
-                                    cont.player = Player("player", (x,y), [cont.visible_sprites, cont.player_sprite],cont.obstacles_sprites)
+                                cont.player = Player("player", (x,y), [cont.visible_sprites, cont.player_sprite])
                                 
                             if col == '376':
-                                Tile( (x + (3 * 64), y + (5 * 64)), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().raid_icon).convert_alpha())                            
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().raid_icon).convert_alpha())                            
                             
                             if col == '252':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().guard_icon).convert_alpha() )
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().guard_icon).convert_alpha())
 
                             if col == '89':
                                 Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
@@ -82,11 +77,5 @@ class Level:
 
     def run(self):
         # desenha e atualiza o jogo
-        self.controller.visible_sprites.custom_draw(self.controller.player)
-        self.controller.player_cooldowns()
-        self.controller.visible_sprites.update()
-        self.controller.visible_sprites.enemy_update(self.controller.player)
-        self.controller.player_attack_logic()
-        self.controller.player_defense_logic()
-        self.controller.player_collect_item()
-        self.hud.display()
+        self.controller.run()
+        self.ui.display()

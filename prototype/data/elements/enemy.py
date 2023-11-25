@@ -7,31 +7,26 @@ import pygame
 import os
 
 class Enemy(Creature):
-    def __init__(self, name, position, groups, visible_sprites, obstacle_sprites):
-        super().__init__(name, position, groups, obstacle_sprites)
+    def __init__(self, name, position, groups):
+        super().__init__(name, position, groups)
 
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__))+ Settings().creatures_folder + self.name + '/'+  self.name + '.png').convert_alpha()
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().creatures_folder + self.name + '/' +  self.name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
         self.hitbox = self.rect.inflate(0, -10)
         
         self.state = 'idle'
         self.sprite_type = 'enemy'
-        self.visible_sprites = visible_sprites
         self.origin = position
         
-        #health
-        self.max_hp = self.info.get('health')
-        self.hp = self.info.get('health')
-        
-        self.speed = self.info.get('speed')
+        #attack
         self.detect_range = self.info.get('detect_range')
         self.attack_range = self.info.get('attack_range')
         self.attack_cooldown = self.info.get('attack_cooldown')
         self.attack_damage = self.info.get('attack_damage')
 
+        self.attacking = False
         self.can_damage = True
-        self.attack_time = None
+        self.attack_time = 0
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -109,9 +104,10 @@ class Enemy(Creature):
         self.attacking = True
         self.attack_time = pygame.time.get_ticks()
 
-    def enemy_update(self, player):
+    def enemy_update(self, player, visible_sprites):
         self.get_state(player)
         self.action(player)
+        self.show_health_bar(visible_sprites)
 
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
@@ -125,16 +121,25 @@ class Enemy(Creature):
         else:
             return True
     
-    def show_health_bar(self):
+    def take_damage(self, amount):
+        if self.invincible == False:
+            self.hp -= amount
+            self.invincible = True
+            self.invincible_time = pygame.time.get_ticks()
+
+            if self.hp <= 0:
+                self.kill()
+
+    def show_health_bar(self,visible_sprites):
         # coordinarion calculation
         width = self.rect.width*1.5
-        x = self.rect.topleft[0] - self.visible_sprites.player.rect.centerx + self.visible_sprites.half_width - (width - self.rect.width)/2
-        y = self.rect.topleft[1] - self.visible_sprites.player.rect.centery + self.visible_sprites.half_heigth - 20
-        self.desvio_y = self.rect.centery - self.visible_sprites.half_heigth
+        x = self.rect.topleft[0] - visible_sprites.player.rect.centerx + visible_sprites.half_width - (width - self.rect.width)/2
+        y = self.rect.topleft[1] - visible_sprites.player.rect.centery + visible_sprites.half_heigth - 20
+        self.desvio_y = self.rect.centery - visible_sprites.half_heigth
 
         # bg rect
         bg_rect = pygame.Rect(x, y, self.rect.width*1.5, 12) 
-        pygame.draw.rect(self.visible_sprites.surface, "#222222", bg_rect) 
+        pygame.draw.rect(visible_sprites.surface, "#222222", bg_rect) 
 
         # insider rect
         ratio = self.hp / self.max_hp
@@ -142,13 +147,12 @@ class Enemy(Creature):
         current_rect = bg_rect.copy()
         current_rect.width = current_width
 
-        pygame.draw.rect(self.visible_sprites.surface, "red", current_rect)
-        pygame.draw.rect(self.visible_sprites.surface, "#111111", bg_rect, 3)
+        pygame.draw.rect(visible_sprites.surface, "red", current_rect)
+        pygame.draw.rect(visible_sprites.surface, "#111111", bg_rect, 3)
 
-    def update(self):
+    def update(self, obstacle_sprites):
         self.get_status()
         self.animate()
-        self.move()
-        self.show_health_bar()
+        self.move(obstacle_sprites)
         self.cooldowns()
-        
+
