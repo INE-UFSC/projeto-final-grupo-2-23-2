@@ -20,16 +20,33 @@ class Player(Creature):
         self.sprite_type = 'player'
         self.import_assets()
         
+        # movement
+#         self.direction = pygame.math.Vector2()
+#         self.moving = True
+#         self.normal_speed = 5
+#         self.speed = 4
+
         # action 
         self.action = 'normal'
+
 
         # items
         self.inventory = Inventory()
 
+        # player stamina
+        self.max_stamina = 200
+        self.stamina = 200
+        self.stamina_time = 0
+        self.stamina_cooldown = 100
+        
+#         # player status
+#         self.deffending = False
+#         self.dashing = False
+#         self.picking = False    
+
         #actions
         self.current_power = None
         self.picking = False
-
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -84,7 +101,34 @@ class Player(Creature):
                 self.speed = self.normal_speed
             
                 self.status = self.status.split("_")[0]
+              
+        if current_time - self.stamina_time >= self.stamina_cooldown:
+            self.stamina_time = current_time
+            self.update_stamina()
+            print(self.stamina)
+        
+        return destroy_attack, destroy_defense
 
+    def use_dash(self):
+        if self.stamina_check(self.inventory.get('dash').stamina_cost):
+            
+            self.inventory.get("dash").get_player_direction()
+            self.inventory.get("dash").time = pygame.time.get_ticks()
+            self.dashing = True
+            self.invincible = True
+            self.invincible_time = pygame.time.get_ticks()
+            
+    def update_stamina(self):
+        if 'move' in self.status or 'idle' in self.status:
+            if self.stamina < self.max_stamina:
+                self.stamina += 20
+                if self.stamina > self.max_stamina:
+                    self.stamina = self.max_stamina 
+
+    def stamina_check(self, cost):
+        if self.stamina >= cost:
+            self.stamina -= cost
+            return True
     def create_attack(self, visible_sprites,attacks_sprites, current_time):
         if self.inventory.contains("raid") and (self.action == 'normal'):
             raid = self.inventory.get("raid")
@@ -109,16 +153,16 @@ class Player(Creature):
             self.current_power.kill()
             self.current_power = None
 
-    def use_dash(self, current_time):
-        if self.inventory.contains("dash") and (self.action == 'normal'):
-            dash = self.inventory.get("dash")
+#     def use_dash(self, current_time):
+#         if self.inventory.contains("dash") and (self.action == 'normal'):
+#             dash = self.inventory.get("dash")
 
-            if current_time - dash.time >= dash.cooldown:
-                dash.get_player_direction()
-                dash.time = pygame.time.get_ticks()
-                self.action = 'dash'
-                self.invincible = True
-                self.invincible_time = pygame.time.get_ticks()
+#             if current_time - dash.time >= dash.cooldown:
+#                 dash.get_player_direction()
+#                 dash.time = pygame.time.get_ticks()
+#                 self.action = 'dash'
+#                 self.invincible = True
+#                 self.invincible_time = pygame.time.get_ticks()
 
     def pick_item(self, item):
         if self.picking == True:
@@ -129,4 +173,3 @@ class Player(Creature):
             if 'dash' == item.sprite_type: 
                 self.inventory.add_item(Dash(item.sprite_type, self,[]))
             item.kill()
-

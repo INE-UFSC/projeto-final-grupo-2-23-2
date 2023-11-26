@@ -6,7 +6,10 @@ import pygame
 class Guard(Powerup):
     def __init__(self, name, player, groups):
         super().__init__(name, player, groups)
-
+        self.speed = 2
+#         self.duration = 500
+        self.stamina_cost = 70
+#         self.cooldown = 600
         self.duration = self.info.get('duration')
         self.cooldown = self.info.get('cooldown')
         
