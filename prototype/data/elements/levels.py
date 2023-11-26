@@ -3,7 +3,7 @@ from data.elements.level import Level
 
 class Levels:
     def __init__(self):
-        self.levels = [Level("level_1")]
+        self.levels = [Level("level_3")]
         self.index_current_level = 0
 
 

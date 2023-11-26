@@ -59,20 +59,26 @@ class Level:
                                 Tile((x, y), [cont.visible_sprites, cont.obstacles_sprites],'object', surface)
 
                         if style == 'entity':
+                            if col == '391':
+                                Enemy("spirit", (x,y), [cont.visible_sprites,cont.attackable_sprites])
+                            
                             if col == '393':
-                                Enemy("demon", (x,y), [cont.visible_sprites,cont.attackable_sprites])
+                                Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                                   
                             if col == '394':
                                 cont.player = Player("player", (x,y), [cont.visible_sprites, cont.player_sprite])
                                 
-                            if col == '376':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'raid', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().raid_icon).convert_alpha())                            
+                            if col == '532':
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'raid',
+                                      pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().raid_icon).convert_alpha())                            
                             
                             if col == '252':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().guard_icon).convert_alpha())
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard',
+                                      pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().guard_icon).convert_alpha())
 
                             if col == '89':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash', pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
+                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash',
+                                      pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
 
         
 
