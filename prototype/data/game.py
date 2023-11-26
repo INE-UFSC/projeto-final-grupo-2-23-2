@@ -5,37 +5,27 @@ from data.screens.screens import Screens
 from data.elements.levels import Levels
 from data.elements.levels import Level
 from data.components.settings import Settings
+from data.components.exceptions import *
 
 class Game:
     def __init__(self):
         pygame.init()
 
-        self.screens = Screens(self)
-        self.screen = None
-
         self.player = None
+        self.screens = Screens(self)
+        self.levels = Levels()
+        self.level = self.levels.get_level()
+
 
         # atributos
         self.clock = pygame.time.Clock()
 
-        self.intro_background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().game_intro)
-        self.levels = Levels()
-        self.level = self.levels.get_level()
-
         self.last_click_time = 0
 
     def run(self):
-        self.intro_screen()
+        self.choose_screen("intro")
 
-    # comeca
-    def start(self):
-        if self.player != None:
-            if self.player.hp == 0:
-                self.reset_game()
-        else:
-            self.play()
-
-    def reset_game(self):
+    def reset(self):
         # Reiniciar os atributos necessários para reiniciar o jogo
         self.levels = Levels()
         self.level = self.levels.get_level()
@@ -43,62 +33,60 @@ class Game:
         self.player = None
 
         # Iniciar o jogo novamente
-        self.play()
+        self.start()
 
 
     # loop do jogo
-    def play(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    while True:
-                        pygame.quit()
-                        sys.exit()
-        
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_t:
-                        next_level = Level(f"level_{len(self.levels.levels) + 1}", self.player)
-                        self.levels.add_level(next_level)
-                        self.level = next_level
+    def start(self):
+        def play():
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        while True:
+                            pygame.quit()
+                            sys.exit()
+            
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_t:
+                            next_level = Level(f"level_{len(self.levels.levels) + 1}", self.player)
+                            self.levels.add_level(next_level)
+                            self.level = next_level
 
+                if self.player == None:
+                    self.player = self.level.controller.player
 
-            if self.player == None:
-                self.player = self.level.controller.player
+                if self.player.hp == 0:
+                    self.player = None
+                    self.choose_screen("gameover")                
 
-            # morte
+                self.level.surface.fill('#71ddee')
+
+                # roda fase
+                self.level.run()
+                self.input_handler()
+
+                # atualiza display
+                pygame.display.flip()
+
+                # define fps do jogo
+                self.clock.tick(Settings().fps)
+
+        if self.player == None:
+            play()
+        else:
             if self.player.hp == 0:
-                self.game_over()
-                
-
-            # prenchendo display com verde, reseta a malha
-            self.level.surface.fill('#71ddee')
-
-            # roda fase
-            self.level.run()
-            self.input_handler()
-
-            # atualiza display
-            pygame.display.flip()
-
-            # define fps do jogo
-            self.clock.tick(Settings().fps)
-
-    def game_over(self):
-        self.screen = self.screens.get_screen('game_over')
-        self.screen.run()
+                self.reset()
+            else:
+                play()
         
-
-    def intro_screen(self):
-        self.screen = self.screens.get_screen('intro')
-        self.screen.run()
-
-    def menu_screen(self):
-        self.screen = self.screens.get_screen('menu')
-        self.screen.run()
-
-    def config_screen(self):
-        self.screen = self.screens.get_screen('config')
-        self.screen.run()
+    def choose_screen(self, name):
+        try:
+            self.screens.choose_screen(name)
+            self.screens.run(self)
+        except ScreenNotFound as exception:
+            print(exception)
+        except ScreenNotRunned as exception:
+            print(exception)
 
     def input_handler(self):
         keys = pygame.key.get_pressed()
@@ -135,9 +123,9 @@ class Game:
         if keys[pygame.K_LCTRL]:
             player.create_defense(controller.visible_sprites, controller.deffense_sprites, controller.obstacles_sprites, current_time)
 
-        # dash input 
-        if keys[pygame.K_LSHIFT]:
-            player.use_dash(current_time)
+#         # dash input 
+#         if keys[pygame.K_LSHIFT]:
+#             player.use_dash(current_time)
 
         # pick input
         if keys[pygame.K_c]:
@@ -145,5 +133,14 @@ class Game:
         else:
             player.picking = False
 
-        if keys[pygame.K_p]:
-            self.menu_screen()
+        # dash input 
+        if keys[pygame.K_LSHIFT]:
+            if player.inventory.contains("dash"):
+                try:
+                    if current_time - player.inventory.get("dash").time >= player.inventory.get("dash").cooldown:
+                        player.use_dash()
+                except:
+                    player.use_dash()
+
+        if keys[pygame.K_ESCAPE]:
+            self.choose_screen("menu")

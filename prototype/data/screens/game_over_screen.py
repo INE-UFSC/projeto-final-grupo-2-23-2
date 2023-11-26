@@ -3,9 +3,8 @@ from data.screens.button import Button
 import pygame
 
 class GameOverScreen(Screen):
-    def __init__(self, game):
-        super().__init__(game)
-        self.name = 'game_over'
+    def __init__(self):
+        super().__init__()
         self.title = self.font.render('Game Over', True, (255,255,255))
         self.title_rect = self.title.get_rect(x = self.width/2 - 130, y = 100)
         self.buttons = [Button((self.width/2 - 150), (self.height/2 - 100), 300, 50, (255,255,255), (0,0,0), 'Reiniciar', 32),
@@ -13,27 +12,27 @@ class GameOverScreen(Screen):
                         Button((self.width/2 - 125), (self.height/2 + 100), 250, 50, (255,255,255), (0,0,0), 'Sair do jogo', 32)]
 
 
-    def run(self):
+    def run(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
-            if current_time - self.wait_time >= self.game.last_click_time:
+            if current_time - self.wait_time >= game.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        self.close()
                 
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
                 if button is not None:
-                    self.game.last_click_time = current_time
+                    game.last_click_time = current_time
 
                     if button.content == 'Reiniciar':
-                        self.game.reset_game()
+                        game.reset()
 
                     if button.content == 'Voltar ao menu principal':
-                        self.game.intro_screen()
+                        game.choose_screen("intro")
 
                     if button.content == 'Sair do jogo':
-                        pygame.quit()
+                        self.close()
 
             self.blit()
 
