@@ -22,6 +22,19 @@ class Game:
 
         self.last_click_time = 0
 
+        # Music and Sounds
+        pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/sounds/30-Ruins.ogg")
+        self.game_over_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Cancelmorte.wav')
+        self.attack_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu12dano.wav')
+        self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Acceptsucesso.wav')
+        self.config_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu9open.wav')
+        self.guard_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Accept2defesa.wav')
+        self.picking_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu2sair.wav')
+        self.dash_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu4pulinho.wav')
+        
+        # Others
+        self.player = None
+
     def run(self):
         self.choose_screen("intro")
 
@@ -35,10 +48,9 @@ class Game:
         # Iniciar o jogo novamente
         self.start()
 
-
-    # loop do jogo
     def start(self):
         def play():
+            pygame.mixer.music.play(-1)
             while True:
                 # print("playing")
                 for event in pygame.event.get():
@@ -57,6 +69,7 @@ class Game:
                     self.player = self.level.controller.player
 
                 if self.player.hp == 0:
+                    pygame.mixer.Sound.play(self.game_over_sound)
                     self.player = None
                     self.choose_screen("gameover")                
 
@@ -79,6 +92,7 @@ class Game:
                 self.reset()
             else:
                 play()
+
         
     def choose_screen(self, name):
         try:
@@ -121,6 +135,7 @@ class Game:
 #             if player.inventory.contains("raid") and (not player.attacking):
 #                     if current_time - player.inventory.get("raid").time >= player.inventory.get("raid").cooldown:
 #                         if player.stamina_check(player.inventory.get('raid').stamina_cost):
+                              pygame.mixer.Sound.play(self.attack_sound)
 #                             player.attacking = True
 #                             player.inventory.get("raid").time = pygame.time.get_ticks()
 #                             controller.create_attack()
@@ -138,6 +153,7 @@ class Game:
 
         # pick input
         if keys[pygame.K_c]:
+            pygame.mixer.Sound.play(self.picking_sound)
             player.picking = True
         else:
             player.picking = False
@@ -147,6 +163,7 @@ class Game:
             if player.inventory.contains("guard"):
                     if current_time - player.inventory.get("guard").time >= player.inventory.get("guard").cooldown:
                         if self.player.stamina_check(self.player.inventory.get('raid').stamina_cost):
+                            pygame.mixer.Sound.play(self.guard_sound)
                             player.deffending = True
                             player.inventory.get("guard").time = pygame.time.get_ticks()
                             controller.create_defense()
@@ -156,6 +173,7 @@ class Game:
             if player.inventory.contains("dash"):
                 try:
                     if current_time - player.inventory.get("dash").time >= player.inventory.get("dash").cooldown:
+                        pygame.mixer.Sound.play(self.dash_sound)
                         player.use_dash()
                 except:
                     player.use_dash()
