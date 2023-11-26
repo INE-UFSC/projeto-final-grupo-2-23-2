@@ -1,8 +1,8 @@
-from data.screens.intro_screen import IntroScreen
-from data.screens.menu_screen import MenuScreen
-from data.screens.config_screen import ConfigScreen
-from data.screens.config2_screen import Config2Screen
-from data.screens.game_over_screen import GameOverScreen
+from data.menu.intro_screen import IntroScreen
+from data.menu.menu_screen import MenuScreen
+from data.menu.config_screen import ConfigScreen
+from data.menu.config2_screen import Config2Screen
+from data.menu.game_over_screen import GameOverScreen
 
 from data.components.exceptions import *
 import pygame

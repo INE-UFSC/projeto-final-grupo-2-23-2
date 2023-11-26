@@ -1,5 +1,5 @@
-from data.screens.screen import Screen
-from data.screens.button import Button
+from data.menu.screen import Screen
+from data.menu.button import Button
 import pygame
 
 class GameOverScreen(Screen):

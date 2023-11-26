@@ -1,4 +1,4 @@
-from data.elements.powerup import Powerup
+from data.game.powerup import Powerup
 import pygame
 import os
 

@@ -1,11 +1,11 @@
-from data.elements.creature import Creature
+from data.game.creature import Creature
 from data.components.settings import Settings
-from data.elements.inventory import Inventory
+from data.game.inventory import Inventory
 from data.components.support import import_folder
 
-from data.elements.raid import Raid
-from data.elements.guard import Guard
-from data.elements.dash import Dash
+from data.game.raid import Raid
+from data.game.guard import Guard
+from data.game.dash import Dash
 
 import pygame
 import os

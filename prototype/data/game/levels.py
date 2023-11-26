@@ -1,4 +1,4 @@
-from data.elements.level import Level
+from data.game.level import Level
 
 
 class Levels:

@@ -3,10 +3,10 @@ import json
 import os
 
 from data.components.settings import Settings
-from data.elements.player import Player
-from data.elements.enemy import Enemy
+from data.game.player import Player
+from data.game.enemy import Enemy
 from data.components.tile import Tile
-from data.elements.controller import Controller
+from data.game.controller import Controller
 from data.components.hud import Hud
 from data.components.support import import_csv_layout, import_folder
 from random import choice

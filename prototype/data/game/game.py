@@ -1,9 +1,9 @@
 import pygame
 import os
 import sys
-from data.screens.screens import Screens
-from data.elements.levels import Levels
-from data.elements.levels import Level
+from data.menu.screens import Screens
+from data.game.levels import Levels
+from data.game.levels import Level
 from data.components.settings import Settings
 from data.components.exceptions import *
 
@@ -23,14 +23,17 @@ class Game:
         self.last_click_time = 0
 
         # Music and Sounds
-        pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/sounds/30-Ruins.ogg")
-        self.game_over_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Cancelmorte.wav')
-        self.attack_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu12dano.wav')
-        self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Acceptsucesso.wav')
-        self.config_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu9open.wav')
-        self.guard_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Accept2defesa.wav')
-        self.picking_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu2sair.wav')
-        self.dash_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu4pulinho.wav')
+        # pygame.mixer.music.load(os.path.dirname(os.path.abspath(__file__)) + "/../resources/sounds/music.ogg")
+        # pygame.mixer.music.set_volume(0.5)
+        # pygame.mixer.music.play()
+
+        # self.game_over_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Cancelmorte.wav')
+        # self.attack_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu12dano.wav')
+        # self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Acceptsucesso.wav')
+        # self.config_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu9open.wav')
+        # self.guard_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Accept2defesa.wav')
+        # self.picking_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu2sair.wav')
+        # self.dash_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../resources/sounds/Menu4pulinho.wav')
         
         # Others
         self.player = None
@@ -50,7 +53,7 @@ class Game:
 
     def start(self):
         def play():
-            pygame.mixer.music.play(-1)
+            # pygame.mixer.music.play(-1)
             while True:
                 # print("playing")
                 for event in pygame.event.get():
@@ -69,7 +72,7 @@ class Game:
                     self.player = self.level.controller.player
 
                 if self.player.hp == 0:
-                    pygame.mixer.Sound.play(self.game_over_sound)
+                    # pygame.mixer.Sound.play(self.game_over_sound)
                     self.player = None
                     self.choose_screen("gameover")                
 

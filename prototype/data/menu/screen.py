@@ -24,7 +24,7 @@ class Screen(ABC):
         self.wait_time = 300
         self.primary = True
 
-        self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/sounds/Acceptsucesso.wav")
+        # self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/sounds/Acceptsucesso.wav")
 
 
     def get_button_clicks(self, mouse_pos, mouse_pressed):

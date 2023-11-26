@@ -1,6 +1,6 @@
 from data.components.settings import Settings
-from data.elements.creature import Creature
-from data.elements.player import Player
+from data.game.creature import Creature
+from data.game.player import Player
 from data.components.support import import_folder
 
 import pygame

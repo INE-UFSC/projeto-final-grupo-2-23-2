@@ -1,5 +1,5 @@
 from data.components.settings import Settings
-from data.elements.powerup import Powerup
+from data.game.powerup import Powerup
 import pygame
 
 
