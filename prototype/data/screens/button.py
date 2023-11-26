@@ -27,9 +27,8 @@ class Button:
         self.text_rect = self.text.get_rect(center = (self.width/2, self.height/2))
         self.image.blit(self.text, self.text_rect)
 
-        #self.menu_sound = pygame.mixer.Sound(-C:\Users\USUARIO\Documents\GitHub\projeto-final-grupo-2-23-2\prototype\resources\sounds\Acceptsucesso.wav)
-        self.menu_sound = pygame.mixer.Sound('C:/Users/USUARIO/Documents/GitHub/projeto-final-grupo-2-23-2/prototype/data/screens/../../resources/sounds/Acceptsucesso.wav' )
-        #self.menu_sound = pygame.mixer.Sound('c:/Users/USUARIO/Documents/GitHub/projeto-final-grupo-2-23-2/prototype/../../resources/sounds/Acceptsucesso.wav' )
+        self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/sounds/Acceptsucesso.wav' )
+
         
 
 

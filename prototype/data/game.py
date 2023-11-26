@@ -135,7 +135,7 @@ class Game:
 #             if player.inventory.contains("raid") and (not player.attacking):
 #                     if current_time - player.inventory.get("raid").time >= player.inventory.get("raid").cooldown:
 #                         if player.stamina_check(player.inventory.get('raid').stamina_cost):
-                              pygame.mixer.Sound.play(self.attack_sound)
+            pygame.mixer.Sound.play(self.attack_sound)
 #                             player.attacking = True
 #                             player.inventory.get("raid").time = pygame.time.get_ticks()
 #                             controller.create_attack()
