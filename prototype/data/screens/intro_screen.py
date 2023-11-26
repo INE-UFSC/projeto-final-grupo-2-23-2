@@ -1,36 +1,36 @@
 from data.screens.screen import Screen
 from data.screens.button import Button
 import pygame
+import sys
 
 class IntroScreen(Screen):
-    def __init__(self, game):
-        super().__init__(game)
-        self.name = 'intro'
+    def __init__(self):
+        super().__init__()
         self.buttons = [Button((self.width/2 - 110), (self.height/2 - 100), 220, 50, (255,255,255), (0,0,0), 'Start Game', 32),
                         Button((self.width/2 - 150), (self.height/2), 300, 50, (255,255,255), (0,0,0), 'Configurations', 32),
                         Button((self.width/2 - 125), (self.height/2 + 100), 250, 50, (255,255,255), (0,0,0), 'Quit Game', 32)]
         
 
-    def run(self):
+    def run(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
-            if current_time - self.wait_time >= self.game.last_click_time:
+            if current_time - self.wait_time >= game.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        self.close()
                 
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
                 if button is not None:
-                    self.game.last_click_time = current_time
+                    game.last_click_time = current_time
 
                     if button.content == 'Start Game':
-                        self.game.start()
+                        game.start()
 
                     if button.content == 'Configurations':
-                        self.game.config_screen()
+                        game.choose_screen("config2")
 
                     if button.content == 'Quit Game':
-                        pygame.quit()
+                        self.close()
 
             self.blit()

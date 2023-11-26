@@ -1,3 +1,4 @@
+from data.components.settings import Settings
 import pygame
 import os
 
@@ -6,7 +7,7 @@ class Powerup(pygame.sprite.Sprite):
         super().__init__(groups)
         self.time = 0
         self.name = name
-        self.icon = pygame.image.load(os.path.dirname(os.path.abspath(
-            __file__)) + '/../../resources/elements/powerups/icons/' + name + '.png').convert_alpha()
+        self.icon = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().icons_folder + self.name + '.png').convert_alpha()
         self.player = player
         self.direction = self.player.status
+        self.info = getattr(Settings(), self.name)

@@ -5,11 +5,13 @@ import os
 class Raid(Powerup):
     def __init__(self, name, player, groups):
         super().__init__(name, player, groups)
-
-        self.damage = 40
+#         self.damage = 40
         self.stamina_cost = 50
-        self.duration = 170
-        self.cooldown = 400
+#         self.duration = 170
+#         self.cooldown = 400
+        self.damage = self.info.get('damage')
+        self.duration = self.info.get('duration')
+        self.cooldown = self.info.get('damage')
         
         if "right" in self.direction:
             self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/powerups/raid/right.png').convert_alpha()

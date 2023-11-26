@@ -1,50 +1,46 @@
 from abc import ABC, abstractmethod
 import pygame
 import os
-from data.elements.inventory import Inventory
 from data.components.support import import_folder
-
-#a
+from data.components.settings import Settings
 
 class Creature(pygame.sprite.Sprite, ABC):
-    def __init__(self, name, hp, position, groups, obstacle_sprites):
-        # insanciacao do Sprite
+    def __init__(self, name, position, groups):
         super().__init__(groups)
-
-        # atributos concretos
         self.name = name
-        self.max_hp = hp
-        self.hp = hp
-        self.speed = 3
-        self.inventory = Inventory()
+        self.info = getattr(Settings(), self.name)
+
+        #health
+        self.max_hp = self.info.get('health')
+        self.hp = self.info.get('health')
+        
+        # movement
+        self.normal_speed = self.info.get('speed')
+        self.speed = self.info.get('speed')
 
         # atributos mais subjetivos
         self.position = position
-        # vetor direcao
         self.direction = pygame.math.Vector2()
-        self.obstacle_sprites = obstacle_sprites
-        
-        self.attacking = False
-
+    
+        # invincibility
         self.invincible = False
-        self.invincible_time = None
+        self.invincible_time = 0
         self.invincible_cooldown = 400
 
         # animate
         self.frame_index = 0
         self.animation_speed = 0.15
-
         self.status = "down"
+
+        self.import_assets()
     
+
     def import_assets(self):
-        path = os.path.dirname(os.path.abspath(__file__))+'/../../resources/elements/' + self.name 
-        self.animations = {
-            'up': [], 'down': [], 'left': [], 'right': [],
-            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
-            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': [],
-            'up_dash': [], 'down_dash': [], 'left_dash': [], 'right_dash': [],
-            'up_deffend': [], 'down_deffend': [], 'left_deffend': [], 'right_deffend': []
-        }
+        path = os.path.dirname(os.path.abspath(__file__))+ Settings().creatures_folder + self.name
+
+        animations = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
+        self.animations = {animation: [] for animation in animations}
+
         for animation in self.animations.keys():
             full_path = path + "/" + animation
             self.animations[animation] = import_folder(full_path)
@@ -63,7 +59,7 @@ class Creature(pygame.sprite.Sprite, ABC):
 
         self.rect = self.image.get_rect(center = self.hitbox.center)
         
-    def move(self):
+    def move(self, obstacle_sprites):
         if abs(self.direction.y) > abs(self.direction.x):
             if self.direction.y > 0:
                 self.status = "down"
@@ -81,26 +77,27 @@ class Creature(pygame.sprite.Sprite, ABC):
         
         # horizontal
         self.hitbox.x += self.direction.x * self.speed
-        self.colision('horizontal')
+        self.colision('horizontal', obstacle_sprites)
 
         # vertical
         self.hitbox.y += self.direction.y * self.speed
-        self.colision('vertical')
+        self.colision('vertical', obstacle_sprites)
 
         self.rect.center = self.hitbox.center
 
-    def colision(self, direction):
+    def colision(self, direction, obstacle_sprites):
         # colision horizontal
         if direction == 'horizontal':
-            for sprite in self.obstacle_sprites:
+            for sprite in obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.x > 0 :
                         self.hitbox.right = sprite.hitbox.left
                     if self.direction.x < 0 :
                         self.hitbox.left = sprite.hitbox.right
+        
         # colision vertical
         if direction == 'vertical':
-            for sprite in self.obstacle_sprites:
+            for sprite in obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.y > 0 :
                         self.hitbox.bottom = sprite.hitbox.top
