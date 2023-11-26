@@ -1,17 +1,16 @@
-from data.menu.screen import Screen
+from data.base.view import View
 from data.menu.button import Button
 import pygame
 
-class ConfigScreen(Screen):
+class Config2View(View):
     def __init__(self):
         super().__init__()
         self.buttons = [
                 Button((self.width/2 - 150), (self.height/2), 300, 50, (255,255,255), (0,0,0), 'Return to menu', 32),
-                Button((self.width/2 - 150), (self.height/2 - 100), 300, 50, (255,255,255), (0,0,0), 'Return to game', 32)
             ]
 
 
-    def run(self, game):
+    def render(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
             if current_time - self.wait_time >= game.last_click_time:
@@ -23,10 +22,7 @@ class ConfigScreen(Screen):
 
                 if button is not None:
                     game.last_click_time = current_time
-                    if button.content == 'Return to game':
-                        game.start()
                     if button.content == 'Return to menu':
-                        game.choose_screen("menu")
-
+                        game.choose_screen("intro")
 
             self.blit()

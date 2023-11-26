@@ -1,8 +1,8 @@
-from data.menu.screen import Screen
+from data.base.view import View
 from data.menu.button import Button
 import pygame
 
-class GameOverScreen(Screen):
+class GameoverView(View):
     def __init__(self):
         super().__init__()
         self.title = self.font.render('Game Over', True, (255,255,255))
@@ -12,7 +12,7 @@ class GameOverScreen(Screen):
                         Button((self.width/2 - 125), (self.height/2 + 100), 250, 50, (255,255,255), (0,0,0), 'Sair do jogo', 32)]
 
 
-    def run(self, game):
+    def render(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
             if current_time - self.wait_time >= game.last_click_time:
@@ -29,7 +29,7 @@ class GameOverScreen(Screen):
                         game.reset()
 
                     if button.content == 'Voltar ao menu principal':
-                        game.choose_screen("intro")
+                        game.choose_view("intro")
 
                     if button.content == 'Sair do jogo':
                         self.close()

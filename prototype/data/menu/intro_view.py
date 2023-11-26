@@ -1,9 +1,9 @@
-from data.menu.screen import Screen
+from data.base.view import View
 from data.menu.button import Button
 import pygame
 import sys
 
-class IntroScreen(Screen):
+class IntroView(View):
     def __init__(self):
         super().__init__()
         self.buttons = [Button((self.width/2 - 110), (self.height/2 - 100), 220, 50, (255,255,255), (0,0,0), 'Start Game', 32),
@@ -11,7 +11,7 @@ class IntroScreen(Screen):
                         Button((self.width/2 - 125), (self.height/2 + 100), 250, 50, (255,255,255), (0,0,0), 'Quit Game', 32)]
         
 
-    def run(self, game):
+    def render(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
             if current_time - self.wait_time >= game.last_click_time:
@@ -28,7 +28,7 @@ class IntroScreen(Screen):
                         game.start()
 
                     if button.content == 'Configurations':
-                        game.choose_screen("config2")
+                        game.choose_view("config2")
 
                     if button.content == 'Quit Game':
                         self.close()
