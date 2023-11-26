@@ -40,6 +40,7 @@ class Game:
     def start(self):
         def play():
             while True:
+                # print("playing")
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         while True:

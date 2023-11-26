@@ -105,9 +105,7 @@ class Player(Creature):
         if current_time - self.stamina_time >= self.stamina_cooldown:
             self.stamina_time = current_time
             self.update_stamina()
-            print(self.stamina)
-        
-        return destroy_attack, destroy_defense
+            # print(self.stamina)
 
     def use_dash(self):
         if self.stamina_check(self.inventory.get('dash').stamina_cost):
