@@ -3,29 +3,30 @@ from data.screens.button import Button
 import pygame
 
 class ConfigScreen(Screen):
-    def __init__(self,game):
-        super().__init__(game)
-        self.name = 'config'
-        self.buttons = [Button((self.width/2 - 150), (self.height/2), 300, 50, (255,255,255), (0,0,0), 'Return to menu', 32),
-                        Button((self.width/2 - 150), (self.height/2 - 100), 300, 50, (255,255,255), (0,0,0), 'Return to game', 32)]
+    def __init__(self):
+        super().__init__()
+        self.buttons = [
+                Button((self.width/2 - 150), (self.height/2), 300, 50, (255,255,255), (0,0,0), 'Return to menu', 32),
+                Button((self.width/2 - 150), (self.height/2 - 100), 300, 50, (255,255,255), (0,0,0), 'Return to game', 32)
+            ]
 
 
-    def run(self):
+    def run(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
-            if current_time - self.wait_time >= self.game.last_click_time:
+            if current_time - self.wait_time >= game.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        self.close()
                 
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
                 if button is not None:
-                    self.game.last_click_time = current_time
-                    if button.content == 'Return to menu':
-                        self.game.menu_screen()
-
+                    game.last_click_time = current_time
                     if button.content == 'Return to game':
-                        self.game.play()
+                        game.start()
+                    if button.content == 'Return to menu':
+                        game.choose_screen("menu")
+
 
             self.blit()

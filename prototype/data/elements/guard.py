@@ -1,15 +1,17 @@
+from data.components.settings import Settings
 from data.elements.powerup import Powerup
 import pygame
 
-import os
 
 class Guard(Powerup):
     def __init__(self, name, player, groups):
         super().__init__(name, player, groups)
         self.speed = 2
-        self.duration = 500
-        self.cooldown = 600
-        self.time = None
+#         self.duration = 500
+        self.stamina_cost = 70
+#         self.cooldown = 600
+        self.duration = self.info.get('duration')
+        self.cooldown = self.info.get('cooldown')
         
         if "right" in self.direction:
             self.image = pygame.Surface((5,40))

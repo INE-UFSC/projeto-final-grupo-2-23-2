@@ -1,12 +1,14 @@
 import pygame
 import os
+from data.components.settings import Settings
+from abc import ABC, abstractmethod
+import sys
 
-class Screen:
-    def __init__(self, game):
+class Screen(ABC):
+    def __init__(self):
         pygame.init()
-        self.game = game
-        self.height = self.game.height
-        self.width = self.game.width
+
+        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
 
         self.background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/screens/intro2.png")
         self.background_rect = self.background.get_rect()
@@ -16,7 +18,7 @@ class Screen:
         
         self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/fonts/stocky.ttf", 32)
         self.title = self.font.render('Parts Finder', True, (255, 255,255))
-        self.title_rect = self.title.get_rect(x = self.game.width/2 - 130, y = 10)
+        self.title_rect = self.title.get_rect(x = self.width/2 - 130, y = 10)
         
         self.buttons = []
         self.wait_time = 300
@@ -32,12 +34,22 @@ class Screen:
         return None
 
     def blit(self):
-        self.game.view.blit(self.background, (self.background_x,self.background_y))
-        self.game.view.blit(self.title, self.title_rect)
+        display_surface = pygame.display.get_surface()
+
+        display_surface.blit(self.background, (self.background_x,self.background_y))
+        display_surface.blit(self.title, self.title_rect)
 
         for button in self.buttons:
-            self.game.view.blit(button.image, button.rect)
+            display_surface.blit(button.image, button.rect)
 
         pygame.display.flip()
-        self.game.clock.tick(self.game.fps)
+        Settings().clock.tick(Settings().fps)
+    
+    def close(self):
+        pygame.quit()
+        sys.exit()
+
+    @abstractmethod
+    def run(self, game):
+        pass
 
