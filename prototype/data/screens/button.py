@@ -1,9 +1,10 @@
+from data.components.settings import Settings
 import pygame
 import os
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/fonts/stocky.ttf', fontsize)
+        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + Settings().button_font, fontsize)
         self.content = content
 
         self.x = x
