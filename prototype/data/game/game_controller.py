@@ -1,8 +1,8 @@
 from data.base.controller import Controller
-from data.menu.menu_views import MenuViews
 from data.game.game_model import GameModel
 from data.game.game_view import GameView
 from data.utils.settings import Settings
+from data.utils.audio import Audio
 from data.game.level import Level
 import pygame
 
@@ -25,7 +25,6 @@ class GameController(Controller):
         self.run()
 
     def run(self):
-        # pygame.mixer.music.play(-1)
         clock = pygame.time.Clock()
 
         while True:
@@ -42,7 +41,7 @@ class GameController(Controller):
             self.game_model.update()
 
             if self.game_model.player.hp == 0:
-                # pygame.mixer.Sound.play(self.game_over_sound)
+                Audio().play_sound("death")
                 self.game_system.show_menu("gameover")            
 
             clock.tick(60) 

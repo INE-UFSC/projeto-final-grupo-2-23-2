@@ -3,11 +3,12 @@ import os
 
 
 class Audio:
-
     _instance = None
 
     def __init__(self):
-        self.audio_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../resources/audios")
+        self.audio_folder = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "../../resources/audios"
+        )
         self.sounds = self.load_sounds()
         self.musics = self.load_musics()
         self.volume = 0.5
@@ -20,7 +21,7 @@ class Audio:
                 sound_name = os.path.splitext(file_name)[0]
                 sounds[sound_name] = pygame.mixer.Sound(sound_path)
         return sounds
-    
+
     def load_musics(self):
         musics = {}
         for file_name in os.listdir(self.audio_folder):
@@ -39,7 +40,7 @@ class Audio:
         if music_name in self.musics:
             pygame.mixer.music.set_volume(self.volume)
             pygame.mixer.music.load(self.musics[music_name])
-            pygame.mixer.music.play()
+            pygame.mixer.music.play(-1)
 
     @classmethod
     def instance(cls):

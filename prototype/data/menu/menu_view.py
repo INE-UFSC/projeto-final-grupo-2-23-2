@@ -30,8 +30,6 @@ class MenuView(View, ABC):
         self.wait_time = 300
         self.primary = True
 
-        # self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/sounds/Acceptsucesso.wav")
-
     def configure_screen(self):
         self.background_x = (self.width - self.background_rect.width) // 2
         self.background_y = (self.height - self.background_rect.height) // 2

@@ -1,6 +1,6 @@
 import sys
 import pygame
-from data.utils.sounds import Audio
+from data.utils.audio import Audio
 from data.base.controller import Controller
 from data.game.game_controller import GameController
 from data.menu.menu_controller import MenuController
@@ -31,7 +31,7 @@ class GameSystem(Controller):
 
     def __initialize_pygame(self):
         pygame.init()
-        
+
         Audio().play_music("music")
 
         width = pygame.display.Info().current_w

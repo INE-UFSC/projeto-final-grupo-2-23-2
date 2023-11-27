@@ -1,4 +1,5 @@
 from data.utils.settings import Settings
+from data.utils.audio import Audio
 import pygame
 import os
 
@@ -27,12 +28,10 @@ class Button:
         self.text_rect = self.text.get_rect(center = (self.width/2, self.height/2))
         self.image.blit(self.text, self.text_rect)
 
-        # self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + '/../../resources/sounds/Acceptsucesso.wav' )
-
     def is_pressed(self, pos , pressed):
         if self.rect.collidepoint(pos):
             if pressed[0]:
-                # pygame.mixer.Sound.play(self.menu_sound)
+                Audio().play_sound("menu")
                 return True
             return False
         return False

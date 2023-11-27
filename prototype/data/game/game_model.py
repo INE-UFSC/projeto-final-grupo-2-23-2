@@ -1,6 +1,7 @@
 import pygame
 from data.base.model import Model
 from data.game.level_container import LevelContainer
+from data.utils.audio import Audio
 
 class GameModel(Model):
     def __init__(self):
@@ -34,14 +35,18 @@ class GameModel(Model):
         
         if keys[pygame.K_SPACE]:
             player.create_attack(controller.visible_sprites, controller.attacks_sprites, current_time)
+            Audio().play_sound("raid")
         
         if keys[pygame.K_LCTRL]:
             player.create_defense(controller.visible_sprites, controller.deffense_sprites, controller.obstacles_sprites, current_time)
+            Audio().play_sound("guard")
 
         if keys[pygame.K_LSHIFT]:
             player.use_dash(current_time)
+            Audio().play_sound("dash")
 
         if keys[pygame.K_c]:
             player.picking = True
+            Audio().play_sound("pick")
         else:
             player.picking = False
