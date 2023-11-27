@@ -16,7 +16,7 @@ class GameModel(Model):
         keys = pygame.key.get_pressed()
         current_time = pygame.time.get_ticks()
         controller = self.levels_container.level.controller
-        player = self.player
+        player = self.levels_container.level.controller.player
 
         if player.action == 'normal':
             if keys[pygame.K_UP]:
