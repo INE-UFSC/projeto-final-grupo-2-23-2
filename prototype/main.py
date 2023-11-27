@@ -1,7 +1,6 @@
-from data.game.game_controller import GameController
+from data.game_system import GameSystem
 
 
-# start the game
 if __name__ == "__main__":
-    game_controller = GameController()
-    game_controller.run()
+    game_system = GameSystem()
+    game_system.run()

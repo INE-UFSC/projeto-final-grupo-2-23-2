@@ -1,4 +1,4 @@
-from data.views.view import View
+from data.base.view import View
 import pygame
 
 

@@ -1,14 +1,14 @@
 import pygame
 import os
 from data.components.settings import Settings
-from data.views.view import View
+from data.base.view import View
 from abc import ABC, abstractmethod
 import sys
 
 class ViewMenu(View, ABC):
     def __init__(self):
         super().__init__()
-        
+                
         self.background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/screens/intro2.png")
         self.background_rect = self.background.get_rect()
         
@@ -30,7 +30,7 @@ class ViewMenu(View, ABC):
                 return button    
         return None
 
-    def blit(self):
+    def render(self):
         display_surface = pygame.display.get_surface()
 
         display_surface.blit(self.background, (self.background_x,self.background_y))

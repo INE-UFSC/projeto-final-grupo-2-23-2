@@ -4,9 +4,10 @@ import os
 import sys
 
 class Button:
-    def __init__(self, x, y, width, height, fg, bg, content, fontsize):
-        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + Settings().button_font, fontsize)
+    def __init__(self, x, y, width, height, fg, bg, content, action):
+        self.font = pygame.font.Font(os.path.dirname(os.path.abspath(__file__)) + Settings().button_font, 32)
         self.content = content
+        self.action = action
 
         self.x = x
         self.y = y

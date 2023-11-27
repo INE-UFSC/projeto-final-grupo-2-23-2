@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import pygame
-import sys
+
 
 class View(ABC):
     def __init__(self):
@@ -9,19 +9,14 @@ class View(ABC):
         self.__fullscreen = True
         self.__display = pygame.display.get_surface()
 
-    
     @abstractmethod
     def render(self):
         pass
-    
-    def close(self):
-        pygame.quit()
-        sys.exit()
 
     @property
     def width(self):
         return self.__width
-    
+
     @width.setter
     def width(self, width):
         self.__width = width
@@ -29,7 +24,7 @@ class View(ABC):
     @property
     def height(self):
         return self.__height
-    
+
     @height.setter
     def height(self, height):
         self.__height = height
@@ -37,7 +32,7 @@ class View(ABC):
     @property
     def fullscreen(self):
         return self.__fullscreen
-    
+
     @fullscreen.setter
     def fullscreen(self, fullscreen: bool):
         self.__fullscreen = fullscreen
