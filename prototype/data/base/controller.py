@@ -1,7 +1,7 @@
 from data.utils.exceptions.no_model import NoModel
 from data.utils.exceptions.no_view import NoView
 from data.base.model import Model
-from data.base.view import View
+from data.views.view import View
 
 
 from abc import ABC, abstractmethod

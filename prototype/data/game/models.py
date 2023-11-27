@@ -1,8 +1,8 @@
-from data.menu.intro_view import IntroView
-from data.menu.menu_view import MenuView
-from data.menu.config_view import ConfigView
-from data.menu.config2_view import Config2View
-from data.menu.gameover_view import GameoverView
+# from data.menu.intro_view import IntroView
+# from prototype.data.menu.pause_view import MenuView
+# from prototype.data.menu.pause_config import ConfigView
+# from prototype.data.menu.intro_config import Config2View
+# from data.menu.gameover_view import GameoverView
 
 # from prototype.data.utils.exceptions.model_not_found import *
 import pygame

@@ -1,8 +1,8 @@
-from data.base.view import View
-from data.menu.button import Button
+from data.views.view_menu import ViewMenu
+from data.utils.button import Button
 import pygame
 
-class GameoverView(View):
+class GameoverView(ViewMenu):
     def __init__(self):
         super().__init__()
         self.title = self.font.render('Game Over', True, (255,255,255))
@@ -15,7 +15,7 @@ class GameoverView(View):
     def render(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
-            if current_time - self.wait_time >= game.last_click_time:
+            if current_time - self.wait_time >= game.game_model.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.close()
@@ -23,10 +23,10 @@ class GameoverView(View):
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
                 if button is not None:
-                    game.last_click_time = current_time
+                    game.game_model.last_click_time = current_time
 
                     if button.content == 'Reiniciar':
-                        game.reset()
+                        game.game_model.reset()
 
                     if button.content == 'Voltar ao menu principal':
                         game.choose_view("intro")

@@ -1,15 +1,14 @@
 import pygame
 import os
 from data.components.settings import Settings
+from data.views.view import View
 from abc import ABC, abstractmethod
 import sys
 
-class View(ABC):
+class ViewMenu(View, ABC):
     def __init__(self):
-        pygame.init()
-
-        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
-
+        super().__init__()
+        
         self.background = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/screens/intro2.png")
         self.background_rect = self.background.get_rect()
         
@@ -25,8 +24,6 @@ class View(ABC):
         self.primary = True
 
         # self.menu_sound = pygame.mixer.Sound(os.path.dirname(os.path.abspath(__file__)) + "/../../resources/sounds/Acceptsucesso.wav")
-
-
     def get_button_clicks(self, mouse_pos, mouse_pressed):
         for button in self.buttons:
             if button.is_pressed(mouse_pos, mouse_pressed):
@@ -44,12 +41,3 @@ class View(ABC):
 
         pygame.display.flip()
         Settings().clock.tick(Settings().fps)
-    
-    def close(self):
-        pygame.quit()
-        sys.exit()
-
-    @abstractmethod
-    def render(self):
-        pass
-

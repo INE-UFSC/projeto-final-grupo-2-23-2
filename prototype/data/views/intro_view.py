@@ -1,9 +1,9 @@
-from data.base.view import View
-from data.menu.button import Button
+from data.views.view_menu import ViewMenu
+from data.utils.button import Button
 import pygame
 import sys
 
-class IntroView(View):
+class IntroView(ViewMenu):
     def __init__(self):
         super().__init__()
         self.buttons = [Button((self.width/2 - 110), (self.height/2 - 100), 220, 50, (255,255,255), (0,0,0), 'Start Game', 32),
@@ -14,7 +14,7 @@ class IntroView(View):
     def render(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
-            if current_time - self.wait_time >= game.last_click_time:
+            if current_time - self.wait_time >= game.game_model.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.close()
@@ -22,13 +22,12 @@ class IntroView(View):
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
                 if button is not None:
-                    game.last_click_time = current_time
-
+                    game.game_model.last_click_time = current_time
                     if button.content == 'Start Game':
-                        game.start()
+                        game.choose_view("game")
 
                     if button.content == 'Configurations':
-                        game.choose_view("config2")
+                        game.choose_view("introconfig")
 
                     if button.content == 'Quit Game':
                         self.close()

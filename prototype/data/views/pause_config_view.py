@@ -1,8 +1,8 @@
-from data.base.view import View
-from data.menu.button import Button
+from data.views.view_menu import ViewMenu
+from data.utils.button import Button
 import pygame
 
-class ConfigView(View):
+class PauseConfigView(ViewMenu):
     def __init__(self):
         super().__init__()
         self.buttons = [
@@ -14,7 +14,7 @@ class ConfigView(View):
     def render(self, game):
         while self.primary:
             current_time = pygame.time.get_ticks()
-            if current_time - self.wait_time >= game.last_click_time:
+            if current_time - self.wait_time >= game.game_model.last_click_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.close()
@@ -22,11 +22,9 @@ class ConfigView(View):
                 button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
 
                 if button is not None:
-                    game.last_click_time = current_time
+                    game.game_model.last_click_time = current_time
                     if button.content == 'Return to game':
-                        game.start()
+                        game.game_model.start()
                     if button.content == 'Return to menu':
-                        game.choose_view("menu")
-
-
+                        game.choose_view("pause")
             self.blit()
