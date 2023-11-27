@@ -8,8 +8,8 @@ from data.utils.exceptions.view_not_found import ViewNotFound
 class MenuController(Controller):
     def __init__(self, game_system):
         super().__init__()
-        self.views_container = MenuViews()  
-        self.game_system = game_system   
+        self.views_container = MenuViews()
+        self.game_system = game_system
 
     def show_menu(self, name):
         try:
@@ -26,8 +26,8 @@ class MenuController(Controller):
             self.handle_events()
             self.view.render()
 
-            clock.tick(30)
-    
+            clock.tick(60)
+
     def handle_events(self):
         current_time = pygame.time.get_ticks()
         if current_time - 1000 >= self.last_click_time:
@@ -35,7 +35,9 @@ class MenuController(Controller):
                 if event.type == pygame.QUIT:
                     self.game_system.close()
 
-                button = self.get_button_clicks(pygame.mouse.get_pos(), pygame.mouse.get_pressed())
+                button = self.get_button_clicks(
+                    pygame.mouse.get_pos(), pygame.mouse.get_pressed()
+                )
 
                 if button is not None:
                     self.last_click_time = current_time
@@ -44,16 +46,14 @@ class MenuController(Controller):
     def get_button_clicks(self, mouse_pos, mouse_pressed):
         for button in self.view.buttons:
             if button.is_pressed(mouse_pos, mouse_pressed):
-                return button    
+                return button
         return None
-    
+
     def handle_button_click(self, button):
         for view_button in self.view.buttons:
             if button.content == view_button.content:
                 exec(view_button.action, {"game": self.game_system})
-    
+
     @property
     def view(self):
         return self.views_container.view
-        
-

@@ -8,3 +8,4 @@ class GameView(View):
 
     def render(self):
         pygame.display.flip()
+        self.display.fill("#71ddee")

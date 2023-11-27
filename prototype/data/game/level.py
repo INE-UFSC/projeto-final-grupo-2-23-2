@@ -16,7 +16,6 @@ class Level:
         self.name = map_name
         self.controller = Controller(self.name)
         
-        self.surface = pygame.display.get_surface()        
         self.tilesize = 64
 
         self.song = None  # name_song
@@ -55,8 +54,8 @@ class Level:
                                 Tile((x , y), [cont.visible_sprites],'grass', random_grass)
                         
                         if style == 'object':
-                                surface = graphics['objects'][int(col)+13]
-                                Tile((x, y), [cont.visible_sprites, cont.obstacles_sprites],'object', surface)
+                                objects = graphics['objects'][int(col)+13]
+                                Tile((x, y), [cont.visible_sprites, cont.obstacles_sprites],'object', objects)
 
                         if style == 'entity':
                             if col == '391':

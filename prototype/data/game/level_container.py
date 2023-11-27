@@ -3,16 +3,13 @@ from data.utils.exceptions.level_not_found import LevelNotFound
 
 class LevelContainer:
     def __init__(self):
-        self.__levels = [Level("level_3")]
+        self.__levels = [Level("level_1"),Level("level_2"), Level("level_3")]
         self.__level = None
-
-        self.index_current_level = 0
-
-    def get_level(self):
-        return self.levels[0]
 
     @property
     def level(self):
+        if self.__level == None and len(self.levels) != 0:
+            self.__level = self.levels[0]
         return self.__level
 
     @level.setter
