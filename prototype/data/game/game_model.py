@@ -18,7 +18,6 @@ class GameModel(Model):
         controller = self.levels_container.level.controller
         player = self.player
 
-        # movement input
         if player.action == 'normal':
             if keys[pygame.K_UP]:
                 player.direction.y = -1   

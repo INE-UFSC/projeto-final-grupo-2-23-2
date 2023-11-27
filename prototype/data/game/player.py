@@ -107,14 +107,14 @@ class Player(Creature):
             self.update_stamina()
             # print(self.stamina)
 
-    def use_dash(self):
-        if self.stamina_check(self.inventory.get('dash').stamina_cost):
+    # def use_dash(self):
+    #     if self.stamina_check(self.inventory.get('dash').stamina_cost):
             
-            self.inventory.get("dash").get_player_direction()
-            self.inventory.get("dash").time = pygame.time.get_ticks()
-            self.dashing = True
-            self.invincible = True
-            self.invincible_time = pygame.time.get_ticks()
+    #         self.inventory.get("dash").get_player_direction()
+    #         self.inventory.get("dash").time = pygame.time.get_ticks()
+    #         self.dashing = True
+    #         self.invincible = True
+    #         self.invincible_time = pygame.time.get_ticks()
             
     def update_stamina(self):
         if 'move' in self.status or 'idle' in self.status:
@@ -151,16 +151,16 @@ class Player(Creature):
             self.current_power.kill()
             self.current_power = None
 
-#     def use_dash(self, current_time):
-#         if self.inventory.contains("dash") and (self.action == 'normal'):
-#             dash = self.inventory.get("dash")
+    def use_dash(self, current_time):
+        if self.inventory.contains("dash") and (self.action == 'normal'):
+            dash = self.inventory.get("dash")
 
-#             if current_time - dash.time >= dash.cooldown:
-#                 dash.get_player_direction()
-#                 dash.time = pygame.time.get_ticks()
-#                 self.action = 'dash'
-#                 self.invincible = True
-#                 self.invincible_time = pygame.time.get_ticks()
+            if current_time - dash.time >= dash.cooldown:
+                dash.get_player_direction()
+                dash.time = pygame.time.get_ticks()
+                self.action = 'dash'
+                self.invincible = True
+                self.invincible_time = pygame.time.get_ticks()
 
     def pick_item(self, item):
         if self.picking == True:

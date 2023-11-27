@@ -35,7 +35,7 @@ class GameController(Controller):
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_t:
                         self.game_model.levels_container.advance_level()
-                    if event.key == pygame.K_ESCAPE:
+                    elif event.key == pygame.K_ESCAPE:
                         self.game_system.show_menu("pause")
 
             self.game_view.render()

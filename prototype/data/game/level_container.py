@@ -13,13 +13,9 @@ class LevelContainer:
         return self.__level
 
     @level.setter
-    def level(self, name):
-        for level in self.levels:
-            if (level.name == name) and isinstance(level, Level):
-                self.__level = level
-                break
-        else:
-            raise LevelNotFound(name)
+    def level(self, level):
+        self.__level = level
+
 
     @property
     def levels(self):
