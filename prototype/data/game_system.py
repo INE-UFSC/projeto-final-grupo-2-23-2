@@ -1,9 +1,9 @@
-import pygame
 import sys
+import pygame
+from data.utils.sounds import Audio
 from data.base.controller import Controller
 from data.game.game_controller import GameController
 from data.menu.menu_controller import MenuController
-from data.utils.exceptions.view_not_found import ViewNotFound
 
 
 class GameSystem(Controller):
@@ -31,6 +31,8 @@ class GameSystem(Controller):
 
     def __initialize_pygame(self):
         pygame.init()
+        
+        Audio().play_music("music")
 
         width = pygame.display.Info().current_w
         height = pygame.display.Info().current_h
