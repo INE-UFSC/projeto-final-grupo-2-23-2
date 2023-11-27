@@ -1,6 +1,6 @@
 import pygame
 import os
-from data.components.settings import Settings
+from data.utils.settings import Settings
 from data.base.view import View
 from abc import ABC
 

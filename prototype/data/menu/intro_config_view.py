@@ -1,5 +1,5 @@
 from data.menu.menu_view import MenuView
-from data.utils.button import Button
+from data.menu.button import Button
 
 
 class IntroconfigView(MenuView):

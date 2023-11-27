@@ -2,13 +2,13 @@ import pygame
 import json
 import os
 
-from data.components.settings import Settings
+from data.utils.settings import Settings
 from data.game.player import Player
 from data.game.enemy import Enemy
-from data.components.tile import Tile
+from data.game.tile import Tile
 from data.game.controller import Controller
-from data.components.hud import Hud
-from data.components.support import import_csv_layout, import_folder
+from data.game.hud import Hud
+from data.utils.support import import_csv_layout, import_folder
 from random import choice
 
 class Level:

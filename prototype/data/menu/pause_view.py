@@ -1,6 +1,5 @@
 from data.menu.menu_view import MenuView
-from data.utils.button import Button
-import pygame
+from data.menu.button import Button
 
 
 class PauseView(MenuView):

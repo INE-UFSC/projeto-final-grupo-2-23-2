@@ -1,7 +1,7 @@
-from data.components.settings import Settings
+from data.utils.settings import Settings
 from data.game.creature import Creature
 from data.game.player import Player
-from data.components.support import import_folder
+from data.utils.support import import_folder
 
 import pygame
 import os

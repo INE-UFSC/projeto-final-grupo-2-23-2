@@ -2,7 +2,7 @@ from data.base.controller import Controller
 from data.menu.menu_views import MenuViews
 from data.game.game_model import GameModel
 from data.game.game_view import GameView
-from data.components.settings import Settings
+from data.utils.settings import Settings
 from data.game.level import Level
 import pygame
 

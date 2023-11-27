@@ -1,7 +1,6 @@
-from data.components.settings import Settings
+from data.utils.settings import Settings
 import pygame
 import os
-import sys
 
 class Button:
     def __init__(self, x, y, width, height, fg, bg, content, action):

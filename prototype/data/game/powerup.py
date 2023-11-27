@@ -1,4 +1,4 @@
-from data.components.settings import Settings
+from data.utils.settings import Settings
 import pygame
 import os
 

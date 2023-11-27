@@ -1,7 +1,7 @@
-from data.components.settings import Settings
+from data.utils.settings import Settings
 import pygame
 import os
-from data.components.sprites import Sprites
+from data.game.sprites import Sprites
 
 class Controller:
     def __init__(self, level_name):

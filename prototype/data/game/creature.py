@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 import pygame
 import os
-from data.components.support import import_folder
-from data.components.settings import Settings
+from data.utils.support import import_folder
+from data.utils.settings import Settings
 
 class Creature(pygame.sprite.Sprite, ABC):
     def __init__(self, name, position, groups):

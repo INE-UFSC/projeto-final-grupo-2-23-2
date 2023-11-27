@@ -1,7 +1,7 @@
 from data.game.creature import Creature
-from data.components.settings import Settings
+from data.utils.settings import Settings
 from data.game.inventory import Inventory
-from data.components.support import import_folder
+from data.utils.support import import_folder
 
 from data.game.raid import Raid
 from data.game.guard import Guard
