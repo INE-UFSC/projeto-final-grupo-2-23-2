@@ -1,8 +1,8 @@
-from data.menu.menu_view import ViewMenu
+from data.menu.menu_view import MenuView
 from data.utils.button import Button
 
 
-class GameoverView(ViewMenu):
+class GameoverView(MenuView):
     def __init__(self):
         super().__init__()
         self.title = self.font.render("Game Over", True, (255, 255, 255))
@@ -26,7 +26,7 @@ class GameoverView(ViewMenu):
                 (255, 255, 255),
                 (0, 0, 0),
                 "Voltar ao menu principal",
-                "game.show_menu('intro')",
+                "game.show_menu('intro')"
             ),
             Button(
                 (self.width / 2 - 125),

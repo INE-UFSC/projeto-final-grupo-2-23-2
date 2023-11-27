@@ -1,9 +1,9 @@
-from data.menu.menu_view import ViewMenu
+from data.menu.menu_view import MenuView
 from data.utils.button import Button
 import pygame
 
 
-class PauseView(ViewMenu):
+class PauseView(MenuView):
     def __init__(self):
         super().__init__()
         self.buttons = [

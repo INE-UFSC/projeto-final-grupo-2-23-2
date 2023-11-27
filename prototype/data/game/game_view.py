@@ -6,5 +6,5 @@ class GameView(View):
     def __init__(self):
         super().__init__()
 
-    def render(self, game):
-        game.game_model.start()
+    def render(self):
+        pygame.display.flip()

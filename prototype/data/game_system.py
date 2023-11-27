@@ -6,7 +6,6 @@ from data.menu.menu_controller import MenuController
 from data.utils.exceptions.view_not_found import ViewNotFound
 
 
-
 class GameSystem(Controller):
     def __init__(self):
         self.__initialize_pygame()

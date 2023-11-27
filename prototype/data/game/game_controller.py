@@ -8,19 +8,16 @@ import pygame
 import sys
 
 class GameController(Controller):
-    def __init__(self, game):
+    def __init__(self, game_system):
         super().__init__()
-        self.game = game
-        self.game_model = GameModel()
         self.game_view = GameView()
+        self.game_model = GameModel()
+        self.game_system = game_system
 
     def play(self):
-        if self.game_model.player == None:
-            self.run()
-        else:
-            if self.game_model.player.hp == 0:
-                self.reset()
-            self.run()
+        if self.game_model.player is None or self.game_model.player.hp == 0:
+            self.reset()
+        self.run()
 
     def reset(self):
         self.game_model.reset()
@@ -42,10 +39,11 @@ class GameController(Controller):
                         
             if self.game_model.player == None:
                 self.game_model.player = self.game_model.levels_container.get_level().controller.player
+
             if self.game_model.player.hp == 0:
                 # pygame.mixer.Sound.play(self.game_over_sound)
                 self.game_model.player = None
-                self.game.choose_view("gameover")
+                self.game_system.show_menu("gameover")
 
             self.game_model.levels_container.get_level().surface.fill("#71ddee")
 
@@ -54,7 +52,7 @@ class GameController(Controller):
             self.input_handler()
 
             # atualiza display
-            pygame.display.flip()
+            self.game_view.render()
 
             # define fps do jogo
             clock.tick(Settings().fps)
@@ -144,4 +142,4 @@ class GameController(Controller):
                     player.use_dash()
 
         if keys[pygame.K_ESCAPE]:
-            self.game.show_menu("pause")
+            self.game_system.show_menu("pause")
