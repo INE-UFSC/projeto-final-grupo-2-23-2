@@ -1,16 +1,17 @@
 import pygame
 from data.base.model import Model
 from data.game.level_container import LevelContainer
+from data.game.player import Player
 from data.utils.audio import Audio
 
 class GameModel(Model):
     def __init__(self):
         self.clock = pygame.time.Clock()
         self.levels_container = LevelContainer()
-        self.player = self.levels_container.level.controller.player
+        self.player = Player()
 
     def update(self):
-        self.levels_container.level.run()
+        self.levels_container.level.run(self.player)
         self.input_handler()
     
     def input_handler(self):

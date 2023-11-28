@@ -11,42 +11,20 @@ import pygame
 import os
 
 class Player(Creature):
-    def __init__(self, name, position, groups):
-        super().__init__(name, position, groups)
-        
+    def __init__(self):
+        super().__init__("player", (0,0), [])
+        self.sprite_type = 'player'
+        self.import_assets()
+        self.action = 'normal'
+        self.inventory = Inventory()
+        self.current_power = None
+        self.picking = False
+
+    def initialize(self, groups, position):
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().player_folder + self.name + '.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
         self.hitbox = self.rect.inflate(0, -26)
-        self.sprite_type = 'player'
-        self.import_assets()
-        
-        # movement
-#         self.direction = pygame.math.Vector2()
-#         self.moving = True
-#         self.normal_speed = 5
-#         self.speed = 4
-
-        # action 
-        self.action = 'normal'
-
-
-        # items
-        self.inventory = Inventory()
-
-        # player stamina
-        self.max_stamina = 200
-        self.stamina = 200
-        self.stamina_time = 0
-        self.stamina_cooldown = 100
-        
-#         # player status
-#         self.deffending = False
-#         self.dashing = False
-#         self.picking = False    
-
-        #actions
-        self.current_power = None
-        self.picking = False
+        self.generate(groups, position)
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -99,34 +77,9 @@ class Player(Creature):
                 self.action = 'normal'
                 self.invincible = False
                 self.speed = self.normal_speed
-            
                 self.status = self.status.split("_")[0]
-              
-        if current_time - self.stamina_time >= self.stamina_cooldown:
-            self.stamina_time = current_time
-            self.update_stamina()
-            # print(self.stamina)
 
-    # def use_dash(self):
-    #     if self.stamina_check(self.inventory.get('dash').stamina_cost):
-            
-    #         self.inventory.get("dash").get_player_direction()
-    #         self.inventory.get("dash").time = pygame.time.get_ticks()
-    #         self.dashing = True
-    #         self.invincible = True
-    #         self.invincible_time = pygame.time.get_ticks()
-            
-    def update_stamina(self):
-        if 'move' in self.status or 'idle' in self.status:
-            if self.stamina < self.max_stamina:
-                self.stamina += 20
-                if self.stamina > self.max_stamina:
-                    self.stamina = self.max_stamina 
 
-    def stamina_check(self, cost):
-        if self.stamina >= cost:
-            self.stamina -= cost
-            return True
     def create_attack(self, visible_sprites,attacks_sprites, current_time):
         if self.inventory.contains("raid") and (self.action == 'normal'):
             raid = self.inventory.get("raid")

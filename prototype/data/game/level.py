@@ -15,17 +15,9 @@ class Level:
     def __init__(self, map_name):
         self.name = map_name
         self.controller = Controller(self.name)
-        
         self.tilesize = 64
 
-        self.song = None  # name_song
-        self.dropped_items = None  # dropped_items
-
-        self.generate_map()
-        self.ui = Hud(self.controller.player)
-
-
-    def generate_map(self):
+    def generate_map(self, player):
         cont = self.controller
         # loop pela matriz
         layout = {'boundary' : import_csv_layout(os.path.dirname(os.path.abspath(__file__))+ Settings().levels_folder + self.name + Settings().floor_blocks_csv),
@@ -65,7 +57,8 @@ class Level:
                                 Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                                   
                             if col == '394':
-                                cont.player = Player("player", (x,y), [cont.visible_sprites, cont.player_sprite])
+                                player.initialize([cont.visible_sprites, cont.player_sprite], (x,y))
+                                cont.player = player
                                 
                             if col == '532':
                                 Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'raid',
@@ -78,10 +71,14 @@ class Level:
                             if col == '89':
                                 Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash',
                                       pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
-
+        self._generated = True
         
 
-    def run(self):
+    def run(self, player):
+        if not hasattr(self, "_generated"):
+            print(player.hp)
+            self.generate_map(player)
+            self.ui = Hud(player)
         # desenha e atualiza o jogo
         self.controller.run()
         self.ui.display()

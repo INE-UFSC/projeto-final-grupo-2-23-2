@@ -6,9 +6,10 @@ from data.utils.settings import Settings
 
 class Creature(pygame.sprite.Sprite, ABC):
     def __init__(self, name, position, groups):
-        super().__init__(groups)
         self.name = name
         self.info = getattr(Settings(), self.name)
+
+        self.generate(groups, position)
 
         #health
         self.max_hp = self.info.get('health')
@@ -19,7 +20,6 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.speed = self.info.get('speed')
 
         # atributos mais subjetivos
-        self.position = position
         self.direction = pygame.math.Vector2()
     
         # invincibility
@@ -34,6 +34,9 @@ class Creature(pygame.sprite.Sprite, ABC):
 
         self.import_assets()
     
+    def generate(self, groups, position):
+        super().__init__(groups)
+        self.position = position
 
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+ Settings().creatures_folder + self.name
