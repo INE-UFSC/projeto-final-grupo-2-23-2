@@ -76,7 +76,6 @@ class Level:
 
     def run(self, player):
         if not hasattr(self, "_generated"):
-            print(player.hp)
             self.generate_map(player)
             self.ui = Hud(player)
         # desenha e atualiza o jogo
