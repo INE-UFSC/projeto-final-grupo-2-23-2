@@ -7,11 +7,6 @@ class Dash(Powerup):
         super().__init__(name, player, groups)
 
         self.stamina_cost = 30
-#         self.duration = 250
-#         self.cooldown = 500
-#         self.speed = 4 * self.player.speed
-
-        
         self.duration = self.info.get('duration')
         self.cooldown = self.info.get('cooldown')
         self.speed = self.info.get('speed')

@@ -8,7 +8,7 @@ class PauseconfigView(MenuView):
         self.buttons = [
             Button(
                 (self.width / 2 - 150),
-                (self.height / 2),
+                (self.height / 2 + 350),
                 300,
                 50,
                 (255, 255, 255),
@@ -18,12 +18,32 @@ class PauseconfigView(MenuView):
             ),
             Button(
                 (self.width / 2 - 150),
-                (self.height / 2 - 100),
+                (self.height / 2 + 250),
                 300,
                 50,
                 (255, 255, 255),
                 (0, 0, 0),
                 "Return to game",
                 "game.play()"
-            )
+            ),
+            Button(
+                (self.width / 2 + 50),
+                (self.height / 2),
+                300,
+                50,
+                (255, 255, 255),
+                (0, 0, 0),
+                "Increase Volume",
+                "game.change_volume('more')"
+            ),
+            Button(
+                (self.width / 2 - 350),
+                (self.height / 2),
+                300,
+                50,
+                (255, 255, 255),
+                (0, 0, 0),
+                "Decrease Volume",
+                "game.change_volume('lower')"
+            ),
         ]

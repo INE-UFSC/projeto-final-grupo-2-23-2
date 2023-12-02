@@ -25,13 +25,14 @@ class GameSystem(Controller):
     def show_menu(self, name):
         self.menu_controller.show_menu(name)
         
-    def change_volume(self, input):
-        if input == 'mute':
-            Audio.volume = 0
-        elif input == 'lower':
-            Audio().volume -= 0.1
-        elif input == 'more':
-            Audio().volume += 0.1
+    def change_volume(self, input1):
+        audio = Audio()
+        if input1 == 'mute':
+            audio.volume = 0
+        elif input1 == 'lower':
+            audio.volume -= 0.1
+        elif input1 == 'more':
+            audio.volume += 0.1
             
     def close(self):
         pygame.quit()
