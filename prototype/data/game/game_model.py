@@ -47,3 +47,7 @@ class GameModel(Model):
             player.picking = True
         else:
             player.picking = False
+
+    def next_level_logic(self):
+        if len(self.player.inventory.items) > self.levels_container.levels.index(self.levels_container.level):
+            self.levels_container.advance_level()
