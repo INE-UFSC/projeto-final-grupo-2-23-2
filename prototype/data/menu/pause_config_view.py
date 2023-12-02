@@ -25,5 +25,5 @@ class PauseconfigView(MenuView):
                 (0, 0, 0),
                 "Return to game",
                 "game.play()"
-            ),
+            )
         ]

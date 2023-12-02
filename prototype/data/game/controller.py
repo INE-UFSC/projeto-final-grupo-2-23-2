@@ -1,4 +1,5 @@
 from data.utils.settings import Settings
+from data.utils.audio import Audio
 import pygame
 import os
 from data.game.sprites import Sprites

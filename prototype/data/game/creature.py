@@ -8,7 +8,6 @@ class Creature(pygame.sprite.Sprite, ABC):
     def __init__(self, name, position, groups):
         self.name = name
         self.info = getattr(Settings(), self.name)
-
         self.generate(groups, position)
 
         #health
@@ -18,8 +17,6 @@ class Creature(pygame.sprite.Sprite, ABC):
         # movement
         self.normal_speed = self.info.get('speed')
         self.speed = self.info.get('speed')
-
-        # atributos mais subjetivos
         self.direction = pygame.math.Vector2()
     
         # invincibility

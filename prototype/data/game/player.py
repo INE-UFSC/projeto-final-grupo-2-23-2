@@ -2,6 +2,7 @@ from data.game.creature import Creature
 from data.utils.settings import Settings
 from data.game.inventory import Inventory
 from data.utils.support import import_folder
+from data.utils.audio import Audio
 
 from data.game.raid import Raid
 from data.game.guard import Guard
@@ -88,6 +89,8 @@ class Player(Creature):
                 self.direction = pygame.math.Vector2()
                 raid.time = pygame.time.get_ticks()
                 self.current_power = Raid("raid", self,[visible_sprites,attacks_sprites])
+                Audio().play_sound('raid')
+                
 
     def create_defense(self, visible_sprites,deffense_sprites, obstacles_sprites, current_time):
         if self.inventory.contains("guard") and (self.action == 'normal'):
@@ -98,6 +101,7 @@ class Player(Creature):
                 self.direction = pygame.math.Vector2()
                 guard.time = pygame.time.get_ticks()
                 self.current_power = Guard("guard",self,[visible_sprites,deffense_sprites, obstacles_sprites])
+                Audio().play_sound('guard')
         
     def destroy_power(self):
         if self.current_power != None:
@@ -114,6 +118,7 @@ class Player(Creature):
                 self.action = 'dash'
                 self.invincible = True
                 self.invincible_time = pygame.time.get_ticks()
+                Audio().play_sound('dash')
 
     def pick_item(self, item):
         if self.picking == True:

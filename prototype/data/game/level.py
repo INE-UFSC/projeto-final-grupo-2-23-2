@@ -53,6 +53,9 @@ class Level:
                             if col == '391':
                                 Enemy("spirit", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                             
+                            if col == '392':
+                                Enemy("demon", (x,y), [cont.visible_sprites,cont.attackable_sprites])
+                            
                             if col == '393':
                                 Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                                   
