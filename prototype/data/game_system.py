@@ -22,6 +22,12 @@ class GameSystem(Controller):
     def reset(self):
         self.game_controller.reset()
 
+    def save(self):
+        self.game_controller.save()
+    
+    def load(self, level):
+        self.game_controller.load(level)
+
     def show_menu(self, name):
         self.menu_controller.show_menu(name)
     

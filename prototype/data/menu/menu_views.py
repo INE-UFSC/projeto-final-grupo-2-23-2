@@ -6,7 +6,7 @@ from data.menu.intro_config_view import IntroconfigView
 from data.menu.intro_view import IntroView
 from data.menu.pause_config_view import PauseconfigView
 from data.menu.pause_view import PauseView
-
+from data.menu.load_view import LoadView
 
 class MenuViews:
     def __init__(self):
@@ -17,6 +17,7 @@ class MenuViews:
             IntroView(),
             PauseconfigView(),
             PauseView(),
+            LoadView(),
         ]
 
     @property

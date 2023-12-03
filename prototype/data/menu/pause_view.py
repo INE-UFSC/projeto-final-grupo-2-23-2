@@ -27,8 +27,18 @@ class PauseView(MenuView):
                 "game.show_menu('pauseconfig')"
             ),
             Button(
-                (self.width / 2 - 125),
+                (self.width / 2 - 150),
                 (self.height / 2 + 100),
+                300,
+                50,
+                (255, 255, 255),
+                (0, 0, 0),
+                "Save the game",
+                "game.save()"
+            ),
+            Button(
+                (self.width / 2 - 125),
+                (self.height / 2 + 200),
                 250,
                 50,
                 (255, 255, 255),

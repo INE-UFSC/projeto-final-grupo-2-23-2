@@ -1,0 +1,1 @@
+{"player": {"name": "player", "position": [2752, 320], "max_hp": 200, "hp": 200, "normal_speed": 5, "speed": 5, "direction": [0.0, 0.0], "invincible": false, "invincible_time": 0, "invincible_cooldown": 400, "frame_index": 0.9, "animation_speed": 0.15, "status": "down_idle", "inventory": {"items": []}}, "enemies": []}

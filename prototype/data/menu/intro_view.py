@@ -23,12 +23,22 @@ class IntroView(MenuView):
                 50,
                 (255, 255, 255),
                 (0, 0, 0),
+                "Load the game",
+                "game.show_menu('load')"
+            ),
+            Button(
+                (self.width / 2 - 150),
+                (self.height / 2 + 100),
+                300,
+                50,
+                (255, 255, 255),
+                (0, 0, 0),
                 "Configurations",
                 "game.show_menu('introconfig')"
             ),
             Button(
                 (self.width / 2 - 125),
-                (self.height / 2 + 100),
+                (self.height / 2 + 200),
                 250,
                 50,
                 (255, 255, 255),

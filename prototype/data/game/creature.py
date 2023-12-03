@@ -123,6 +123,36 @@ class Creature(pygame.sprite.Sprite, ABC):
         if self.hp > self.max_hp:
             self.hp = self.max_hp 
 
+    def get_save_data(self):
+        save_data = {
+            'name': self.name,
+            'position': self.position,
+            'max_hp': self.max_hp,
+            'hp': self.hp,
+            'normal_speed': self.normal_speed,
+            'speed': self.speed,
+            'direction': (self.direction.x, self.direction.y),
+            'invincible': self.invincible,
+            'invincible_time': self.invincible_time,
+            'invincible_cooldown': self.invincible_cooldown,
+            'frame_index': self.frame_index,
+            'animation_speed': self.animation_speed,
+            'status': self.status
+
+        }
+        return save_data
+    
+    def load_save_data(self, save_data):
+        self.name = save_data['name']
+        self.position = save_data['position']
+        self.max_hp = save_data['max_hp']
+        self.hp = save_data['hp']
+        self.normal_speed = save_data['normal_speed']
+        self.speed = save_data['speed']
+
+
+    
+
     @abstractmethod
     def update(self):
         pass
