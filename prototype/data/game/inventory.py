@@ -1,3 +1,5 @@
+from .powerup import Powerup
+
 class Inventory:
     def __init__(self):
         self.__items = []
@@ -24,6 +26,16 @@ class Inventory:
             if item.name == name:
                 return item
         return None
-
+    
+    def get_save_data(self):
+        items_data = [item.get_save_data() for item in self.items]
+        save_data = {
+            'items': items_data
+        }
+        return save_data
+    
     def size(self):
         return len(self.items)
+    
+    def clear(self):
+        self.__items.clear()

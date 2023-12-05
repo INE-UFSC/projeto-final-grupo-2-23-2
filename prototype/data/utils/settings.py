@@ -79,3 +79,11 @@ class Settings:
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance
+    
+    def get_enemy_type(enemy_name):
+        enemy_type_mapping = {
+            "skeleton": "skeleton",
+            "spirit": "spirit",
+            "demon": "demon",
+        }
+        return enemy_type_mapping.get(enemy_name, enemy_name)

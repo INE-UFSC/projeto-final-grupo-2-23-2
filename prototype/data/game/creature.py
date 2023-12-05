@@ -33,7 +33,7 @@ class Creature(pygame.sprite.Sprite, ABC):
     
     def generate(self, groups, position):
         super().__init__(groups)
-        self.position = position
+        self.position = list(position)
 
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+ Settings().creatures_folder + self.name
@@ -63,13 +63,17 @@ class Creature(pygame.sprite.Sprite, ABC):
         if abs(self.direction.y) > abs(self.direction.x):
             if self.direction.y > 0:
                 self.status = "down"
+                self.position[1] += int(self.direction.y)
             elif self.direction.y < 0:
                 self.status = "up"
+                self.position[1] += int(self.direction.y)
         else:
             if self.direction.x < 0:
                 self.status = "left"
+                self.position[0] += int(self.direction.x)
             elif self.direction.x > 0:
                 self.status = "right"
+                self.position[0] += int(self.direction.x)
 
         # diagonal fixed
         if self.direction.magnitude() != 0:
@@ -119,6 +123,21 @@ class Creature(pygame.sprite.Sprite, ABC):
             self.hp += amount
         if self.hp > self.max_hp:
             self.hp = self.max_hp 
+
+    def get_save_data(self):
+        save_data = {
+            'name': self.name,
+            'position': self.position,
+            'max_hp': self.max_hp,
+            'hp': self.hp,
+        }
+        return save_data
+    
+    def load_save_data(self, save_data):
+        self.name = save_data['name']
+        self.position = save_data['position']
+        self.max_hp = save_data['max_hp']
+        self.hp = save_data['hp']
 
     @abstractmethod
     def update(self):

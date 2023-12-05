@@ -4,6 +4,7 @@ from data.game.inventory import Inventory
 from data.utils.support import import_folder
 from data.utils.audio import Audio
 
+from data.game.powerup import Powerup
 from data.game.raid import Raid
 from data.game.guard import Guard
 from data.game.dash import Dash
@@ -41,11 +42,42 @@ class Player(Creature):
                     splited_status[1] = self.action
                     self.status = "_".join(splited_status)
 
+    def get_save_data(self):
+        save_data = super().get_save_data()
+        save_data['inventory'] = self.inventory.get_save_data()
+        return save_data 
+    
+    def load_save_data(self, player_data):
+        super().load_save_data(player_data)
+
+        self.inventory.clear()
+        inventory_data = player_data.get('inventory', {})
+        items_data = inventory_data.get('items', [])
+        
+
+        for item_data in items_data:
+            item_type = item_data.get('type', '')
+            item_name = item_data.get('name', '')
+
+            if item_type == 'powerup':
+                if item_name == 'guard':
+                    item_instance = Guard(item_name, self, [])
+                    
+                elif item_name == 'raid':
+                    item_instance = Raid(item_name, self, [])
+                    
+                elif item_name == 'dash':
+                    item_instance = Dash(item_name, self, [])
+
+                self.inventory.add_item(item_instance)
+        
+
     def update(self, obstacle_sprites):
         self.get_status()
         self.animate()
         self.move(obstacle_sprites)
         self.cooldowns()
+        
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()

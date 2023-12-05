@@ -44,6 +44,12 @@ class Enemy(Creature):
                     splited_status[1] = "attack"
                     self.status = "_".join(splited_status)
 
+    def initialize(self, groups, position):
+        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().creatures_folder + self.name + '/' + self.name + '.png').convert_alpha()
+        self.rect = self.image.get_rect(topleft=position)
+        self.hitbox = self.rect.inflate(0, -26)
+        self.generate(groups, position)
+
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
         player_vec = pygame.math.Vector2(player.rect.center)

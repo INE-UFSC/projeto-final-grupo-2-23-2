@@ -24,6 +24,18 @@ class GameController(Controller):
         self.game_model = GameModel()
         self.run()
 
+    def save(self):
+        save_data = self.game_model.player.get_save_data()
+        self.game_model.player.load_save_data(save_data)
+        self.game_model.levels_container.level.save(self.game_model.player)
+
+    def load(self, level):
+        self.game_model.load(level)
+        save_data = self.game_model.player.get_save_data()
+
+        self.game_model.player.load_save_data(save_data)
+        self.game_model.update()
+
     def run(self):
         clock = pygame.time.Clock()
 

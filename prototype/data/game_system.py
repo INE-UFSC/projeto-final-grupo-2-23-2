@@ -1,5 +1,6 @@
 import sys
 import pygame
+import os
 from data.utils.audio import Audio
 from data.base.controller import Controller
 from data.game.game_controller import GameController
@@ -21,6 +22,18 @@ class GameSystem(Controller):
 
     def reset(self):
         self.game_controller.reset()
+
+    def save(self):
+        self.game_controller.save()
+        self.play()
+    
+    def load(self, level):
+        print(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'game', 'saves', f'level_{level}_save.json'))
+        if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'game', 'saves', f'level_{level}_save.json')):
+            self.game_controller.load(level)
+            self.play()
+        else:
+            print("Selecione um load válido")
 
     def show_menu(self, name):
         self.menu_controller.show_menu(name)
