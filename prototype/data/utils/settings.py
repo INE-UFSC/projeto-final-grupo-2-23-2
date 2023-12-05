@@ -41,19 +41,19 @@ class Settings:
                          'attack_cooldown': 400
                          }
         
-        self.spirit =   {'health': 50,
-                         'detect_range': 150,
+        self.demon =   {'health': 50,
+                         'detect_range': 400,
                          'attack_range': 50,
-                         'speed': 5,
-                         'attack_damage': 30,
+                         'speed': 2,
+                         'attack_damage': 45,
                          'attack_cooldown': 200
                          }
         
-        self.demon =   {'health': 200,
+        self.spirit =   {'health': 200,
                          'detect_range': 500,
                          'attack_range': 40,
-                         'speed': 2,
-                         'attack_damage': 15,
+                         'speed': 3,
+                         'attack_damage': 30,
                          'attack_cooldown': 300
                          }
         

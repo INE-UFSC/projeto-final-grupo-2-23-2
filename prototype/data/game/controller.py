@@ -1,4 +1,5 @@
 from data.utils.settings import Settings
+from data.utils.audio import Audio
 import pygame
 import os
 from data.game.sprites import Sprites
@@ -33,19 +34,9 @@ class Controller:
             if collision_sprites:
                 self.player.pick_item(item_sprite)
 
-    def defense_collision(self):
-        if self.deffense_sprites:
-            enemy_sprites = [sprite for sprite in self.attackable_sprites if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
-            for defense_sprite in self.deffense_sprites:
-                collision_sprites = pygame.sprite.spritecollide(defense_sprite, enemy_sprites, False)
-                if collision_sprites:
-                    for target_sprite in collision_sprites:
-                        target_sprite.can_attack = False
-
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update(self.obstacles_sprites)
         self.visible_sprites.enemy_update(self.player, self.visible_sprites)
         self.attack_collision()
-        self.defense_collision()
         self.item_collision()

@@ -30,4 +30,4 @@ class LevelContainer:
         if index != len(self.levels):
             self.level = self.levels[index]
         else:
-            self.level = self.levels[0]
+            quit()

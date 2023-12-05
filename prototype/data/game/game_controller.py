@@ -44,9 +44,7 @@ class GameController(Controller):
                 if event.type == pygame.QUIT:
                     self.game_system.close()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_t:
-                        self.game_model.levels_container.advance_level()
-                    elif event.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_ESCAPE:
                         self.game_system.show_menu("pause")
 
             self.game_view.render()
@@ -54,6 +52,8 @@ class GameController(Controller):
 
             if self.game_model.player.hp == 0:
                 Audio().play_sound("death")
-                self.game_system.show_menu("gameover")            
+                self.game_system.show_menu("gameover")
+
+            self.game_model.next_level_logic()
 
             clock.tick(60) 

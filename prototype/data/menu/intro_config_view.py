@@ -8,12 +8,32 @@ class IntroconfigView(MenuView):
         self.buttons = [
             Button(
                 (self.width / 2 - 150),
-                (self.height / 2),
+                (self.height / 2 + 300),
                 300,
                 50,
                 (255, 255, 255),
                 (0, 0, 0),
                 "Return to menu",
                 "game.show_menu('intro')"
+            ),
+            Button(
+                (self.width / 2 + 50),
+                (self.height / 2),
+                300,
+                50,
+                (255, 255, 255),
+                (0, 0, 0),
+                "Increase Volume",
+                "game.change_volume('more')"
+            ),
+            Button(
+                (self.width / 2 - 350),
+                (self.height / 2),
+                300,
+                50,
+                (255, 255, 255),
+                (0, 0, 0),
+                "Decrease Volume",
+                "game.change_volume('lower')"
             ),
         ]
