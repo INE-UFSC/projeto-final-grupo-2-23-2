@@ -5,7 +5,7 @@ from data.menu.button import Button
 class IntroconfigView(MenuView):
     def __init__(self):
         super().__init__()
-        self.buttons = [
+        self.__buttons = [
             Button(
                 (self.width / 2 - 150),
                 (self.height / 2 + 300),
@@ -37,3 +37,13 @@ class IntroconfigView(MenuView):
                 "game.change_volume('lower')"
             ),
         ]
+
+    # Getter
+    @property
+    def buttons(self):
+        return self.__buttons
+
+    # Setter
+    @buttons.setter
+    def buttons(self, new_buttons):
+        self.__buttons = new_buttons

@@ -10,20 +10,20 @@ class GameSystem(Controller):
     def __init__(self):
         self.__initialize_pygame()
 
-        self.game_controller = GameController(self)
-        self.menu_controller = MenuController(self)
+        self.__game_controller = GameController(self)
+        self.__menu_controller = MenuController(self)
 
     def run(self):
         self.show_menu("intro")
 
     def play(self):
-        self.game_controller.play()
+        self.__game_controller.play()
 
     def reset(self):
-        self.game_controller.reset()
+        self.__game_controller.reset()
 
     def show_menu(self, name):
-        self.menu_controller.show_menu(name)
+        self.__menu_controller.show_menu(name)
         
     def change_volume(self, input1):
         audio = Audio()
@@ -33,7 +33,7 @@ class GameSystem(Controller):
             audio.volume -= 0.1
         elif input1 == 'more':
             audio.volume += 0.1
-            
+
     def close(self):
         pygame.quit()
         sys.exit()
@@ -47,3 +47,11 @@ class GameSystem(Controller):
         height = pygame.display.Info().current_h
         pygame.display.set_mode((width, height), pygame.FULLSCREEN)
         pygame.display.set_caption("PartsFinder")
+
+    @property
+    def game_controller(self):
+        return self.__game_controller
+
+    @property
+    def menu_controller(self):
+        return self.__menu_controller

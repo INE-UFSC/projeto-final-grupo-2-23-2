@@ -5,7 +5,8 @@ from data.menu.button import Button
 class PauseconfigView(MenuView):
     def __init__(self):
         super().__init__()
-        self.buttons = [
+
+        self.__buttons = [
             Button(
                 (self.width / 2 - 150),
                 (self.height / 2 + 350),
@@ -47,3 +48,28 @@ class PauseconfigView(MenuView):
                 "game.change_volume('lower')"
             ),
         ]
+
+    # Getter e setter
+    @property
+    def buttons(self):
+        return self.__buttons
+
+    @buttons.setter
+    def buttons(self, new_buttons):
+        if isinstance(new_buttons, list):
+            self.__buttons = new_buttons
+        else:
+            raise ValueError("Buttons must be a list of Button objects.")
+
+    # Métodos adicionais para manipular os botões
+    def add_button(self, button):
+        if isinstance(button, Button):
+            self.__buttons.append(button)
+        else:
+            raise ValueError("Button must be an instance of the Button class.")
+
+    def remove_button(self, button):
+        if button in self.__buttons:
+            self.__buttons.remove(button)
+        else:
+            raise ValueError("Button not found in the list of buttons.")
