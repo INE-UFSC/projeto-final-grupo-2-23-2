@@ -24,9 +24,11 @@ class GameSystem(Controller):
 
     def save(self):
         self.game_controller.save()
+        self.play()
     
     def load(self, level):
         self.game_controller.load(level)
+        self.play()
 
     def show_menu(self, name):
         self.menu_controller.show_menu(name)

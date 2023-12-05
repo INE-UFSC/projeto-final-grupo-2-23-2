@@ -57,7 +57,6 @@ class Player(Creature):
         for item_data in items_data:
             item_type = item_data.get('type', '')
             item_name = item_data.get('name', '')
-            item_time = item_data.get('time', 0)
 
             if item_type == 'powerup':
                 if item_name == 'guard':
@@ -69,15 +68,15 @@ class Player(Creature):
                 elif item_name == 'dash':
                     item_instance = Dash(item_name, self, [])
 
-                item_instance.time = item_time
-
                 self.inventory.add_item(item_instance)
+        
 
     def update(self, obstacle_sprites):
         self.get_status()
         self.animate()
         self.move(obstacle_sprites)
         self.cooldowns()
+        
  
     def cooldowns(self):
         current_time = pygame.time.get_ticks()

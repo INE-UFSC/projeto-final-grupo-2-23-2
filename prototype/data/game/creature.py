@@ -36,7 +36,7 @@ class Creature(pygame.sprite.Sprite, ABC):
     
     def generate(self, groups, position):
         super().__init__(groups)
-        self.position = position
+        self.position = list(position)
 
     def import_assets(self):
         path = os.path.dirname(os.path.abspath(__file__))+ Settings().creatures_folder + self.name
@@ -66,13 +66,17 @@ class Creature(pygame.sprite.Sprite, ABC):
         if abs(self.direction.y) > abs(self.direction.x):
             if self.direction.y > 0:
                 self.status = "down"
+                self.position[1] += int(self.direction.y)
             elif self.direction.y < 0:
                 self.status = "up"
+                self.position[1] += int(self.direction.y)
         else:
             if self.direction.x < 0:
                 self.status = "left"
+                self.position[0] += int(self.direction.x)
             elif self.direction.x > 0:
                 self.status = "right"
+                self.position[0] += int(self.direction.x)
 
         # diagonal fixed
         if self.direction.magnitude() != 0:
@@ -129,16 +133,6 @@ class Creature(pygame.sprite.Sprite, ABC):
             'position': self.position,
             'max_hp': self.max_hp,
             'hp': self.hp,
-            'normal_speed': self.normal_speed,
-            'speed': self.speed,
-            'direction': (self.direction.x, self.direction.y),
-            'invincible': self.invincible,
-            'invincible_time': self.invincible_time,
-            'invincible_cooldown': self.invincible_cooldown,
-            'frame_index': self.frame_index,
-            'animation_speed': self.animation_speed,
-            'status': self.status
-
         }
         return save_data
     
@@ -147,11 +141,6 @@ class Creature(pygame.sprite.Sprite, ABC):
         self.position = save_data['position']
         self.max_hp = save_data['max_hp']
         self.hp = save_data['hp']
-        self.normal_speed = save_data['normal_speed']
-        self.speed = save_data['speed']
-
-
-    
 
     @abstractmethod
     def update(self):

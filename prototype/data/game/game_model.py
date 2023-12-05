@@ -14,6 +14,15 @@ class GameModel(Model):
         self.levels_container.level.run(self.player)
         self.input_handler()
     
+    def load(self, level):
+        try:
+            self.player = self.levels_container.level.load(level)
+            self.levels_container.level = self.levels_container.levels[level - 1]
+        except Exception as e:
+            print(f"Erro -> {e}")
+            return 1
+        
+    
     def input_handler(self):
         keys = pygame.key.get_pressed()
         current_time = pygame.time.get_ticks()

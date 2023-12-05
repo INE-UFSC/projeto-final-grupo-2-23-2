@@ -16,6 +16,7 @@ class Level:
         self.name = map_name
         self.controller = Controller(self.name)
         self.tilesize = 64
+        self.loaded = False
 
     def generate_map(self, player):
         cont = self.controller
@@ -49,28 +50,32 @@ class Level:
                                 objects = graphics['objects'][int(col)+13]
                                 Tile((x, y), [cont.visible_sprites, cont.obstacles_sprites],'object', objects)
 
-                        if style == 'entity':
-                            if col == '391':
-                                Enemy("spirit", (x,y), [cont.visible_sprites,cont.attackable_sprites])
-                            
-                            if col == '393':
-                                Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
-                                  
-                            if col == '394':
-                                player.initialize([cont.visible_sprites, cont.player_sprite], (x,y))
-                                cont.player = player
+                        if self.loaded == False:
+                            if style == 'entity':
+                                if col == '391':
+                                    Enemy("spirit", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                                 
-                            if col == '532':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'raid',
-                                      pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().raid_icon).convert_alpha())                            
-                            
-                            if col == '252':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard',
-                                      pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().guard_icon).convert_alpha())
+                                if col == '393':
+                                    Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
+                                    
+                                if col == '394':
+                                    player.initialize([cont.visible_sprites, cont.player_sprite], (x,y))    
+                                    cont.player = player
+                                    
+                                if col == '532':
+                                    Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'raid',
+                                        pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().raid_icon).convert_alpha())                            
+                                
+                                if col == '252':
+                                    Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'guard',
+                                        pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().guard_icon).convert_alpha())
 
-                            if col == '89':
-                                Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash',
-                                      pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
+                                if col == '89':
+                                    Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash',
+                                        pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
+                        
+                                
+                                
         self._generated = True
         
 
@@ -106,33 +111,29 @@ class Level:
                 player_data = save_data.get('player')
                 if player_data:
                     player = Player()
-                    position = save_data.get('position', (0, 0))
+                    position = player_data.get('position')
+                    position = [int(coord) for coord in position]
                     player.initialize([self.controller.visible_sprites, self.controller.player_sprite], position)
                     player.load_save_data(player_data)
-                    self.controller.player = player
-
-                player_data = save_data.get('player')
-                if player_data:
-                    player = Player()
-                    position = save_data.get('position', (0, 0))
-                    player.initialize([self.controller.visible_sprites, self.controller.player_sprite], position)
-                    player.load_save_data(player_data)
-                    self.controller.player = player
-                                    
+                    self.controller.player = player          
 
                 enemies_data = save_data.get('enemies')
                 if enemies_data:
                     for enemy_data in enemies_data:
                         enemy_name = enemy_data.get('name')
-                        enemy_position = enemy_data.get('position', (0, 0))
+                        enemy_position = enemy_data.get('position')
+                        enemy_position = [int(coord) for coord in enemy_position]
 
                         enemy_type = Settings.get_enemy_type(enemy_name)
 
                         enemy = Enemy(enemy_type, enemy_position, [])
-
+                        enemy.initialize([self.controller.visible_sprites, self.controller.attackable_sprites], enemy_position)
                         enemy.load_save_data(enemy_data)
                         self.controller.attackable_sprites.add(enemy)
-        self.run(player)
+            
+            
+        self.loaded = True
+        return player
 
 
     
