@@ -36,4 +36,15 @@ class LoadView(MenuView):
                 "Level 3",
                 "game.load(3)"
             ),
+            Button(
+                (self.width / 2 - 150),
+                (self.height / 2 + 200),
+                300,
+                50,
+                (255, 255, 255),
+                (0, 0, 0),
+                "Retornar ao Menu",
+                "game.show_menu('intro')"
+            ),
+
         ]
