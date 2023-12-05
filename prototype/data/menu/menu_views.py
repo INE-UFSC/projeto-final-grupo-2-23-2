@@ -16,7 +16,7 @@ class MenuViews:
             IntroconfigView(),
             IntroView(),
             PauseconfigView(),
-            PauseView(),
+            PauseView()
         ]
 
     @property

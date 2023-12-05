@@ -37,3 +37,10 @@ class PauseView(MenuView):
                 "game.close()"
             ),
         ]
+    @property
+    def buttons(self):
+        return self.__buttons
+
+    @buttons.setter
+    def buttons(self, value):
+        self.__buttons = value

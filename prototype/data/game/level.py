@@ -13,9 +13,33 @@ from random import choice
 
 class Level:
     def __init__(self, map_name):
-        self.name = map_name
-        self.controller = Controller(self.name)
-        self.tilesize = 64
+        self.__name = map_name
+        self.__controller = Controller(self.name)
+        self.__tilesize = 64
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, value):
+        self.__name = value
+
+    @property
+    def controller(self):
+        return self.__controller
+
+    @controller.setter
+    def controller(self, value):
+        self.__controller = value
+
+    @property
+    def tilesize(self):
+        return self.__tilesize
+
+    @tilesize.setter
+    def tilesize(self, value):
+        self.__tilesize = value
 
     def generate_map(self, player):
         cont = self.controller

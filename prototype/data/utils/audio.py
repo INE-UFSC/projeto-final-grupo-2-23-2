@@ -1,17 +1,16 @@
 import pygame
 import os
 
-
 class Audio:
     _instance = None
 
     def __init__(self):
-        self.audio_folder = os.path.join(
+        self.__audio_folder = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "../../resources/audios"
         )
-        self.sounds = self.load_sounds()
-        self.musics = self.load_musics()
-        self.volume = 0.5
+        self.__sounds = self.load_sounds()
+        self.__musics = self.load_musics()
+        self.__volume = 0.5
 
     def load_sounds(self):
         sounds = {}
@@ -30,6 +29,38 @@ class Audio:
                 sound_name = os.path.splitext(file_name)[0]
                 musics[sound_name] = file_path
         return musics
+
+    @property
+    def audio_folder(self):
+        return self.__audio_folder
+
+    @audio_folder.setter
+    def audio_folder(self, value):
+        self.__audio_folder = value
+
+    @property
+    def sounds(self):
+        return self.__sounds
+
+    @sounds.setter
+    def sounds(self, value):
+        self.__sounds = value
+
+    @property
+    def musics(self):
+        return self.__musics
+
+    @musics.setter
+    def musics(self, value):
+        self.__musics = value
+
+    @property
+    def volume(self):
+        return self.__volume
+
+    @volume.setter
+    def volume(self, value):
+        self.__volume = value
 
     def play_sound(self, sound_name):
         if sound_name in self.sounds:

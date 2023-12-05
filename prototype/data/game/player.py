@@ -1,3 +1,6 @@
+import pygame
+import os
+
 from data.game.creature import Creature
 from data.utils.settings import Settings
 from data.game.inventory import Inventory
@@ -8,18 +11,54 @@ from data.game.raid import Raid
 from data.game.guard import Guard
 from data.game.dash import Dash
 
-import pygame
-import os
-
 class Player(Creature):
     def __init__(self):
         super().__init__("player", (0,0), [])
-        self.sprite_type = 'player'
-        self.import_assets()
-        self.action = 'normal'
-        self.inventory = Inventory()
-        self.current_power = None
-        self.picking = False
+        self.__sprite_type = 'player'
+        self.__inventory = Inventory()
+        self.__current_power = None
+        self.__picking = False
+        self.__action = "normal"
+
+    @property
+    def action(self):
+        return self.__action
+
+    @action.setter
+    def action(self, value):
+        self.__action = value
+
+    @property
+    def sprite_type(self):
+        return self.__sprite_type
+
+    @sprite_type.setter
+    def sprite_type(self, value):
+        self.__sprite_type = value
+
+    @property
+    def inventory(self):
+        return self.__inventory
+
+    @inventory.setter
+    def inventory(self, value):
+        self.__inventory = value
+
+    @property
+    def current_power(self):
+        return self.__current_power
+
+    @current_power.setter
+    def current_power(self, value):
+        self.__current_power = value
+
+    @property
+    def picking(self):
+        return self.__picking
+
+    @picking.setter
+    def picking(self, value):
+        self.__picking = value
 
     def initialize(self, groups, position):
         self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().player_folder + self.name + '.png').convert_alpha()

@@ -7,8 +7,24 @@ from data.utils.audio import Audio
 class GameModel(Model):
     def __init__(self):
         self.clock = pygame.time.Clock()
-        self.levels_container = LevelContainer()
-        self.player = Player()
+        self.__levels_container = LevelContainer()
+        self.__player = Player()
+
+    @property
+    def levels_container(self):
+        return self.__levels_container
+
+    @levels_container.setter
+    def levels_container(self, value):
+        self.__levels_container = value
+
+    @property
+    def player(self):
+        return self.__player
+
+    @player.setter
+    def player(self, value):
+        self.__player = value
 
     def update(self):
         self.levels_container.level.run(self.player)

@@ -16,7 +16,6 @@ class LevelContainer:
     def level(self, level):
         self.__level = level
 
-
     @property
     def levels(self):
         return self.__levels

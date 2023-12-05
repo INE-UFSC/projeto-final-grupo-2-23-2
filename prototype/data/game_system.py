@@ -10,8 +10,8 @@ class GameSystem(Controller):
     def __init__(self):
         self.__initialize_pygame()
 
-        self.game_controller = GameController(self)
-        self.menu_controller = MenuController(self)
+        self.__game_controller = GameController(self)
+        self.__menu_controller = MenuController(self)
 
     def run(self):
         self.show_menu("intro")
@@ -47,3 +47,12 @@ class GameSystem(Controller):
         height = pygame.display.Info().current_h
         pygame.display.set_mode((width, height), pygame.FULLSCREEN)
         pygame.display.set_caption("PartsFinder")
+        
+    @property
+    def game_controller(self):
+        return self.__game_controller
+    
+    @property
+    def menu_controller(self):
+        return self.__menu_controller
+    

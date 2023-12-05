@@ -10,23 +10,127 @@ class Enemy(Creature):
     def __init__(self, name, position, groups):
         super().__init__(name, position, groups)
 
-        self.image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().creatures_folder + self.name + '/' +  self.name + '.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft=position)
-        self.hitbox = self.rect.inflate(0, -10)
+        self.__image = pygame.image.load(os.path.dirname(os.path.abspath(__file__)) + Settings().creatures_folder + self.name + '/' +  self.name + '.png').convert_alpha()
+        self.__rect = self.__image.get_rect(topleft=position)
+        self.__hitbox = self.__rect.inflate(0, -10)
         
-        self.state = 'idle'
-        self.sprite_type = 'enemy'
-        self.origin = position
+        self.__state = 'idle'
+        self.__sprite_type = 'enemy'
+        self.__origin = position
         
         #attack
-        self.detect_range = self.info.get('detect_range')
-        self.attack_range = self.info.get('attack_range')
-        self.attack_cooldown = self.info.get('attack_cooldown')
-        self.attack_damage = self.info.get('attack_damage')
+        self.__detect_range = self.info.get('detect_range')
+        self.__attack_range = self.info.get('attack_range')
+        self.__attack_cooldown = self.info.get('attack_cooldown')
+        self.__attack_damage = self.info.get('attack_damage')
 
-        self.attacking = False
-        self.can_damage = True
-        self.attack_time = 0
+        self.__attacking = False
+        self.__can_damage = True
+        self.__attack_time = 0
+
+    @property
+    def image(self):
+        return self.__image
+
+    @image.setter
+    def image(self, value):
+        self.__image = value
+
+    @property
+    def rect(self):
+        return self.__rect
+
+    @rect.setter
+    def rect(self, value):
+        self.__rect = value
+
+    @property
+    def hitbox(self):
+        return self.__hitbox
+
+    @hitbox.setter
+    def hitbox(self, value):
+        self.__hitbox = value
+
+    @property
+    def state(self):
+        return self.__state
+
+    @state.setter
+    def state(self, value):
+        self.__state = value
+
+    @property
+    def sprite_type(self):
+        return self.__sprite_type
+
+    @sprite_type.setter
+    def sprite_type(self, value):
+        self.__sprite_type = value
+
+    @property
+    def origin(self):
+        return self.__origin
+
+    @origin.setter
+    def origin(self, value):
+        self.__origin = value
+
+    @property
+    def detect_range(self):
+        return self.__detect_range
+
+    @detect_range.setter
+    def detect_range(self, value):
+        self.__detect_range = value
+
+    @property
+    def attack_range(self):
+        return self.__attack_range
+
+    @attack_range.setter
+    def attack_range(self, value):
+        self.__attack_range = value
+
+    @property
+    def attack_cooldown(self):
+        return self.__attack_cooldown
+
+    @attack_cooldown.setter
+    def attack_cooldown(self, value):
+        self.__attack_cooldown = value
+
+    @property
+    def attack_damage(self):
+        return self.__attack_damage
+
+    @attack_damage.setter
+    def attack_damage(self, value):
+        self.__attack_damage = value
+
+    @property
+    def attacking(self):
+        return self.__attacking
+
+    @attacking.setter
+    def attacking(self, value):
+        self.__attacking = value
+
+    @property
+    def can_damage(self):
+        return self.__can_damage
+
+    @can_damage.setter
+    def can_damage(self, value):
+        self.__can_damage = value
+
+    @property
+    def attack_time(self):
+        return self.__attack_time
+
+    @attack_time.setter
+    def attack_time(self, value):
+        self.__attack_time = value
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -133,13 +237,14 @@ class Enemy(Creature):
     def show_health_bar(self,visible_sprites):
         # coordinarion calculation
         width = self.rect.width*1.5
-        x = self.rect.topleft[0] - visible_sprites.player.rect.centerx + visible_sprites.half_width - (width - self.rect.width)/2
-        y = self.rect.topleft[1] - visible_sprites.player.rect.centery + visible_sprites.half_heigth - 20
-        self.desvio_y = self.rect.centery - visible_sprites.half_heigth
+        # coordinarion calculation (continuation)
+        x = self.rect.topleft[0] - visible_sprites.player.rect.centerx + visible_sprites.half_width - (width - self.rect.width) / 2
+        y = self.rect.topleft[1] - visible_sprites.player.rect.centery + visible_sprites.half_height - 20
+        self.desvio_y = self.rect.centery - visible_sprites.half_height
 
         # bg rect
-        bg_rect = pygame.Rect(x, y, self.rect.width*1.5, 12) 
-        pygame.draw.rect(visible_sprites.surface, "#222222", bg_rect) 
+        bg_rect = pygame.Rect(x, y, self.rect.width * 1.5, 12)
+        pygame.draw.rect(visible_sprites.surface, "#222222", bg_rect)
 
         # insider rect
         ratio = self.hp / self.max_hp

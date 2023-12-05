@@ -47,3 +47,10 @@ class PauseconfigView(MenuView):
                 "game.change_volume('lower')"
             ),
         ]
+    @property
+    def buttons(self):
+        return self.__buttons
+
+    @buttons.setter
+    def buttons(self, value):
+        self.__buttons = value

@@ -10,9 +10,33 @@ import pygame
 class GameController(Controller):
     def __init__(self, game_system):
         super().__init__()
-        self.game_view = GameView()
-        self.game_model = GameModel()
-        self.game_system = game_system
+        self.__game_view = GameView()
+        self.__game_model = GameModel()
+        self.__game_system = game_system
+
+    @property
+    def game_view(self):
+        return self.__game_view
+
+    @game_view.setter
+    def game_view(self, value):
+        self.__game_view = value
+
+    @property
+    def game_model(self):
+        return self.__game_model
+
+    @game_model.setter
+    def game_model(self, value):
+        self.__game_model = value
+
+    @property
+    def game_system(self):
+        return self.__game_system
+
+    @game_system.setter
+    def game_system(self, value):
+        self.__game_system = value
 
     def play(self):
         if self.game_model.player.hp == 0:
@@ -44,4 +68,4 @@ class GameController(Controller):
 
             self.game_model.next_level_logic()
 
-            clock.tick(60) 
+            clock.tick(60)
