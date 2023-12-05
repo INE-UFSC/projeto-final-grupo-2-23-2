@@ -58,6 +58,9 @@ class Level:
                                 
                                 if col == '393':
                                     Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
+
+                                if col == '392':
+                                     Enemy("demon", (x,y), [cont.visible_sprites,cont.attackable_sprites])
                                     
                                 if col == '394':
                                     player.initialize([cont.visible_sprites, cont.player_sprite], (x,y))    
@@ -74,23 +77,6 @@ class Level:
                                 if col == '89':
                                     Tile( (x,y), [cont.visible_sprites, cont.item_sprites], 'dash',
                                         pygame.image.load(os.path.dirname(os.path.abspath(__file__))+ Settings().dash_icon).convert_alpha())
-                        
-                                
-# =======
-#                         if style == 'entity':
-#                             if col == '391':
-#                                 Enemy("spirit", (x,y), [cont.visible_sprites,cont.attackable_sprites])
-                            
-#                             if col == '392':
-#                                 Enemy("demon", (x,y), [cont.visible_sprites,cont.attackable_sprites])
-                            
-#                             if col == '393':
-#                                 Enemy("skeleton", (x,y), [cont.visible_sprites,cont.attackable_sprites])
-                                  
-#                             if col == '394':
-#                                 player.initialize([cont.visible_sprites, cont.player_sprite], (x,y))
-#                                 cont.player = player
-# >>>>>>> main
                                 
         self._generated = True
         

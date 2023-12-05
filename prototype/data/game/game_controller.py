@@ -54,6 +54,9 @@ class GameController(Controller):
                 Audio().play_sound("death")
                 self.game_system.show_menu("gameover")
 
+            if self.game_model.win == True:
+                self.game_system.show_menu('win')
+
             self.game_model.next_level_logic()
 
             clock.tick(60) 

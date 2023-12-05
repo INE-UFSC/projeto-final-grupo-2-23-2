@@ -9,6 +9,7 @@ class GameModel(Model):
         self.clock = pygame.time.Clock()
         self.levels_container = LevelContainer()
         self.player = Player()
+        self.win = False
 
     def update(self):
         self.levels_container.level.run(self.player)
@@ -58,5 +59,11 @@ class GameModel(Model):
             player.picking = False
 
     def next_level_logic(self):
-        if len(self.player.inventory.items) > self.levels_container.levels.index(self.levels_container.level):
-            self.levels_container.advance_level()
+        try:
+            if len(self.player.inventory.items) == 3:
+                self.win = True
+            elif len(self.player.inventory.items) > self.levels_container.levels.index(self.levels_container.level):
+                self.levels_container.advance_level()
+            
+        except:
+            pass
